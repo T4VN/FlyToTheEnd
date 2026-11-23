@@ -1881,3 +1881,63 @@ body.has-fullscreen {
     font-size: 1.05rem;
   }
 }
+
+/* ================= DEMO VIETNAMESE LANDMARK BADGE ================= */
+.demo-landmark-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  padding: 5px 14px;
+  box-shadow: 0 6px 18px rgba(89, 51, 46, 0.12);
+  color: #59332e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: demoLandmarkPop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.demo-landmark-icon {
+  color: #f25346;
+  flex-shrink: 0;
+}
+
+.demo-landmark-sep {
+  color: #b49a73;
+}
+
+.demo-landmark-loc {
+  color: #8c6a38;
+  font-weight: 600;
+}
+
+.demo-landmark-count {
+  background: rgba(242, 83, 70, 0.12);
+  color: #d6372a;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: 2px;
+}
+
+@keyframes demoLandmarkPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}

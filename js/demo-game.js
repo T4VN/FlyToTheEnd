@@ -35,6 +35,22 @@
   const resultLvlEl = document.getElementById('resultLvl');
   const gameOverTitle = document.getElementById('gameOverTitle');
   const gameOverDesc = document.getElementById('gameOverDesc');
+  const demoLandmarkBadge = document.getElementById('demoLandmarkBadge');
+  const demoLandmarkName = document.getElementById('demoLandmarkName');
+  const demoLandmarkLoc = document.getElementById('demoLandmarkLoc');
+  const demoLandmarkCount = document.getElementById('demoLandmarkCount');
+  let landmarkTour = null;
+
+  function updateDemoLandmarkBadge(info, index, total) {
+    if (!demoLandmarkBadge || !demoLandmarkName || !demoLandmarkLoc) return;
+    demoLandmarkName.textContent = info.nameVi;
+    demoLandmarkLoc.textContent = info.locationVi;
+    if (demoLandmarkCount) demoLandmarkCount.textContent = (index + 1) + '/' + total;
+    demoLandmarkBadge.style.display = 'inline-flex';
+    demoLandmarkBadge.style.animation = 'none';
+    void demoLandmarkBadge.offsetWidth;
+    demoLandmarkBadge.style.animation = '';
+  }
 
   // Exact Colors from game.js
   const Colors = {
@@ -744,6 +760,10 @@
 
     particlesHolder = new ParticlesHolder();
     scene.add(particlesHolder.mesh);
+
+    if (typeof window.VietnamLandmarksDemo === 'function') {
+      landmarkTour = new window.VietnamLandmarksDemo(scene, updateDemoLandmarkBadge);
+    }
   }
 
   // ================= TOUCH & POINTER HANDLING =================
@@ -847,6 +867,11 @@
     game.energy = 100;
     game.level = 1;
     game.levelLastUpdate = 0;
+    game.planeFallSpeed = 0.001;
+    if (airplane && airplane.mesh) {
+      airplane.mesh.position.set(0, game.planeDefaultHeight, 0);
+      airplane.mesh.rotation.set(0, 0, 0);
+    }
     tipText.innerHTML = '👉 <strong>Đang bay 3D:</strong> Chạm vuốt ngón tay hoặc rê chuột để máy bay lượn sóng!';
   }
 
@@ -909,6 +934,11 @@
     sea.mesh.rotation.z += game.speed * deltaTime;
     if (sea.mesh.rotation.z > Math.PI * 2) sea.mesh.rotation.z -= Math.PI * 2;
 
+    if (landmarkTour && game.status !== 'paused') {
+      const tourSpeed = game.status === 'playing' ? game.speed : game.initSpeed;
+      landmarkTour.update(deltaTime, tourSpeed, camera, game.seaRadius);
+    }
+
     sky.moveClouds();
     coinsHolder.rotateCoins();
     ennemiesHolder.rotateEnnemies();
@@ -941,6 +971,7 @@
       airplane.mesh.position.set(0, game.planeDefaultHeight, 0);
       airplane.mesh.rotation.set(0, 0, 0);
       game.planeFallSpeed = 0.001;
+      if (landmarkTour) landmarkTour.reset();
       startGame();
     });
   }

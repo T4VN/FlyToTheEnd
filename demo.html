@@ -145,6 +145,18 @@
             <button class="btn-pause-demo" id="btnPauseDemo" title="Tạm dừng">⏸</button>
           </div>
 
+          <!-- VIETNAMESE HERITAGE LANDMARK BADGE -->
+          <div class="demo-landmark-badge" id="demoLandmarkBadge" style="display: none;">
+            <svg class="demo-landmark-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span class="demo-landmark-name" id="demoLandmarkName">Chùa Một Cột</span>
+            <span class="demo-landmark-sep">•</span>
+            <span class="demo-landmark-loc" id="demoLandmarkLoc">Hà Nội</span>
+            <span class="demo-landmark-count" id="demoLandmarkCount">1/22</span>
+          </div>
+
           <!-- START & GAME OVER OVERLAY MATCHING GAME OVERLAY -->
           <div class="demo-overlay" id="demoOverlay">
             <div class="menu-card-demo">
@@ -200,7 +212,7 @@
         
         <div class="store-buttons banner-stores">
           <!-- Google Play -->
-          <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
+          <a href="https://play.google.com/store/apps/details?id=vn.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
             <img src="assets/icons/google-play.svg" alt="Google Play Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -208,7 +220,7 @@
             </div>
           </a>
           <!-- Apple App Store -->
-          <a style="display: none;" href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+          <a href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
             <img src="assets/icons/apple-store.svg" alt="Apple App Store Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -216,7 +228,7 @@
             </div>
           </a>
           <!-- Microsoft Store -->
-          <a style="display: none;" href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+          <a href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
             <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -276,6 +288,7 @@
   <!-- Scripts -->
   <script src="js/three.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/landmarks-demo.js"></script>
   <script src="js/demo-game.js"></script>
 </body>
 </html>
