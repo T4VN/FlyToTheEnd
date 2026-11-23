@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#dbe4c6" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Fly to The End" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+    <title>Fly to The End — 3D Sky Adventure</title>
+  <script type="module" crossorigin src="./assets/DpDXhwiu.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/4tVxZq34.js">
+  <link rel="modulepreload" crossorigin href="./assets/D4owOmia.js">
+  <link rel="modulepreload" crossorigin href="./assets/DMHChQYl.js">
+  <link rel="stylesheet" crossorigin href="./assets/EqJ6_FgY.css">
+  <link rel="stylesheet" crossorigin href="./assets/D03eigpf.css">
+</head>
+<body>
+    <div class="game-holder" id="gameHolder">
+        <!-- 3D CANVAS WORLD -->
+        <div class="world" id="world"></div>
+
+        <!-- IN-GAME HUD -->
+        <div class="in-game-hud" id="inGameHud" style="display: none;">
+            <div class="hud-top">
+                <!-- Score card -->
+                <div class="score-card">
+                    <div class="score__content" id="level">
+                        <span class="score__label" id="labelHudLvl">LVL</span>
+                        <div class="score__value score__value--level" id="levelValue">1</div>
+                        <svg class="level-circle" id="levelCircle" viewBox="0 0 200 200">
+                            <circle id="levelCircleBgr" r="80" cx="100" cy="100" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="20" />
+                            <circle id="levelCircleStroke" r="80" cx="100" cy="100" fill="none" stroke="#FEE140" stroke-width="20" stroke-dasharray="502" />
+                        </svg>
+                    </div>
+
+                    <div class="score__content" id="dist">
+                        <span class="score__label" id="labelHudDist">DISTANCE</span>
+                        <div class="score__value score__value--dist" id="distValue">000</div>
+                    </div>
+
+                    <div class="score__content" id="energy">
+                        <span class="score__label" id="labelHudFuel">FUEL</span>
+                        <div class="score__value--energy">
+                            <div class="energy-bar" id="energyBar"></div>
+                        </div>
+                    </div>
+
+                    <!-- 2-Player Opponent Live Distance (shown only in 2P race) -->
+                    <div class="score__content score__content--opponent" id="hudOpponentCard" style="display: none;">
+                        <span class="score__label score__label--opp" id="labelHudOpp">RIVAL</span>
+                        <div class="opp-hud-row">
+                            <span class="score__value score__value--opp" id="oppDistValue">000</span>
+                            <span class="opp-diff-badge" id="oppDiffBadge">0m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pause Button -->
+                <button class="btn-pause" id="btnPause" title="Pause">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+                        <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Vietnamese Heritage Landmark Badge -->
+            <div class="landmark-badge" id="landmarkBadge" style="display: none;">
+                <svg class="landmark-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span class="landmark-name" id="landmarkName">Chùa Một Cột</span>
+                <span class="landmark-sep">•</span>
+                <span class="landmark-loc" id="landmarkLoc">Hà Nội</span>
+            </div>
+
+            <!-- Voice Flappy Target Letter HUD -->
+            <div class="voice-hud" id="voiceHud" style="display: none;">
+                <div class="voice-card">
+                    <div class="voice-card-top">
+                        <span class="voice-hint" id="voiceHintText">SPEAK THIS LETTER:</span>
+                        <span class="voice-ipa" id="voiceIpa">/eɪ/</span>
+                    </div>
+                    <div class="voice-target" id="voiceTargetLetter">A</div>
+                    <div class="voice-phonetic-samples" id="voicePhoneticSamples">Say: A or words: "Apple", "Animal"</div>
+                    <div class="voice-comparison-bar">
+                        <div class="comparison-status" id="voiceStatus">Listening to microphone...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2P Spectator HUD Bar (shown when local player crashed while opponent is still flying) -->
+            <div class="spectator-bar" id="spectatorBar2P" style="display: none;">
+                <div class="spectator-info">
+                    <span class="status-dot connected"></span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span id="txtSpectatorStatus">Out of fuel — Spectating opponent live</span>
+                </div>
+                <div class="spectator-actions">
+                    <button class="btn-spectator-stats" id="btnOpenLiveStats2P">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span id="txtBtnOpenLiveStats">Realtime Stats</span>
+                    </button>
+                    <button class="btn-spectator-leave" id="btnSpectatorLeave2P">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span id="txtBtnSpectatorLeave">Leave Room</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 1: MAIN MENU -->
+        <div class="screen-overlay" id="screenMenu">
+            <div class="menu-card">
+                <!-- LANGUAGE SWITCHER -->
+                <div class="lang-switch-wrapper">
+                    <button class="lang-btn" id="btnLangVi"><span class="lang-tag">VI</span> Tiếng Việt</button>
+                    <button class="lang-btn" id="btnLangEn"><span class="lang-tag">EN</span> English</button>
+                </div>
+
+                <div class="brand">
+                    <h1>Fly <i>to</i> The End</h1>
+                    <p class="tagline" id="txtTagline">3D Sky Adventure</p>
+                </div>
+
+                <div class="mode-selection-section">
+                    <div class="section-title" id="txtChooseControl">CHOOSE CONTROL MODE</div>
+                    
+                    <div class="mode-options">
+                        <div class="mode-item active" data-mode="tilt" id="cardModeTilt">
+                            <div class="mode-item-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                                    <path d="M2 10l2-2m0 8l-2-2"></path>
+                                    <path d="M22 10l-2-2m0 8l2-2"></path>
+                                </svg>
+                            </div>
+                            <div class="mode-item-info">
+                                <div class="mode-item-name"><span id="txtModeTiltName">Device Tilt / Motion</span> <span class="badge-rec" id="txtDefaultBadge">DEFAULT</span></div>
+                                <div class="mode-item-desc" id="txtModeTiltDesc">Tilt your device left/right/up/down to pilot the airplane</div>
+                            </div>
+                            <div class="mode-radio"></div>
+                        </div>
+
+                        <div class="mode-item" data-mode="touch" id="cardModeTouch">
+                            <div class="mode-item-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5z"></path>
+                                    <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-2"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="mode-item-info">
+                                <div class="mode-item-name" id="modeTouchNameWrap"><span id="txtModeTouchName">Touch / Mouse &amp; Keys</span></div>
+                                <div class="mode-item-desc" id="txtModeTouchDesc">Touch &amp; drag, move mouse, or use WASD / Arrow keys</div>
+                            </div>
+                            <div class="mode-radio"></div>
+                        </div>
+
+                        <div class="mode-item" data-mode="voice" id="cardModeVoice">
+                            <div class="mode-item-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                                </svg>
+                            </div>
+                            <div class="mode-item-info">
+                                <div class="mode-item-name" id="txtModeVoiceName">Voice (Flappy Alphabet)</div>
+                                <div class="mode-item-desc" id="txtModeVoiceDesc">Free fall & speak letters A, B, C... to flap upwards</div>
+                            </div>
+                            <div class="mode-radio"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="btnLaunchFlight">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                        <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+                    </svg>
+                    <span id="btnLaunchFlightText">TAKE OFF</span>
+                </button>
+
+                <button class="btn-race2p" id="btnOpenLobby2P" style="margin-top: 10px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 7px;">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span id="btnRace2PText">2-PLAYER RACE (P2P ONLINE)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 1B: 2-PLAYER P2P RACE LOBBY -->
+        <div class="screen-overlay" id="screenLobby2P" style="display: none;">
+            <div class="menu-card lobby-card">
+                <h2 id="txtLobbyTitle">2-PLAYER ONLINE RACE</h2>
+                <p class="lobby-subtitle" id="txtLobbyDesc">Direct P2P connection — take off together on the same flight path</p>
+
+                <!-- Step 1: Create or Join -->
+                <div id="lobbyEntryView" class="lobby-entry-view">
+                    <button class="btn-primary" id="btnCreateRoom2P">
+                        <span id="txtBtnCreateRoom">Create Room (Host)</span>
+                    </button>
+
+                    <div class="lobby-divider"><span>OR</span></div>
+
+                    <div class="lobby-join-row">
+                        <input type="text" id="inputRoomCode2P" class="room-code-input" maxlength="6" placeholder="4-digit code" autocomplete="off" />
+                        <button class="btn-secondary btn-join-room" id="btnJoinRoom2P">
+                            <span id="txtBtnJoinRoom">Join Room</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Inside Room (Waiting / Connected) -->
+                <div id="lobbyRoomView" class="lobby-room-view" style="display: none;">
+                    <div class="room-code-box">
+                        <span class="room-code-label" id="txtRoomCodeLabel">YOUR ROOM CODE:</span>
+                        <div class="room-code-display" id="displayRoomCode2P">----</div>
+                    </div>
+
+                    <!-- Host selects fixed control mode / Guest sees locked mode -->
+                    <div class="lobby-mode-lock-box">
+                        <div class="lobby-mode-lock-title" id="txtLobbyModeLockLabel">SELECT FIXED CONTROL MODE FOR THIS ROOM:</div>
+                        <div class="lobby-host-mode-btns" id="lobbyHostModeBtns">
+                            <button class="lobby-mode-pill" data-mode="tilt" id="lobbyModeTilt">Tilt</button>
+                            <button class="lobby-mode-pill active" data-mode="touch" id="lobbyModeTouch">Touch / Mouse</button>
+                            <button class="lobby-mode-pill" data-mode="voice" id="lobbyModeVoice">Voice (A-Z)</button>
+                        </div>
+                        <div class="lobby-guest-locked-badge" id="lobbyGuestLockedBadge" style="display: none;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <span id="txtGuestLockedModeName">Touch / Mouse &amp; Keys</span>
+                        </div>
+                    </div>
+
+                    <div class="lobby-status-box" id="lobbyStatusBox">
+                        <span class="status-dot" id="lobbyStatusDot"></span>
+                        <span id="txtLobbyStatus">Waiting for player 2 to enter room code...</span>
+                    </div>
+
+                    <button class="btn-primary" id="btnStartRace2P" disabled style="opacity: 0.5; margin-bottom: 8px;">
+                        <span id="txtBtnStartRace2P">START RACE (3 - 2 - 1)</span>
+                    </button>
+                </div>
+
+                <button class="btn-text" id="btnCloseLobby2P" style="margin-top: 6px;">
+                    <span id="txtBtnLeaveRoom">Leave Room</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SYNCED COUNTDOWN OVERLAY (3 - 2 - 1 - FLY!) -->
+        <div class="countdown-overlay" id="countdownOverlay" style="display: none;">
+            <div class="countdown-number" id="countdownNumber">3</div>
+        </div>
+
+        <!-- SCREEN 2: PAUSE MENU -->
+        <div class="screen-overlay" id="screenPause" style="display: none;">
+            <div class="menu-card pause-card">
+                <!-- LANGUAGE SWITCHER IN PAUSE -->
+                <div class="lang-switch-wrapper">
+                    <button class="lang-btn" id="pauseLangVi"><span class="lang-tag">VI</span> Tiếng Việt</button>
+                    <button class="lang-btn" id="pauseLangEn"><span class="lang-tag">EN</span> English</button>
+                </div>
+
+                <h2 id="txtPauseTitle">PAUSED</h2>
+                <p id="txtPauseDesc">Switch control mode or continue flight:</p>
+
+                <div class="pause-locked-hint" id="pauseLockedModeHint" style="display: none;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span id="txtPauseLockedModeHint">Control mode is locked by the Host for this 2P race</span>
+                </div>
+
+                <div class="pause-mode-selector" id="pauseModeSelector">
+                    <button class="pause-mode-btn active" id="pauseBtnTilt">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                        <span id="txtPauseModeTilt">Device Tilt / Motion</span>
+                    </button>
+                    <button class="pause-mode-btn" id="pauseBtnTouch">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2m0 16v2m10-10h-2M4 12H2"></path>
+                        </svg>
+                        <span id="txtPauseModeTouch">Touch / Mouse</span>
+                    </button>
+                    <button class="pause-mode-btn" id="pauseBtnVoice">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        </svg>
+                        <span id="txtPauseModeVoice">Voice (Flappy Alphabet)</span>
+                    </button>
+                </div>
+
+                <!-- 2P Opponent Paused / AFK Timeout Panel -->
+                <div class="opponent-pause-panel" id="opponentPausePanel" style="display: none;">
+                    <div class="opponent-timeout-row">
+                        <span id="txtPauseTimeoutLabel">Unlock claim win in:</span>
+                        <strong class="timeout-countdown-badge" id="pauseTimeoutCounter">30s</strong>
+                    </div>
+                    <button class="btn-primary" id="btnClaimWin2P" disabled style="opacity: 0.5; margin-top: 10px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                        </svg>
+                        <span id="txtBtnClaimWinContinue">CLAIM WIN &amp; FLY SOLO</span>
+                    </button>
+                    <button class="btn-secondary" id="btnLeaveMatchPause2P" style="margin-top: 8px;">
+                        <span id="txtBtnLeaveMatch2P">LEAVE 2P MATCH</span>
+                    </button>
+                </div>
+
+                <div class="pause-actions" id="pauseStandardActions">
+                    <button class="btn-primary" id="btnResume">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span id="btnResumeText">RESUME FLIGHT</span>
+                    </button>
+                    <button class="btn-secondary" id="btnRestart">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                        <span id="btnRestartText">RESTART FLIGHT</span>
+                    </button>
+                    <button class="btn-text" id="btnBackToMenu">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span id="btnBackToMenuText">MAIN MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: GAME OVER -->
+        <div class="screen-overlay" id="screenGameOver" style="display: none;">
+            <div class="menu-card gameover-card">
+                <div class="gameover-header-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#d6372a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h2 id="txtGameOverTitle">OUT OF FUEL!</h2>
+                <p id="txtGameOverDesc">Your airplane has landed in the ocean.</p>
+
+                <!-- 2-PLAYER RACE RESULT BANNER (GOLD TOP 1 vs SILVER TOP 2) -->
+                <div class="race2p-result-box rank-gold" id="race2pResultBox" style="display: none;">
+                    <div class="race2p-header-row">
+                        <span class="race2p-medal-svg" id="race2pMedalSvg"></span>
+                        <span class="race2p-result-banner" id="txtRace2pBanner">TOP 1 — YOU WON THE RACE!</span>
+                    </div>
+                    <div class="race2p-podium" id="race2pPodium">
+                        <!-- Populated with Gold Top 1 & Silver Top 2 rows by JS -->
+                    </div>
+                </div>
+
+                <div class="result-stats">
+                    <div class="result-box">
+                        <span class="result-label" id="txtDistLabel">DISTANCE</span>
+                        <span class="result-num" id="finalDistance">000 m</span>
+                    </div>
+                    <div class="result-box">
+                        <span class="result-label" id="txtLevelLabel">LEVEL REACHED</span>
+                        <span class="result-num" id="finalLevel">1</span>
+                    </div>
+                </div>
+
+                <!-- TOP 5 LEADERBOARD -->
+                <div class="leaderboard-section">
+                    <div class="leaderboard-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9c733f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <span id="txtLeaderboardTitle">LEADERBOARD (TOP 5)</span>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <!-- Top 5 rows populated by JS -->
+                    </div>
+                </div>
+
+                <div class="pause-actions">
+                    <button class="btn-primary" id="btnBackToSpectate2P" style="display: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span id="txtBtnBackToSpectate">BACK TO SPECTATING</span>
+                    </button>
+                    <button class="btn-primary" id="btnRetry">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                        <span id="btnRetryText">FLY AGAIN</span>
+                    </button>
+                    <button class="btn-secondary" id="btnGameOverToMenu">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span id="btnGameOverToMenuText">MAIN MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
