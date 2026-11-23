@@ -73,8 +73,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Region Filter Tabs for 22 Vietnamese Landmarks
+  const regionTabs = document.querySelectorAll('.region-tab');
+  const landmarkCards = document.querySelectorAll('#landmarksGrid .landmark-card');
+  if (regionTabs.length > 0 && landmarkCards.length > 0) {
+    regionTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const selectedRegion = tab.dataset.region || 'all';
+
+        regionTabs.forEach(t => {
+          const isSelected = t === tab;
+          t.classList.toggle('active', isSelected);
+          t.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        });
+
+        landmarkCards.forEach(card => {
+          const cardRegion = card.dataset.region;
+          const shouldShow = selectedRegion === 'all' || cardRegion === selectedRegion;
+          card.classList.toggle('is-hidden', !shouldShow);
+        });
+      });
+    });
+  }
+
   // Track Store Link Clicks
-  const storeButtons = document.querySelectorAll('.store-btn');
+  const storeButtons = document.querySelectorAll('.store-btn, .footer-store-btn');
   storeButtons.forEach(btn => {
     btn.addEventListener('click', function (e) {
       const storeName = this.dataset.store || 'store';

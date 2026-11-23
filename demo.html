@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Chơi Thử Demo Fly to The End Trực Tuyến - Game Phiêu Lưu Bầu Trời 3D</title>
-  <meta name="description" content="Chơi thử miễn phí mini-game Fly to The End 3D trực tiếp trên trình duyệt. Lái phi cơ lượn trên đại dương vô tận bằng chuột hoặc cảm ứng chạm mượt mà 60 FPS mà không cần cài đặt!">
-  <meta name="keywords" content="Fly to The End Demo, Chơi thử game máy bay 3D, WebGL Threejs Game, Aviator 3D, T4VN Games">
+  <title>Chơi Thử Demo Fly to The End 2.0 Trực Tuyến - Bay Qua 22 Di Tích Việt Nam 3D</title>
+  <meta name="description" content="Chơi thử miễn phí Fly to The End 2.0 3D trực tiếp trên trình duyệt: lái phi cơ lướt qua trọn bộ 22 di tích lịch sử &amp; danh thắng Việt Nam, gom tinh thể nhiên liệu và né chướng ngại vật mượt mà 60 FPS!">
+  <meta name="keywords" content="Fly to The End Demo, Chơi thử game máy bay 3D, 22 di tích Việt Nam 3D, WebGL Threejs Game, T4VN Games">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://flytotheend.t4vn.com/demo.html">
 
@@ -16,8 +16,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fly to The End">
-  <meta property="og:title" content="Chơi Thử Demo Fly to The End Trực Tuyến - Game 3D Không Cần Cài Đặt">
-  <meta property="og:description" content="Lái phi cơ 3D lướt sóng biển, gom bình nhiên liệu và lập kỷ lục bay xa nhất ngay trên trình duyệt của bạn!">
+  <meta property="og:title" content="Chơi Thử Demo Fly to The End 2.0 - Bay Qua 22 Di Tích Việt Nam 3D">
+  <meta property="og:description" content="Lái phi cơ 3D lướt sóng biển, ngắm 22 di tích lịch sử Việt Nam, gom bình nhiên liệu và lập kỷ lục bay xa nhất ngay trên trình duyệt!">
   <meta property="og:url" content="https://flytotheend.t4vn.com/demo.html">
   <meta property="og:image" content="https://flytotheend.t4vn.com/assets/images/icon-512.png">
   <meta property="og:locale" content="vi_VN">
@@ -25,8 +25,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://flytotheend.t4vn.com/demo.html">
-  <meta name="twitter:title" content="Chơi Thử Demo Fly to The End Trực Tuyến">
-  <meta name="twitter:description" content="Lái phi cơ 3D lướt sóng biển, gom bình nhiên liệu ngay trên trình duyệt!">
+  <meta name="twitter:title" content="Chơi Thử Demo Fly to The End 2.0 Trực Tuyến">
+  <meta name="twitter:description" content="Lái phi cơ 3D ngắm 22 di tích lịch sử Việt Nam và gom nhiên liệu ngay trên trình duyệt!">
   <meta name="twitter:image" content="https://flytotheend.t4vn.com/assets/images/icon-512.png">
 
   <!-- Google Fonts: 100% Vietnamese support -->
@@ -53,9 +53,11 @@
       <nav aria-label="Điều hướng chính">
         <ul class="nav-links" id="navLinks">
           <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="index.html#rules" class="nav-link">Luật chơi mới</a></li>
+          <li><a href="index.html#landmarks" class="nav-link">22 Di tích VN</a></li>
           <li><a href="demo.html" class="nav-link active">Chơi thử Demo</a></li>
-          <li><a href="privacy.html" class="nav-link">Chính sách bảo mật</a></li>
-          <li><a href="terms.html" class="nav-link">Điều khoản dịch vụ</a></li>
+          <li><a href="privacy.html" class="nav-link">Bảo mật</a></li>
+          <li><a href="terms.html" class="nav-link">Điều khoản</a></li>
           <li>
             <a href="index.html#download" class="nav-cta-btn">Tải Game</a>
           </li>
@@ -77,10 +79,12 @@
       <div class="demo-page-header">
         <div class="badge-tag">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Trải Nghiệm Trực Tuyến 3D
+          Bản Demo 3D • Tích Hợp 22 Di Tích Việt Nam
         </div>
         <h1 class="section-title">Chơi Thử Demo Trên Trình Duyệt</h1>
-        <p class="section-subtitle">Chạm hoặc vuốt ngón tay để lái phi cơ lượn sóng trên đại dương 3D!</p>
+        <p class="section-subtitle">
+          Chạm, vuốt hoặc rê chuột để lái phi cơ 3D gom tinh thể nhiên liệu xanh ngọc, né chướng ngại vật đỏ và lần lượt chiêm ngưỡng trọn bộ <strong>22 di tích lịch sử Việt Nam</strong> lướt qua bên dưới!
+        </p>
       </div>
 
       <!-- INTERACTIVE 3D SIMULATOR FRAME -->
@@ -93,7 +97,7 @@
           </div>
           <div class="demo-title-bar">
             <img src="assets/icons/plane.svg" alt="Plane" width="16" height="16">
-            <span class="demo-title-text">Fly to The End</span>
+            <span class="demo-title-text">Fly to The End 2.0</span>
           </div>
           <div class="demo-controls">
             <button class="demo-tool-btn" id="muteDemoBtn" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
@@ -162,7 +166,7 @@
             <div class="menu-card-demo">
               <div class="menu-brand-demo">
                 <h3 id="gameOverTitle">Fly <i>to</i> The End</h3>
-                <p id="gameOverDesc">Trải nghiệm chế độ Cảm ứng chạm (Touch Mode)</p>
+                <p id="gameOverDesc">Chế độ Cảm ứng chạm • Khám phá 22 Di tích Việt Nam 3D</p>
               </div>
 
               <div class="result-stats-demo">
@@ -182,10 +186,37 @@
         </div>
 
         <div class="demo-tip-footer">
-          <span id="demoTipText">👉 <strong>Hướng dẫn:</strong> Chạm vào vùng bay để bắt đầu lái phi cơ!</span>
-          <span>Chế độ Cảm ứng chạm (Touch / Pointer)</span>
+          <span id="demoTipText">👉 <strong>Hướng dẫn:</strong> Chạm vào vùng bay hoặc rê chuột để bắt đầu lái phi cơ!</span>
+          <span>Phím F: Toàn màn hình • 22 Di tích VN 3D</span>
         </div>
       </div>
+
+      <!-- DEMO QUICK RULES & FULL VERSION HIGHLIGHTS -->
+      <section class="demo-guide-section" aria-label="Hướng dẫn luật chơi và tính năng bản đầy đủ">
+        <div class="demo-guide-grid">
+          <article class="demo-guide-card">
+            <span class="core-rule-badge">LUẬT CHƠI BẢN DEMO</span>
+            <h3>Lái Phi Cơ &amp; Ngắm 22 Di Tích 3D</h3>
+            <ul class="demo-guide-list">
+              <li><strong>Điều khiển:</strong> Rê chuột hoặc chạm vuốt ngón tay để điều chỉnh độ cao và tốc độ bay.</li>
+              <li><strong>Nhiên liệu (FUEL):</strong> Gom các tinh thể xanh ngọc để nạp năng lượng và tránh va chạm khối đỏ.</li>
+              <li><strong>Hành trình 22 Di tích:</strong> Toàn bộ 22 danh thắng Bắc – Trung – Nam lần lượt lướt qua bên dưới kèm bảng tên hiển thị (1/22 → 22/22).</li>
+            </ul>
+            <a href="index.html#landmarks" class="demo-guide-link">Xem danh sách chi tiết 22 Di tích Việt Nam →</a>
+          </article>
+
+          <article class="demo-guide-card demo-guide-card--full">
+            <span class="core-rule-badge">MỞ KHÓA TRONG BẢN ĐẦY ĐỦ 2.0</span>
+            <h3>7 Tầng Thử Thách &amp; 3 Chế Độ Lái</h3>
+            <ul class="demo-guide-list">
+              <li><strong>Thử thách Level 10–70+:</strong> Đàn chim trời, Mưa sao chổi, Thời tiết động 5 trạng thái, Sấm sét cảnh báo, Tàu vũ trụ phóng lên, Tên lửa khóa mục tiêu &amp; Phi cơ đối thủ.</li>
+              <li><strong>3 Chế độ lái:</strong> Nghiêng điện thoại (Gyroscope), Chạm/Chuột &amp; Phím WASD/Mũi tên, và Giọng đọc tiếng Anh <em>Flappy Alphabet</em>.</li>
+              <li><strong>Tiện ích mở rộng:</strong> Bảng xếp hạng Top 5 lưu cục bộ &amp; giao diện song ngữ Việt / Anh.</li>
+            </ul>
+            <a href="index.html#rules" class="demo-guide-link">Xem trọn bộ luật chơi bản cập nhật 2.0 →</a>
+          </article>
+        </div>
+      </section>
 
       <!-- Google AdSense Banner -->
       <div class="ad-section-wrap">
@@ -205,14 +236,14 @@
       <section class="app-download-banner">
         <div class="banner-badge">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Tải Game Miễn Phí
+          Tải Game Miễn Phí • Bản Cập Nhật 2.0
         </div>
         <h2 class="banner-title">Tải Game Bản Đầy Đủ</h2>
-        <p class="banner-subtitle">Miễn phí trên mọi nền tảng • Mở khóa trọn vẹn 3 chế độ lái 3D siêu cuốn hút!</p>
+        <p class="banner-subtitle">Mở khóa trọn vẹn 7 tầng thử thách Level 10–70+, thời tiết động 5 trạng thái, 22 di tích Việt Nam và 3 chế độ lái 3D!</p>
         
         <div class="store-buttons banner-stores">
           <!-- Google Play -->
-          <a href="https://play.google.com/store/apps/details?id=vn.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
+          <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
             <img src="assets/icons/google-play.svg" alt="Google Play Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -220,7 +251,7 @@
             </div>
           </a>
           <!-- Apple App Store -->
-          <a href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+          <a style="display: none;" href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
             <img src="assets/icons/apple-store.svg" alt="Apple App Store Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -228,7 +259,7 @@
             </div>
           </a>
           <!-- Microsoft Store -->
-          <a href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+          <a style="display: none;" href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
             <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store Icon" class="store-icon" width="30" height="30">
             <div class="store-text">
               <span class="store-subtext">Tải trên</span>
@@ -249,38 +280,62 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo" style="margin-bottom: 1rem;">
+          <a href="index.html" class="logo">
             <img src="assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="36" height="36">
             <span class="logo-text">Fly <i>to</i> The End</span>
           </a>
-          <p class="footer-desc">
-            Trò chơi phiêu lưu bay lượn 3D phong cách hoạt hình đầy lôi cuốn. Khám phá đại dương bao la với 3 chế độ điều khiển độc đáo.
-          </p>
+          <p>Tựa game phiêu lưu máy bay 3D đưa bạn qua 22 di tích lịch sử Việt Nam, 7 tầng thử thách theo cấp độ và 3 chế độ điều khiển độc đáo do T4VN phát triển.</p>
+          <div class="footer-stores">
+            <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-store-btn store-btn-track" data-store="Google Play" title="Tải Fly to The End trên Google Play (CH Play)">
+              <img src="assets/icons/google-play.svg" alt="Google Play" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải miễn phí trên</span>
+                <span class="footer-store-name">Google Play</span>
+              </span>
+            </a>
+            <a style="display: none;" href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="footer-store-btn" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+              <img src="assets/icons/apple-store.svg" alt="App Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải trên</span>
+                <span class="footer-store-name">App Store</span>
+              </span>
+            </a>
+            <a style="display: none;" href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="footer-store-btn" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+              <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải trên</span>
+                <span class="footer-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
         </div>
 
-        <div>
+        <div class="footer-col">
           <h4 class="footer-title">Khám Phá</h4>
           <ul class="footer-links">
             <li><a href="index.html" class="footer-link">Trang chủ</a></li>
-            <li><a href="demo.html" class="footer-link">Chơi Thử Demo</a></li>
-            <li><a href="index.html#modes" class="footer-link">3 Chế Độ Điều Khiển</a></li>
-            <li><a href="index.html#features" class="footer-link">Tính Năng Nổi Bật</a></li>
+            <li><a href="index.html#rules" class="footer-link">Luật chơi &amp; Thử thách 2.0</a></li>
+            <li><a href="index.html#landmarks" class="footer-link">22 Di tích Việt Nam 3D</a></li>
+            <li><a href="demo.html" class="footer-link">Chơi thử Demo trực tuyến</a></li>
+            <li><a href="index.html#modes" class="footer-link">3 Chế độ điều khiển</a></li>
           </ul>
         </div>
 
-        <div>
-          <h4 class="footer-title">Pháp Lý & Hỗ Trợ</h4>
+        <div class="footer-col">
+          <h4 class="footer-title">Pháp Lý &amp; Hỗ Trợ</h4>
           <ul class="footer-links">
-            <li><a href="privacy.html" class="footer-link">Chính Sách Bảo Mật (Privacy)</a></li>
-            <li><a href="terms.html" class="footer-link">Điều Khoản Dịch Vụ (Terms)</a></li>
-            <li><a href="https://t4vn.com/contact/" target="_blank" rel="noopener noreferrer" class="footer-link">Liên Hệ Hỗ Trợ</a></li>
+            <li><a href="privacy.html" class="footer-link">Chính sách bảo mật</a></li>
+            <li><a href="terms.html" class="footer-link">Điều khoản dịch vụ</a></li>
+            <li><a href="index.html#faq" class="footer-link">Câu hỏi thường gặp (FAQ)</a></li>
+            <li><a href="https://t4vn.com/contact/" target="_blank" rel="noopener noreferrer" class="footer-link">Liên hệ hỗ trợ (T4VN)</a></li>
+            <li><a href="mailto:support@t4vn.com" class="footer-link">support@t4vn.com</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <p>&copy; <span id="currentYear">2026</span> T4VN (Fly to The End). Tất cả các quyền được bảo lưu.</p>
-        <p>Phát triển vì trải nghiệm giải trí an toàn, lành mạnh và chất lượng cao.</p>
+        <p>Phát triển vì trải nghiệm giải trí an toàn, lành mạnh và giàu bản sắc văn hóa Việt.</p>
       </div>
     </div>
   </footer>
