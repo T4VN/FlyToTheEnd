@@ -210,21 +210,25 @@ img, svg {
 .nav-cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #fff;
-  font-weight: 800;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--brown-main);
+  font-weight: 700;
   font-size: 0.9rem;
-  padding: 0.6rem 1.25rem;
-  border-radius: 18px;
-  box-shadow: var(--shadow-btn);
+  padding: 0.52rem 1.05rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(138, 90, 43, 0.28);
   transition: var(--transition);
   white-space: nowrap;
+  margin-left: 0.35rem;
 }
 
 .nav-cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(242, 83, 70, 0.45);
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(138, 90, 43, 0.14);
 }
 
 .mobile-menu-btn {
