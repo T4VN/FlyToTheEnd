@@ -162,7 +162,8 @@
 
       <nav aria-label="Điều hướng chính">
         <ul class="nav-links" id="navLinks">
-          <li><a href="index.html#demo" class="nav-link">Chơi thử Demo</a></li>
+          <li><a href="index.html" class="nav-link active">Trang chủ</a></li>
+          <li><a href="demo.html" class="nav-link">Chơi thử Demo</a></li>
           <li><a href="privacy.html" class="nav-link">Chính sách bảo mật</a></li>
           <li><a href="terms.html" class="nav-link">Điều khoản dịch vụ</a></li>
           <li>
@@ -208,10 +209,21 @@
           Lái chiếc phi cơ vượt đại dương bao la, nhặt bình năng lượng, né tránh chướng ngại vật mây giông và chinh phục quãng đường xa nhất. Hỗ trợ đa nền tảng với đồ họa 3D phong cách hoạt hình rực rỡ và 3 cách điều khiển siêu cuốn hút!
         </p>
 
+        <!-- HERO DEMO ACTION BUTTON -->
+        <div class="hero-demo-action">
+          <a href="demo.html" class="btn-hero-demo" title="Chơi Thử Demo Fly to The End ngay trên trình duyệt">
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <span>Chơi Thử Demo Trực Tuyến</span>
+            <span class="btn-badge">Không cần cài đặt</span>
+          </a>
+        </div>
+
         <!-- STORE DOWNLOAD BUTTONS -->
         <div class="store-buttons" id="download">
           <!-- Google Play (CH Play) -->
-          <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" 
+          <a href="https://play.google.com/store/apps/details?id=vn.t4vn.flytotheend" 
              target="_blank" 
              rel="noopener noreferrer" 
              class="store-btn google-play"
@@ -225,7 +237,7 @@
           </a>
 
           <!-- Apple App Store -->
-          <a style="display:none" href="https://apps.apple.com/app/fly-to-the-end/id23151486" 
+          <a href="https://apps.apple.com/app/fly-to-the-end/id23151486" 
              target="_blank" 
              rel="noopener noreferrer" 
              class="store-btn apple-store"
@@ -239,7 +251,7 @@
           </a>
 
           <!-- Microsoft Store -->
-          <a style="display:none" href="https://apps.microsoft.com/detail/9nblggh5flyt" 
+          <a href="https://apps.microsoft.com/detail/9nblggh5flyt" 
              target="_blank" 
              rel="noopener noreferrer" 
              class="store-btn microsoft-store"
@@ -274,109 +286,39 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE TOUCH DEMO SECTION -->
-    <section class="demo-section" id="demo">
+    <!-- DEMO TEASER SECTION -->
+    <section class="demo-teaser-section" id="demo">
       <div class="container">
-        <div class="section-header">
-          <p class="section-tag">Trải Nghiệm Trực Tuyến</p>
-          <h2 class="section-title">Chơi Thử Ngay Trên Trình Duyệt</h2>
-          <p class="section-subtitle">Chế độ cảm ứng chạm (Touch Mode): Vuốt ngón tay trên điện thoại hoặc rê chuột trên máy tính để cảm nhận độ mượt mà của máy bay!</p>
-        </div>
-
-        <div class="demo-frame">
-          <div class="demo-toolbar">
-            <div class="demo-dots">
-              <span class="demo-dot red"></span>
-              <span class="demo-dot yellow"></span>
-              <span class="demo-dot green"></span>
+        <div class="demo-teaser-card">
+          <div class="demo-teaser-content">
+            <div class="badge-tag" style="margin-bottom: 0.8rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Trải Nghiệm Trực Tuyến 3D Miễn Phí
             </div>
-            <div class="demo-title-bar">
-              <img src="assets/icons/plane.svg" alt="Plane" width="16" height="16">
-              Fly to The End - Touch Gameplay Simulator
+            <h2 class="teaser-title">Chơi Thử Game Trực Tiếp Trên Trình Duyệt</h2>
+            <p class="teaser-desc">
+              Lái chiếc phi cơ 3D lượn sóng trên đại dương vô tận, gom bình năng lượng và né chướng ngại vật ngay trên trình duyệt mà không cần cài đặt bất kỳ phần mềm nào!
+            </p>
+            <div class="teaser-features">
+              <span>✓ Đồ họa 3D 60 FPS</span>
+              <span>✓ Cảm ứng chạm & Chuột</span>
+              <span>✓ Âm thanh chân thực</span>
             </div>
-            <div class="demo-controls">
-              <button class="demo-tool-btn" id="muteDemoBtn" title="Bật/Tắt âm thanh">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                Âm thanh
-              </button>
-              <button class="demo-tool-btn" id="resetDemoBtn" title="Chơi lại">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-                Làm mới
-              </button>
-              <button class="demo-tool-btn" id="fullscreenDemoBtn" title="Toàn màn hình (F)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-                </svg>
-                <span id="txtFullscreenBtn">Toàn màn hình</span>
-              </button>
-            </div>
+            <a href="demo.html" class="btn-hero-demo" style="display: inline-flex; width: auto;">
+              <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+              </svg>
+              <span>Vào Chơi Thử Demo Ngay</span>
+            </a>
           </div>
-
-          <div class="demo-canvas-wrap">
-            <div id="world" class="world-3d"></div>
-
-            <!-- IN-GAME HUD MATCHING GAME -->
-            <div class="game-hud-top">
-              <div class="score-card">
-                <div class="score__content" id="level">
-                  <span class="score__label">LVL</span>
-                  <div class="score__value score__value--level" id="levelValue">1</div>
-                  <svg class="level-circle" viewBox="0 0 200 200">
-                    <circle r="80" cx="100" cy="100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="20" />
-                    <circle id="levelCircleStroke" r="80" cx="100" cy="100" fill="none" stroke="#FEE140" stroke-width="20" stroke-dasharray="502" />
-                  </svg>
-                </div>
-
-                <div class="score__content" id="dist">
-                  <span class="score__label">DISTANCE</span>
-                  <div class="score__value score__value--dist" id="distValue">000</div>
-                </div>
-
-                <div class="score__content" id="energy">
-                  <span class="score__label">FUEL</span>
-                  <div class="score__value--energy">
-                    <div class="energy-bar" id="energyBar"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pause Button -->
-              <button class="btn-pause-demo" id="btnPauseDemo" title="Tạm dừng">⏸</button>
-            </div>
-
-            <!-- START & GAME OVER OVERLAY MATCHING GAME OVERLAY -->
-            <div class="demo-overlay" id="demoOverlay">
-              <div class="menu-card-demo">
-                <div class="menu-brand-demo">
-                  <h3 id="gameOverTitle">Fly <i>to</i> The End</h3>
-                  <p id="gameOverDesc">Trải nghiệm chế độ Cảm ứng chạm (Touch Mode)</p>
-                </div>
-
-                <div class="result-stats-demo">
-                  <div class="result-box-demo">
-                    <span class="result-label-demo">QUÃNG ĐƯỜNG</span>
-                    <span class="result-num-demo" id="resultDist">000 m</span>
-                  </div>
-                  <div class="result-box-demo">
-                    <span class="result-label-demo">CẤP ĐỘ</span>
-                    <span class="result-num-demo" id="resultLvl">1</span>
-                  </div>
-                </div>
-
-                <button class="btn-launch-demo" id="startDemoBtn">CẤT CÁNH</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="demo-tip-footer">
-            <span id="demoTipText">👉 <strong>Hướng dẫn:</strong> Chạm vào vùng bay để bắt đầu lái phi cơ!</span>
-            <span>Chế độ Cảm ứng chạm (Touch / Pointer)</span>
+          <div class="demo-teaser-visual">
+            <img src="assets/images/icon-512.png" alt="Fly to The End Demo Preview" class="teaser-img">
           </div>
         </div>
 
         <!-- Google AdSense Banner -->
         <div class="ad-section-wrap">
-          <div class="ad-disclaimer"></div>
+          <div class="ad-disclaimer">QUẢNG CÁO</div>
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-9027163152867616"
@@ -605,7 +547,7 @@
         <div>
           <h4 class="footer-title">Tải Ứng Dụng</h4>
           <ul class="footer-links">
-            <li><a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-link">Google Play (CH Play)</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=vn.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-link">Google Play (CH Play)</a></li>
             <li><a href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="footer-link">Apple App Store</a></li>
             <li><a href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="footer-link">Microsoft Store</a></li>
           </ul>
@@ -614,8 +556,8 @@
         <div>
           <h4 class="footer-title">Khám Phá</h4>
           <ul class="footer-links">
-            <li><a href="#about" class="footer-link">Về Trò Chơi</a></li>
-            <li><a href="#demo" class="footer-link">Chơi Thử Demo</a></li>
+            <li><a href="index.html" class="footer-link">Trang chủ</a></li>
+            <li><a href="demo.html" class="footer-link">Chơi Thử Demo</a></li>
             <li><a href="#modes" class="footer-link">3 Chế Độ Điều Khiển</a></li>
             <li><a href="#features" class="footer-link">Tính Năng Nổi Bật</a></li>
           </ul>
@@ -639,8 +581,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/three.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/demo-game.js"></script>
 </body>
 </html>

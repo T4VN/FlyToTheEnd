@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Chơi Thử Demo Fly to The End Trực Tuyến - Game Phiêu Lưu Bầu Trời 3D</title>
+  <meta name="description" content="Chơi thử miễn phí mini-game Fly to The End 3D trực tiếp trên trình duyệt. Lái phi cơ lượn trên đại dương vô tận bằng chuột hoặc cảm ứng chạm mượt mà 60 FPS mà không cần cài đặt!">
+  <meta name="keywords" content="Fly to The End Demo, Chơi thử game máy bay 3D, WebGL Threejs Game, Aviator 3D, T4VN Games">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://flytotheend.t4vn.com/demo.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/images/icon-192.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fly to The End">
+  <meta property="og:title" content="Chơi Thử Demo Fly to The End Trực Tuyến - Game 3D Không Cần Cài Đặt">
+  <meta property="og:description" content="Lái phi cơ 3D lướt sóng biển, gom bình nhiên liệu và lập kỷ lục bay xa nhất ngay trên trình duyệt của bạn!">
+  <meta property="og:url" content="https://flytotheend.t4vn.com/demo.html">
+  <meta property="og:image" content="https://flytotheend.t4vn.com/assets/images/icon-512.png">
+  <meta property="og:locale" content="vi_VN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://flytotheend.t4vn.com/demo.html">
+  <meta name="twitter:title" content="Chơi Thử Demo Fly to The End Trực Tuyến">
+  <meta name="twitter:description" content="Lái phi cơ 3D lướt sóng biển, gom bình nhiên liệu ngay trên trình duyệt!">
+  <meta name="twitter:image" content="https://flytotheend.t4vn.com/assets/images/icon-512.png">
+
+  <!-- Google Fonts: 100% Vietnamese support -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9027163152867616" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo" aria-label="Fly to The End Trang chủ">
+        <img src="assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="40" height="40">
+        <span class="logo-text">Fly <i>to</i> The End</span>
+      </a>
+
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="demo.html" class="nav-link active">Chơi thử Demo</a></li>
+          <li><a href="privacy.html" class="nav-link">Chính sách bảo mật</a></li>
+          <li><a href="terms.html" class="nav-link">Điều khoản dịch vụ</a></li>
+          <li>
+            <a href="index.html#download" class="nav-cta-btn">Tải Game</a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Mở menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="demo-page">
+    <div class="container">
+      <div class="demo-page-header">
+        <div class="badge-tag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Trải Nghiệm Trực Tuyến 3D
+        </div>
+        <h1 class="section-title">Chơi Thử Demo Trên Trình Duyệt</h1>
+        <p class="section-subtitle">Chạm hoặc vuốt ngón tay để lái phi cơ lượn sóng trên đại dương 3D!</p>
+      </div>
+
+      <!-- INTERACTIVE 3D SIMULATOR FRAME -->
+      <div class="demo-frame" id="demoFrame">
+        <div class="demo-toolbar">
+          <div class="demo-dots">
+            <span class="demo-dot red"></span>
+            <span class="demo-dot yellow"></span>
+            <span class="demo-dot green"></span>
+          </div>
+          <div class="demo-title-bar">
+            <img src="assets/icons/plane.svg" alt="Plane" width="16" height="16">
+            <span class="demo-title-text">Fly to The End</span>
+          </div>
+          <div class="demo-controls">
+            <button class="demo-tool-btn" id="muteDemoBtn" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <span class="tool-btn-text">Âm thanh</span>
+            </button>
+            <button class="demo-tool-btn" id="resetDemoBtn" title="Chơi lại" aria-label="Chơi lại">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <span class="tool-btn-text">Làm mới</span>
+            </button>
+            <button class="demo-tool-btn" id="fullscreenDemoBtn" title="Toàn màn hình (F)" aria-label="Toàn màn hình">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+              </svg>
+              <span id="txtFullscreenBtn" class="tool-btn-text">Toàn màn</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="demo-canvas-wrap">
+          <div id="world" class="world-3d"></div>
+
+          <!-- IN-GAME HUD MATCHING GAME -->
+          <div class="game-hud-top">
+            <div class="score-card">
+              <div class="score__content" id="level">
+                <span class="score__label">LVL</span>
+                <div class="score__value score__value--level" id="levelValue">1</div>
+                <svg class="level-circle" viewBox="0 0 200 200">
+                  <circle r="80" cx="100" cy="100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="20" />
+                  <circle id="levelCircleStroke" r="80" cx="100" cy="100" fill="none" stroke="#FEE140" stroke-width="20" stroke-dasharray="502" />
+                </svg>
+              </div>
+
+              <div class="score__content" id="dist">
+                <span class="score__label">DISTANCE</span>
+                <div class="score__value score__value--dist" id="distValue">000</div>
+              </div>
+
+              <div class="score__content" id="energy">
+                <span class="score__label">FUEL</span>
+                <div class="score__value--energy">
+                  <div class="energy-bar" id="energyBar"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pause Button -->
+            <button class="btn-pause-demo" id="btnPauseDemo" title="Tạm dừng">⏸</button>
+          </div>
+
+          <!-- START & GAME OVER OVERLAY MATCHING GAME OVERLAY -->
+          <div class="demo-overlay" id="demoOverlay">
+            <div class="menu-card-demo">
+              <div class="menu-brand-demo">
+                <h3 id="gameOverTitle">Fly <i>to</i> The End</h3>
+                <p id="gameOverDesc">Trải nghiệm chế độ Cảm ứng chạm (Touch Mode)</p>
+              </div>
+
+              <div class="result-stats-demo">
+                <div class="result-box-demo">
+                  <span class="result-label-demo">QUÃNG ĐƯỜNG</span>
+                  <span class="result-num-demo" id="resultDist">000 m</span>
+                </div>
+                <div class="result-box-demo">
+                  <span class="result-label-demo">CẤP ĐỘ</span>
+                  <span class="result-num-demo" id="resultLvl">1</span>
+                </div>
+              </div>
+
+              <button class="btn-launch-demo" id="startDemoBtn">CẤT CÁNH</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-tip-footer">
+          <span id="demoTipText">👉 <strong>Hướng dẫn:</strong> Chạm vào vùng bay để bắt đầu lái phi cơ!</span>
+          <span>Chế độ Cảm ứng chạm (Touch / Pointer)</span>
+        </div>
+      </div>
+
+      <!-- Google AdSense Banner -->
+      <div class="ad-section-wrap">
+        <div class="ad-disclaimer">QUẢNG CÁO</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9027163152867616"
+             data-ad-slot="3635303540"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <!-- FULL GAME DOWNLOAD PROMO -->
+      <div class="demo-cta-box">
+        <h2 style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--text-main); margin-bottom: 0.8rem;">
+          Bạn Thích Trải Nghiệm Này? Tải Ngay Bản Đầy Đủ!
+        </h2>
+        <p style="color: var(--brown-label); max-width: 680px; margin: 0 auto 1.8rem; font-size: 1.05rem;">
+          Mở khóa toàn bộ tính năng cao cấp: <strong>Điều khiển bằng Giọng nói (Voice Mode)</strong> và <strong>Cảm biến nghiêng (Tilt Sensor)</strong> độc quyền trên điện thoại & máy tính!
+        </p>
+        <div class="store-buttons" style="margin-bottom: 0;">
+          <!-- Google Play -->
+          <a href="https://play.google.com/store/apps/details?id=vn.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
+            <img src="assets/icons/google-play.svg" alt="Google Play Icon" class="store-icon" width="32" height="32">
+            <div class="store-text">
+              <span class="store-subtext">Tải trên</span>
+              <span class="store-name">Google Play</span>
+            </div>
+          </a>
+          <!-- Apple App Store -->
+          <a href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+            <img src="assets/icons/apple-store.svg" alt="Apple App Store Icon" class="store-icon" width="32" height="32">
+            <div class="store-text">
+              <span class="store-subtext">Tải trên</span>
+              <span class="store-name">App Store</span>
+            </div>
+          </a>
+          <!-- Microsoft Store -->
+          <a href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+            <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store Icon" class="store-icon" width="32" height="32">
+            <div class="store-text">
+              <span class="store-subtext">Tải trên</span>
+              <span class="store-name">Microsoft Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Audio Elements -->
+  <audio id="sndBoom" preload="auto" src="assets/sounds/boom.mp3"></audio>
+  <audio id="sndRing" preload="auto" src="assets/sounds/ring.mp3"></audio>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom: 1rem;">
+            <img src="assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="36" height="36">
+            <span class="logo-text">Fly <i>to</i> The End</span>
+          </a>
+          <p class="footer-desc">
+            Trò chơi phiêu lưu bay lượn 3D phong cách hoạt hình đầy lôi cuốn. Khám phá đại dương bao la với 3 chế độ điều khiển độc đáo.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Khám Phá</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Trang chủ</a></li>
+            <li><a href="demo.html" class="footer-link">Chơi Thử Demo</a></li>
+            <li><a href="index.html#modes" class="footer-link">3 Chế Độ Điều Khiển</a></li>
+            <li><a href="index.html#features" class="footer-link">Tính Năng Nổi Bật</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Pháp Lý & Hỗ Trợ</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html" class="footer-link">Chính Sách Bảo Mật (Privacy)</a></li>
+            <li><a href="terms.html" class="footer-link">Điều Khoản Dịch Vụ (Terms)</a></li>
+            <li><a href="https://t4vn.com/contact/" target="_blank" rel="noopener noreferrer" class="footer-link">Liên Hệ Hỗ Trợ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2026</span> T4VN (Fly to The End). Tất cả các quyền được bảo lưu.</p>
+        <p>Phát triển vì trải nghiệm giải trí an toàn, lành mạnh và chất lượng cao.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/demo-game.js"></script>
+</body>
+</html>
