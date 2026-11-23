@@ -122,4 +122,93 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // 9:16 Gameplay Trailer Widgets (VI/EN switch, sound & play/pause controls)
+  const trailerWidgets = document.querySelectorAll('[data-trailer-widget]');
+  trailerWidgets.forEach(widget => {
+    const video = widget.querySelector('video');
+    const langBtns = widget.querySelectorAll('[data-video-lang]');
+    const playBtn = widget.querySelector('[data-video-toggle-play]');
+    const playLabel = widget.querySelector('[data-play-label]');
+    const muteBtn = widget.querySelector('[data-video-toggle-mute]');
+    const muteLabel = widget.querySelector('[data-mute-label]');
+    if (!video) return;
+
+    function syncControls() {
+      if (playLabel) {
+        playLabel.textContent = video.paused ? '▶ Phát' : '⏸ Tạm dừng';
+      }
+      if (muteLabel && muteBtn) {
+        muteLabel.textContent = video.muted ? '🔇 Bật tiếng' : '🔊 Tắt tiếng';
+        muteBtn.classList.toggle('is-unmuted', !video.muted);
+      }
+    }
+
+    video.addEventListener('play', syncControls);
+    video.addEventListener('pause', syncControls);
+    video.addEventListener('volumechange', syncControls);
+
+    video.addEventListener('click', () => {
+      if (video.paused) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
+    if (playBtn) {
+      playBtn.addEventListener('click', () => {
+        if (video.paused) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }
+
+    if (muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        if (!video.muted && video.paused) {
+          video.play().catch(() => {});
+        }
+        syncControls();
+      });
+    }
+
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newSrc = btn.getAttribute('data-src');
+        const newPoster = btn.getAttribute('data-poster');
+        if (!newSrc || video.getAttribute('src') === newSrc) return;
+
+        const wasPaused = video.paused;
+        const wasMuted = video.muted;
+        const currentTime = video.currentTime || 0;
+
+        langBtns.forEach(b => {
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+
+        if (newPoster) video.setAttribute('poster', newPoster);
+        video.setAttribute('src', newSrc);
+        video.load();
+        video.muted = wasMuted;
+        video.addEventListener('loadedmetadata', function onMeta() {
+          video.removeEventListener('loadedmetadata', onMeta);
+          if (currentTime > 0 && currentTime < video.duration) {
+            video.currentTime = currentTime;
+          }
+          if (!wasPaused) {
+            video.play().catch(() => {});
+          }
+          syncControls();
+        });
+      });
+    });
+
+    syncControls();
+  });
 });
