@@ -1,0 +1,28 @@
+{
+  "name": "Fly to The End",
+  "short_name": "FlyToEnd",
+  "description": "Game phiêu lưu lái máy bay 3D rực rỡ với chế độ cảm ứng chạm, nghiêng máy và giọng nói",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#dbe4c6",
+  "theme_color": "#f25346",
+  "icons": [
+    {
+      "src": "assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/game-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
