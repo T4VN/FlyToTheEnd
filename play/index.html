@@ -14,10 +14,10 @@
     <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./icon-192.png" />
     <title>Fly to The End — 3D Sky Adventure</title>
-  <script type="module" crossorigin src="./assets/C8U0lAqr.js"></script>
+  <script type="module" crossorigin src="./assets/B4g07h_M.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/4tVxZq34.js">
   <link rel="modulepreload" crossorigin href="./assets/D4owOmia.js">
-  <link rel="modulepreload" crossorigin href="./assets/BJWF5j1B.js">
+  <link rel="modulepreload" crossorigin href="./assets/CX8QhbUq.js">
   <link rel="stylesheet" crossorigin href="./assets/EqJ6_FgY.css">
   <link rel="stylesheet" crossorigin href="./assets/BcY4gVml.css">
 </head>
@@ -86,13 +86,13 @@
             <div class="voice-hud" id="voiceHud" style="display: none;">
                 <div class="voice-card">
                     <div class="voice-card-top">
-                        <span class="voice-hint" id="voiceHintText">SPEAK THIS LETTER:</span>
+                        <span class="voice-hint" id="voiceHintText">SAY THIS LETTER:</span>
                         <span class="voice-ipa" id="voiceIpa">/eɪ/</span>
                     </div>
                     <div class="voice-target" id="voiceTargetLetter">A</div>
                     <div class="voice-phonetic-samples" id="voicePhoneticSamples">Say: A or words: "Apple", "Animal"</div>
                     <div class="voice-comparison-bar">
-                        <div class="comparison-status" id="voiceStatus">Listening to microphone...</div>
+                        <div class="comparison-status" id="voiceStatus">Listening...</div>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
-                    <span id="txtSpectatorStatus">Out of fuel — Spectating opponent live</span>
+                    <span id="txtSpectatorStatus">Out of fuel — watching others finish</span>
                 </div>
                 <div class="spectator-actions">
                     <button class="btn-spectator-stats" id="btnOpenLiveStats2P">
@@ -114,7 +114,7 @@
                             <line x1="12" y1="20" x2="12" y2="4"></line>
                             <line x1="6" y1="20" x2="6" y2="14"></line>
                         </svg>
-                        <span id="txtBtnOpenLiveStats">Realtime Stats</span>
+                        <span id="txtBtnOpenLiveStats">Standings</span>
                     </button>
                     <button class="btn-spectator-leave" id="btnSpectatorLeave2P">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -139,11 +139,11 @@
 
                 <div class="brand">
                     <h1>Fly <i>to</i> The End</h1>
-                    <p class="tagline" id="txtTagline">3D Sky Adventure</p>
+                    <p class="tagline" id="txtTagline">Fly Across the Skies of Vietnam</p>
                 </div>
 
                 <div class="mode-selection-section">
-                    <div class="section-title" id="txtChooseControl">CHOOSE CONTROL MODE</div>
+                    <div class="section-title" id="txtChooseControl">CHOOSE CONTROLS</div>
                     
                     <div class="mode-options">
                         <div class="mode-item active" data-mode="tilt" id="cardModeTilt">
@@ -156,8 +156,8 @@
                                 </svg>
                             </div>
                             <div class="mode-item-info">
-                                <div class="mode-item-name"><span id="txtModeTiltName">Device Tilt / Motion</span> <span class="badge-rec" id="txtDefaultBadge">DEFAULT</span></div>
-                                <div class="mode-item-desc" id="txtModeTiltDesc">Tilt your device left/right/up/down to pilot the airplane</div>
+                                <div class="mode-item-name"><span id="txtModeTiltName">Tilt Device</span> <span class="badge-rec" id="txtDefaultBadge">DEFAULT</span></div>
+                                <div class="mode-item-desc" id="txtModeTiltDesc">Tilt your phone or tablet to steer the plane</div>
                             </div>
                             <div class="mode-radio"></div>
                         </div>
@@ -172,7 +172,7 @@
                             </div>
                             <div class="mode-item-info">
                                 <div class="mode-item-name" id="modeTouchNameWrap"><span id="txtModeTouchName">Touch / Mouse &amp; Keys</span></div>
-                                <div class="mode-item-desc" id="txtModeTouchDesc">Touch &amp; drag, move mouse, or use WASD / Arrow keys</div>
+                                <div class="mode-item-desc" id="txtModeTouchDesc">Drag on screen, move your mouse, or use WASD / Arrow keys</div>
                             </div>
                             <div class="mode-radio"></div>
                         </div>
@@ -187,8 +187,8 @@
                                 </svg>
                             </div>
                             <div class="mode-item-info">
-                                <div class="mode-item-name" id="txtModeVoiceName">Voice (Flappy Alphabet)</div>
-                                <div class="mode-item-desc" id="txtModeVoiceDesc">Free fall & speak letters A, B, C... to flap upwards</div>
+                                <div class="mode-item-name" id="txtModeVoiceName">Voice (Read A – Z)</div>
+                                <div class="mode-item-desc" id="txtModeVoiceDesc">Read letters out loud to fly up (rocks &amp; energy only)</div>
                             </div>
                             <div class="mode-radio"></div>
                         </div>
@@ -209,7 +209,7 @@
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
-                    <span id="btnRace2PText">MULTIPLAYER RACE (P2P ONLINE)</span>
+                    <span id="btnRace2PText">RACE WITH FRIENDS</span>
                 </button>
             </div>
         </div>
@@ -217,13 +217,13 @@
         <!-- SCREEN 1B: MULTIPLAYER P2P RACE LOBBY -->
         <div class="screen-overlay" id="screenLobby2P" style="display: none;">
             <div class="menu-card lobby-card">
-                <h2 id="txtLobbyTitle">MULTIPLAYER ONLINE RACE</h2>
-                <p class="lobby-subtitle" id="txtLobbyDesc">Direct P2P connection — race together on the same flight path</p>
+                <h2 id="txtLobbyTitle">RACE WITH FRIENDS</h2>
+                <p class="lobby-subtitle" id="txtLobbyDesc">Create a 4-digit room code or enter a friend's code to fly together</p>
 
                 <!-- Step 1: Create or Join -->
                 <div id="lobbyEntryView" class="lobby-entry-view">
                     <button class="btn-primary" id="btnCreateRoom2P">
-                        <span id="txtBtnCreateRoom">Create Room (Host)</span>
+                        <span id="txtBtnCreateRoom">Create Room</span>
                     </button>
 
                     <div class="lobby-divider"><span>OR</span></div>
@@ -231,7 +231,7 @@
                     <div class="lobby-join-row">
                         <input type="text" id="inputRoomCode2P" class="room-code-input" maxlength="6" placeholder="4-digit code" autocomplete="off" />
                         <button class="btn-secondary btn-join-room" id="btnJoinRoom2P">
-                            <span id="txtBtnJoinRoom">Join Room</span>
+                            <span id="txtBtnJoinRoom">Join</span>
                         </button>
                     </div>
                 </div>
@@ -239,13 +239,13 @@
                 <!-- Step 2: Inside Room (Waiting / Connected) -->
                 <div id="lobbyRoomView" class="lobby-room-view" style="display: none;">
                     <div class="room-code-box">
-                        <span class="room-code-label" id="txtRoomCodeLabel">YOUR ROOM CODE:</span>
+                        <span class="room-code-label" id="txtRoomCodeLabel">ROOM CODE:</span>
                         <div class="room-code-display" id="displayRoomCode2P">----</div>
                     </div>
 
                     <!-- Host selects fixed control mode / Guest sees locked mode -->
                     <div class="lobby-mode-lock-box">
-                        <div class="lobby-mode-lock-title" id="txtLobbyModeLockLabel">SELECT FIXED CONTROL MODE FOR THIS ROOM:</div>
+                        <div class="lobby-mode-lock-title" id="txtLobbyModeLockLabel">CONTROLS FOR EVERYONE IN ROOM:</div>
                         <div class="lobby-host-mode-btns" id="lobbyHostModeBtns">
                             <button class="lobby-mode-pill" data-mode="tilt" id="lobbyModeTilt">Tilt</button>
                             <button class="lobby-mode-pill active" data-mode="touch" id="lobbyModeTouch">Touch / Mouse</button>
@@ -262,7 +262,7 @@
 
                     <div class="lobby-status-box" id="lobbyStatusBox">
                         <span class="status-dot" id="lobbyStatusDot"></span>
-                        <span id="txtLobbyStatus">Waiting for other players to enter room code...</span>
+                        <span id="txtLobbyStatus">Waiting for friends to enter the room code...</span>
                     </div>
 
                     <button class="btn-primary" id="btnStartRace2P" disabled style="opacity: 0.5; margin-bottom: 8px;">
