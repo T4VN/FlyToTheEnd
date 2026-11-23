@@ -2083,16 +2083,16 @@ section[id] {
 
 .core-rules-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 3.25rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
 }
 
 .core-rule-card {
   background: var(--card-bg);
   border: 2px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 1.6rem 1.45rem;
+  padding: 1.75rem 1.85rem;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
   display: flex;
@@ -2156,19 +2156,69 @@ section[id] {
 
 .hazards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
 .hazard-card {
   background: var(--card-bg);
   border: 2px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 1.45rem 1.35rem;
+  padding: 0;
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
+}
+
+.hazard-card-body {
+  padding: 1.3rem 1.45rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hazard-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: radial-gradient(circle at 50% 30%, #fffdf8 0%, #f7e6c4 52%, #dbe4c6 100%);
+  border-bottom: 1.5px solid var(--border-card);
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hazard-preview--storm {
+  background: radial-gradient(circle at 50% 28%, #334155 0%, #1e293b 58%, #0f172a 100%);
+}
+
+.hazard-preview--sky {
+  background: radial-gradient(circle at 50% 25%, #e0f2fe 0%, #bae6fd 52%, #94a3b8 100%);
+}
+
+.hazard-thumb {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.25s ease, transform 0.3s ease;
+}
+
+.hazard-preview:hover .hazard-thumb {
+  transform: scale(1.03);
+}
+
+.hazard-preview.is-live .hazard-thumb {
+  opacity: 0;
+}
+
+.hazard-preview:hover .landmark-3d-pill,
+.hazard-preview:focus-visible .landmark-3d-pill {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
 }
 
 .hazard-card:hover {
@@ -2263,29 +2313,33 @@ section[id] {
 }
 
 .hazard-title {
-  font-size: 1.06rem;
+  font-family: var(--font-serif);
+  font-size: 1.22rem;
   font-weight: 800;
   color: var(--text-main);
-  margin-bottom: 0.45rem;
-  line-height: 1.32;
+  margin-bottom: 0.55rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hazard-desc {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  line-height: 1.58;
-  margin-bottom: 0.9rem;
+  line-height: 1.64;
+  margin-bottom: 1.05rem;
 }
 
 .hazard-tip {
   margin-top: auto;
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: var(--brown-text);
   background: #fdf8f2;
   border: 1px solid #f0e4d2;
   border-radius: 12px;
-  padding: 0.65rem 0.8rem;
-  line-height: 1.5;
+  padding: 0.72rem 0.9rem;
+  line-height: 1.55;
 }
 
 .hazard-tip strong {
@@ -2368,8 +2422,8 @@ section[id] {
 
 .landmarks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
 .landmark-card {
@@ -2386,7 +2440,7 @@ section[id] {
 }
 
 .landmark-card-body {
-  padding: 1.15rem 1.3rem 1.35rem;
+  padding: 1.3rem 1.45rem 1.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -2744,6 +2798,12 @@ body.modal-open {
   border: 1px solid #fde68a;
 }
 
+.landmark-region.region-highlands {
+  background: #f5f3ff;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+}
+
 .landmark-region.region-south {
   background: #fff0ed;
   color: #c2410c;
@@ -2752,25 +2812,28 @@ body.modal-open {
 
 .landmark-name {
   font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-size: 1.22rem;
   font-weight: 800;
   color: var(--text-main);
-  line-height: 1.28;
-  margin-bottom: 0.25rem;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .landmark-loc {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--brown-label);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.72rem;
 }
 
 .landmark-desc {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  line-height: 1.58;
-  margin-bottom: 0.95rem;
+  line-height: 1.64;
+  margin-bottom: 1.1rem;
 }
 
 .landmark-tag {
@@ -2875,22 +2938,29 @@ body.modal-open {
 }
 
 /* ================= RESPONSIVE FOR NEW SECTIONS ================= */
-@media (max-width: 1080px) {
+@media (max-width: 1024px) {
   .core-rules-grid,
-  .hazards-grid {
+  .hazards-grid,
+  .landmarks-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 680px) {
   .rules-section,
   .landmarks-section {
     padding: 3.5rem 0;
   }
   .core-rules-grid,
   .hazards-grid,
+  .landmarks-grid,
   .demo-guide-grid {
     grid-template-columns: 1fr;
+  }
+  .hazard-title,
+  .landmark-name {
+    white-space: normal;
   }
   .region-tabs {
     gap: 0.5rem;

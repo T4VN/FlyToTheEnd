@@ -1,7 +1,7 @@
 {
   "name": "Fly to The End",
   "short_name": "FlyToEnd",
-  "description": "Game phiêu lưu lái máy bay 3D rực rỡ với chế độ cảm ứng chạm, nghiêng máy và giọng nói",
+  "description": "Game phiêu lưu lái máy bay 3D đưa bạn qua các di tích lịch sử Việt Nam với 7 tầng thử thách theo các cấp độ và 3 chế độ điều khiển độc đáo",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#dbe4c6",

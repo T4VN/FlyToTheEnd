@@ -1,21 +1,52 @@
 /**
- * FLY TO THE END - 3D Vietnamese Landmarks Showcase
- * Renders all 22 real in-game 3D Low-poly models directly on homepage cards
+ * FLY TO THE END - Unified 3D Models Showcase (42 Landmarks + 8 Hazards)
+ * Renders all real in-game 3D Low-poly models directly on homepage cards
  * using a single shared offscreen WebGLRenderer (zero WebGL context overflow),
  * live animated 3D hover preview, and an interactive 360-degree 3D Modal Viewer.
  */
 (function () {
   'use strict';
 
-  if (typeof THREE === 'undefined' || !window.VietnamLandmarksCatalog) {
-    return;
+  if (typeof THREE === 'undefined') return;
+
+  const landmarksCatalog = window.VietnamLandmarksCatalog || null;
+  const hazardsCatalog = window.GameHazardsCatalog || null;
+
+  const landmarkBoxes = landmarksCatalog
+    ? Array.from(document.querySelectorAll('.landmark-preview[data-landmark-id]'))
+    : [];
+  const hazardBoxes = hazardsCatalog
+    ? Array.from(document.querySelectorAll('.hazard-preview[data-hazard-id]'))
+    : [];
+
+  const allPreviewBoxes = hazardBoxes.concat(landmarkBoxes);
+  if (allPreviewBoxes.length === 0) return;
+
+  function getBoxMeta(el) {
+    if (el.dataset.hazardId) {
+      return { kind: 'hazard', id: el.dataset.hazardId, catalog: hazardsCatalog };
+    }
+    return { kind: 'landmark', id: el.dataset.landmarkId, catalog: landmarksCatalog };
   }
 
-  const catalog = window.VietnamLandmarksCatalog;
-  const previewBoxes = Array.from(document.querySelectorAll('.landmark-preview[data-landmark-id]'));
-  if (previewBoxes.length === 0) return;
+  // Per-model flattering default 3/4 rotation angles
+  function getDefaultAngles(kind, id) {
+    if (kind === 'hazard') {
+      if (id === 'hazard_bird' || id === 'hazard_rival_plane') {
+        return { x: 0.16, y: 0.52 };
+      }
+      if (id === 'hazard_comet' || id === 'hazard_missile') {
+        return { x: 0.1, y: 0.25 };
+      }
+      if (id === 'hazard_lightning') {
+        return { x: 0.08, y: -0.22 };
+      }
+      return { x: 0.14, y: -0.35 };
+    }
+    return { x: 0.08, y: -0.44 };
+  }
 
-  // Cache built 3D models so each landmark is constructed only once
+  // Cache built 3D models so each model is constructed only once
   const modelCache = Object.create(null);
 
   function createLighting(scene) {
@@ -32,12 +63,14 @@
     scene.add(rim);
   }
 
-  function prepareModel(id) {
-    if (modelCache[id]) return modelCache[id];
+  function prepareModel(kind, id, catalog) {
+    const cacheKey = kind + ':' + id;
+    if (modelCache[cacheKey]) return modelCache[cacheKey];
+    if (!catalog) return null;
+
     const mesh = catalog.buildById(id);
     if (!mesh) return null;
 
-    // Make sure animated dragon fire is visible for initial bounding box & snapshot
     const fire = mesh.getObjectByName('anim_dragon_fire');
     if (fire) {
       fire.visible = true;
@@ -55,12 +88,14 @@
     mesh.position.set(-center.x, -center.y, -center.z);
 
     const entry = {
+      kind: kind,
       id: id,
+      catalog: catalog,
       pivot: pivot,
       mesh: mesh,
       size: size,
     };
-    modelCache[id] = entry;
+    modelCache[cacheKey] = entry;
     return entry;
   }
 
@@ -71,11 +106,11 @@
     const effH = size.y * 1.08;
     const distV = (effH * 0.5) / Math.tan(vFov * 0.5);
     const distH = (effW * 0.5) / Math.tan(hFov * 0.5);
-    return Math.max(distV, distH) * (paddingFactor || 1.24);
+    return Math.max(distV, distH) * (paddingFactor || 1.32);
   }
 
   // =========================================================================
-  // 1. SINGLE SHARED OFFSCREEN SNAPSHOT RENDERER (renders all 22 cards cleanly)
+  // 1. SINGLE SHARED OFFSCREEN SNAPSHOT RENDERER (renders all 30 cards cleanly)
   // =========================================================================
   let thumbRenderer = null;
   let thumbScene = null;
@@ -105,21 +140,21 @@
   }
 
   function renderThumbnail(previewEl) {
-    const id = previewEl.dataset.landmarkId;
-    const targetCanvas = previewEl.querySelector('canvas.landmark-thumb');
-    if (!id || !targetCanvas || previewEl.dataset.rendered === '1') return;
+    const meta = getBoxMeta(previewEl);
+    const targetCanvas = previewEl.querySelector('canvas.landmark-thumb, canvas.hazard-thumb');
+    if (!meta.id || !meta.catalog || !targetCanvas || previewEl.dataset.rendered === '1') return;
     if (!initThumbRenderer()) return;
 
-    const entry = prepareModel(id);
+    const entry = prepareModel(meta.kind, meta.id, meta.catalog);
     if (!entry) return;
 
-    // Detach from any previous parent safely
     if (entry.pivot.parent) {
       entry.pivot.parent.remove(entry.pivot);
     }
 
-    // Set appealing 3/4 architectural angle for static preview
-    entry.pivot.rotation.set(0.08, -0.44, 0);
+    const angles = getDefaultAngles(meta.kind, meta.id);
+    entry.pivot.rotation.set(angles.x, angles.y, 0);
+
     const fire = entry.mesh.getObjectByName('anim_dragon_fire');
     if (fire) {
       fire.visible = true;
@@ -128,7 +163,10 @@
 
     thumbScene.add(entry.pivot);
 
-    const camDist = computeCameraDistance(entry.size, 38, THUMB_W / THUMB_H, 1.34);
+    const pad = (meta.id === 'hazard_bird' || meta.id === 'hazard_rival_plane')
+      ? 1.48
+      : (meta.kind === 'hazard' ? 1.32 : 1.34);
+    const camDist = computeCameraDistance(entry.size, 38, THUMB_W / THUMB_H, pad);
     thumbCamera.position.set(0, camDist * 0.25, camDist);
     thumbCamera.lookAt(0, 0, 0);
     thumbCamera.updateProjectionMatrix();
@@ -136,7 +174,6 @@
     thumbRenderer.render(thumbScene, thumbCamera);
     thumbScene.remove(entry.pivot);
 
-    // Paint WebGL output onto the card's lightweight 2D canvas
     targetCanvas.width = THUMB_W;
     targetCanvas.height = THUMB_H;
     const ctx = targetCanvas.getContext('2d');
@@ -148,8 +185,8 @@
     previewEl.classList.add('is-ready');
   }
 
-  // Render thumbnails in smooth non-blocking batches (3 per frame)
-  const renderQueue = previewBoxes.slice();
+  // Render thumbnails in smooth non-blocking batches (hazards first since #rules is above #landmarks!)
+  const renderQueue = allPreviewBoxes.slice();
   function processRenderQueue() {
     let count = 0;
     while (renderQueue.length > 0 && count < 3) {
@@ -170,11 +207,10 @@
   let liveScene = null;
   let liveCamera = null;
   let liveEntry = null;
-  let liveHost = null; // DOM container currently hosting liveRenderer.domElement
+  let liveHost = null;
   let liveMode = 'idle'; // 'idle' | 'hover' | 'modal'
   let rafId = 0;
 
-  // Interactive camera/model orbit state for Modal
   let rotY = -0.44;
   let rotX = 0.14;
   let targetRotY = -0.44;
@@ -212,9 +248,9 @@
     liveCamera.updateProjectionMatrix();
   }
 
-  function mountLiveModel(id, hostEl, mode) {
+  function mountLiveModel(kind, id, catalog, hostEl, mode) {
     if (!ensureLiveRenderer()) return;
-    const entry = prepareModel(id);
+    const entry = prepareModel(kind, id, catalog);
     if (!entry) return;
 
     if (liveEntry && liveEntry.pivot.parent === liveScene) {
@@ -235,8 +271,9 @@
     liveScene.add(entry.pivot);
     resizeLiveRenderer();
 
-    rotY = -0.44;
-    rotX = mode === 'modal' ? 0.14 : 0.08;
+    const angles = getDefaultAngles(kind, id);
+    rotY = angles.y;
+    rotX = mode === 'modal' ? Math.max(0.12, angles.x) : angles.x;
     targetRotY = rotY;
     targetRotX = rotX;
     zoomFactor = 1.0;
@@ -278,7 +315,7 @@
       lastTime = now;
 
       if (liveMode === 'hover') {
-        targetRotY += dt * 0.00075;
+        targetRotY += dt * 0.0008;
       } else if (liveMode === 'modal' && autoRotate && !isDragging) {
         targetRotY += dt * 0.00055;
       }
@@ -288,9 +325,13 @@
       zoomFactor += (targetZoom - zoomFactor) * 0.14;
 
       liveEntry.pivot.rotation.set(rotX, rotY, 0);
-      catalog.animate(liveEntry.mesh, now);
+      if (liveEntry.catalog && liveEntry.catalog.animate) {
+        liveEntry.catalog.animate(liveEntry.mesh, now);
+      }
 
-      const pad = liveMode === 'modal' ? 1.34 : 1.34;
+      const pad = (liveEntry.id === 'hazard_bird' || liveEntry.id === 'hazard_rival_plane')
+        ? 1.45
+        : (liveEntry.kind === 'hazard' ? 1.32 : 1.34);
       const baseDist = computeCameraDistance(liveEntry.size, 38, liveCamera.aspect, pad);
       const camDist = baseDist / zoomFactor;
       liveCamera.position.set(0, camDist * 0.24, camDist);
@@ -306,13 +347,13 @@
   // Hover live preview on desktop devices (only when modal is closed)
   const canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
   if (canHover) {
-    previewBoxes.forEach(function (box) {
+    allPreviewBoxes.forEach(function (box) {
       box.addEventListener('mouseenter', function () {
         if (liveMode === 'modal') return;
-        const id = box.dataset.landmarkId;
-        if (!id) return;
+        const meta = getBoxMeta(box);
+        if (!meta.id || !meta.catalog) return;
         box.classList.add('is-live');
-        mountLiveModel(id, box, 'hover');
+        mountLiveModel(meta.kind, meta.id, meta.catalog, box, 'hover');
       });
 
       box.addEventListener('mouseleave', function () {
@@ -325,7 +366,7 @@
   }
 
   // =========================================================================
-  // 3. INTERACTIVE 360° 3D INSPECTOR MODAL
+  // 3. INTERACTIVE 360° 3D INSPECTOR MODAL (works for both Landmarks & Hazards)
   // =========================================================================
   const modal = document.getElementById('landmarkModal');
   const modalStage = document.getElementById('landmarkModalStage');
@@ -342,6 +383,7 @@
   const btnZoomOut = document.getElementById('landmarkZoomOut');
   const btnAutoRotate = document.getElementById('landmarkAutoRotate');
 
+  let activeModalKind = 'landmark';
   let currentModalIndex = 0;
 
   function updateAutoRotateBtn() {
@@ -350,53 +392,87 @@
     btnAutoRotate.setAttribute('aria-pressed', autoRotate ? 'true' : 'false');
   }
 
-  function getCardMetaByIndex(index) {
-    const info = catalog.list[index];
-    const box = previewBoxes.find(function (b) {
-      return b.dataset.landmarkId === info.id;
-    });
+  function getModalData(kind, index) {
+    if (kind === 'hazard' && hazardsCatalog) {
+      const info = hazardsCatalog.list[index];
+      const box = hazardBoxes.find(function (b) { return b.dataset.hazardId === info.id; });
+      const card = box ? box.closest('.hazard-card') : null;
+      const lvlEl = card ? card.querySelector('.level-pill') : null;
+      const dmgEl = card ? card.querySelector('.damage-pill') : null;
+      const descEl = card ? card.querySelector('.hazard-desc') : null;
+      const tipEl = card ? card.querySelector('.hazard-tip') : null;
+      return {
+        kind: 'hazard',
+        id: info.id,
+        catalog: hazardsCatalog,
+        num: '#' + String(index + 1).padStart(2, '0') + ' / ' + hazardsCatalog.list.length,
+        badgeText: lvlEl ? lvlEl.textContent.trim() : info.levelVi,
+        badgeClass: lvlEl ? lvlEl.className : 'level-pill',
+        name: info.nameVi,
+        sub: dmgEl ? '⚡ Tác động: ' + dmgEl.textContent.trim() : '',
+        desc: descEl ? descEl.textContent.trim() : '',
+        tagText: tipEl ? tipEl.textContent.trim() : 'Thử thách bản cập nhật 3.0',
+        tagClass: 'landmark-tag',
+        prevLabel: '‹ Thử thách trước',
+        nextLabel: 'Thử thách tiếp ›',
+      };
+    }
+
+    const info = landmarksCatalog.list[index];
+    const box = landmarkBoxes.find(function (b) { return b.dataset.landmarkId === info.id; });
     const card = box ? box.closest('.landmark-card') : null;
+    const regEl = card ? card.querySelector('.landmark-region') : null;
+    const descEl = card ? card.querySelector('.landmark-desc') : null;
+    const tagEl = card ? card.querySelector('.landmark-tag') : null;
     return {
+      kind: 'landmark',
       id: info.id,
-      num: '#' + String(index + 1).padStart(2, '0') + ' / ' + catalog.list.length,
+      catalog: landmarksCatalog,
+      num: '#' + String(index + 1).padStart(2, '0') + ' / ' + landmarksCatalog.list.length,
+      badgeText: regEl ? regEl.textContent.trim() : '',
+      badgeClass: regEl ? regEl.className : 'landmark-region',
       name: info.nameVi,
-      loc: '📍 ' + info.locationVi,
-      regionText: card && card.querySelector('.landmark-region') ? card.querySelector('.landmark-region').textContent.trim() : '',
-      regionClass: card && card.querySelector('.landmark-region') ? card.querySelector('.landmark-region').className : 'landmark-region',
-      desc: card && card.querySelector('.landmark-desc') ? card.querySelector('.landmark-desc').textContent.trim() : '',
-      tagText: card && card.querySelector('.landmark-tag') ? card.querySelector('.landmark-tag').textContent.trim() : '',
-      tagClass: card && card.querySelector('.landmark-tag') ? card.querySelector('.landmark-tag').className : 'landmark-tag',
+      sub: '📍 ' + info.locationVi,
+      desc: descEl ? descEl.textContent.trim() : '',
+      tagText: tagEl ? tagEl.textContent.trim() : '',
+      tagClass: tagEl ? tagEl.className : 'landmark-tag',
+      prevLabel: '‹ Địa điểm trước',
+      nextLabel: 'Địa điểm tiếp ›',
     };
   }
 
-  function openLandmarkModal(index) {
+  function openModelModal(kind, index) {
     if (!modal || !modalStage) return;
-    currentModalIndex = (index + catalog.list.length) % catalog.list.length;
-    const meta = getCardMetaByIndex(currentModalIndex);
+    const cat = kind === 'hazard' ? hazardsCatalog : landmarksCatalog;
+    if (!cat) return;
 
-    // Clear hover state if active
-    previewBoxes.forEach(function (b) { b.classList.remove('is-live'); });
+    activeModalKind = kind;
+    currentModalIndex = (index + cat.list.length) % cat.list.length;
+    const data = getModalData(kind, currentModalIndex);
 
-    if (modalNum) modalNum.textContent = meta.num;
+    allPreviewBoxes.forEach(function (b) { b.classList.remove('is-live'); });
+
+    if (modalNum) modalNum.textContent = data.num;
     if (modalRegion) {
-      modalRegion.textContent = meta.regionText;
-      modalRegion.className = meta.regionClass;
+      modalRegion.textContent = data.badgeText;
+      modalRegion.className = data.badgeClass;
     }
-    if (modalName) modalName.textContent = meta.name;
-    if (modalLoc) modalLoc.textContent = meta.loc;
-    if (modalDesc) modalDesc.textContent = meta.desc;
+    if (modalName) modalName.textContent = data.name;
+    if (modalLoc) modalLoc.textContent = data.sub;
+    if (modalDesc) modalDesc.textContent = data.desc;
     if (modalTag) {
-      modalTag.textContent = meta.tagText;
-      modalTag.className = meta.tagClass;
+      modalTag.textContent = data.tagText;
+      modalTag.className = data.tagClass;
     }
+    if (btnModalPrev) btnModalPrev.textContent = data.prevLabel;
+    if (btnModalNext) btnModalNext.textContent = data.nextLabel;
 
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
-    // Mount live 3D model after modal becomes visible so clientWidth/Height are accurate
     requestAnimationFrame(function () {
-      mountLiveModel(meta.id, modalStage, 'modal');
+      mountLiveModel(data.kind, data.id, data.catalog, modalStage, 'modal');
     });
   }
 
@@ -409,26 +485,26 @@
     unmountLiveModel();
   }
 
-  // Click / Keyboard activation on every landmark preview card
-  previewBoxes.forEach(function (box) {
-    const id = box.dataset.landmarkId;
-    const idx = catalog.list.findIndex(function (item) { return item.id === id; });
+  allPreviewBoxes.forEach(function (box) {
+    const meta = getBoxMeta(box);
+    if (!meta.catalog) return;
+    const idx = meta.catalog.list.findIndex(function (item) { return item.id === meta.id; });
     if (idx < 0) return;
 
     box.addEventListener('click', function () {
-      openLandmarkModal(idx);
+      openModelModal(meta.kind, idx);
     });
     box.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openLandmarkModal(idx);
+        openModelModal(meta.kind, idx);
       }
     });
   });
 
   if (btnModalClose) btnModalClose.addEventListener('click', closeLandmarkModal);
-  if (btnModalPrev) btnModalPrev.addEventListener('click', function () { openLandmarkModal(currentModalIndex - 1); });
-  if (btnModalNext) btnModalNext.addEventListener('click', function () { openLandmarkModal(currentModalIndex + 1); });
+  if (btnModalPrev) btnModalPrev.addEventListener('click', function () { openModelModal(activeModalKind, currentModalIndex - 1); });
+  if (btnModalNext) btnModalNext.addEventListener('click', function () { openModelModal(activeModalKind, currentModalIndex + 1); });
 
   if (btnZoomIn) {
     btnZoomIn.addEventListener('click', function () {
@@ -447,14 +523,12 @@
     });
   }
 
-  // Backdrop click closes modal
   if (modal) {
     modal.addEventListener('click', function (e) {
       if (e.target === modal) closeLandmarkModal();
     });
   }
 
-  // Drag-to-rotate & wheel-to-zoom inside modal stage
   if (modalStage) {
     const onDragStart = function (x, y) {
       isDragging = true;
@@ -505,15 +579,14 @@
     }, { passive: false });
   }
 
-  // Keyboard shortcuts when modal is open
   window.addEventListener('keydown', function (e) {
     if (!modal || !modal.classList.contains('is-open')) return;
     if (e.key === 'Escape') {
       closeLandmarkModal();
     } else if (e.key === 'ArrowLeft') {
-      openLandmarkModal(currentModalIndex - 1);
+      openModelModal(activeModalKind, currentModalIndex - 1);
     } else if (e.key === 'ArrowRight') {
-      openLandmarkModal(currentModalIndex + 1);
+      openModelModal(activeModalKind, currentModalIndex + 1);
     }
   });
 

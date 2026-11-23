@@ -73,10 +73,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Region Filter Tabs for 22 Vietnamese Landmarks
+  // Region Filter Tabs for Vietnamese Landmarks (with automatic count calculation)
   const regionTabs = document.querySelectorAll('.region-tab');
   const landmarkCards = document.querySelectorAll('#landmarksGrid .landmark-card');
   if (regionTabs.length > 0 && landmarkCards.length > 0) {
+    // Auto-update tab counts from actual DOM cards for future landmark additions
+    regionTabs.forEach(tab => {
+      const region = tab.dataset.region || 'all';
+      const countEl = tab.querySelector('.tab-count');
+      if (countEl) {
+        const count = region === 'all'
+          ? landmarkCards.length
+          : Array.from(landmarkCards).filter(c => c.dataset.region === region).length;
+        countEl.textContent = count;
+      }
+    });
+
     regionTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const selectedRegion = tab.dataset.region || 'all';
