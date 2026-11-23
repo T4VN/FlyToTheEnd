@@ -1098,6 +1098,35 @@
     buildMuiCaMau,
   ];
 
+  // Living landmark animations (shared between Web Demo & 3D Showcase)
+  function animateLandmark(mesh, time) {
+    if (!mesh) return;
+    const t = typeof time === 'number' ? time : performance.now();
+    const flag = mesh.getObjectByName('anim_flag');
+    if (flag) {
+      flag.rotation.y = Math.sin(t * 0.006) * 0.28;
+    }
+    const boat = mesh.getObjectByName('anim_boat');
+    if (boat) {
+      boat.position.y = 3 + Math.sin(t * 0.004) * 1.1;
+      boat.rotation.z = Math.sin(t * 0.003) * 0.06;
+    }
+    const dragonFire = mesh.getObjectByName('anim_dragon_fire');
+    if (dragonFire) {
+      const cycle = (t * 0.002) % (Math.PI * 2);
+      const pulse = Math.max(0, Math.sin(cycle));
+      dragonFire.visible = pulse > 0.12;
+      const s = 0.4 + pulse * 0.95 + Math.sin(t * 0.04) * 0.12;
+      dragonFire.scale.set(s, 0.6 + pulse * 0.6, 0.6 + pulse * 0.6);
+    }
+    const cableCar = mesh.getObjectByName('anim_cablecar');
+    if (cableCar) {
+      const slide = Math.sin(t * 0.0015);
+      cableCar.position.x = -14 + slide * 12;
+      cableCar.position.y = 28 + slide * 7;
+    }
+  }
+
   // Sequential Heritage Parade Manager for Web Demo
   function VietnamLandmarksDemo(scene, onLandmarkChange) {
     this.scene = scene;
@@ -1185,30 +1214,7 @@
     this.activeMesh.rotation.z = this.angle - Math.PI / 2;
 
     // Living landmark animations
-    const time = performance.now();
-    const flag = this.activeMesh.getObjectByName('anim_flag');
-    if (flag) {
-      flag.rotation.y = Math.sin(time * 0.006) * 0.28;
-    }
-    const boat = this.activeMesh.getObjectByName('anim_boat');
-    if (boat) {
-      boat.position.y = 3 + Math.sin(time * 0.004) * 1.1;
-      boat.rotation.z = Math.sin(time * 0.003) * 0.06;
-    }
-    const dragonFire = this.activeMesh.getObjectByName('anim_dragon_fire');
-    if (dragonFire) {
-      const cycle = (time * 0.002) % (Math.PI * 2);
-      const pulse = Math.max(0, Math.sin(cycle));
-      dragonFire.visible = pulse > 0.12;
-      const s = 0.4 + pulse * 0.95 + Math.sin(time * 0.04) * 0.12;
-      dragonFire.scale.set(s, 0.6 + pulse * 0.6, 0.6 + pulse * 0.6);
-    }
-    const cableCar = this.activeMesh.getObjectByName('anim_cablecar');
-    if (cableCar) {
-      const slide = Math.sin(time * 0.0015);
-      cableCar.position.x = -14 + slide * 12;
-      cableCar.position.y = 28 + slide * 7;
-    }
+    animateLandmark(this.activeMesh, performance.now());
 
     // Finished crossing screen -> advance immediately to NEXT Vietnamese heritage landmark!
     if (this.angle > this.endAngle) {
@@ -1232,4 +1238,20 @@
   };
 
   window.VietnamLandmarksDemo = VietnamLandmarksDemo;
+  window.VietnamLandmarksCatalog = {
+    list: VIETNAM_LANDMARKS,
+    buildByIndex: function (index) {
+      if (index < 0 || index >= BUILDERS.length) return null;
+      return BUILDERS[index]();
+    },
+    buildById: function (id) {
+      for (let i = 0; i < VIETNAM_LANDMARKS.length; i++) {
+        if (VIETNAM_LANDMARKS[i].id === id) {
+          return BUILDERS[i]();
+        }
+      }
+      return null;
+    },
+    animate: animateLandmark,
+  };
 })();
