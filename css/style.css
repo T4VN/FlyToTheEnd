@@ -1351,3 +1351,32 @@ body:has(.demo-frame.is-fullscreen),
 body.has-fullscreen {
   overflow: hidden !important;
 }
+
+/* ================= GOOGLE ADSENSE ================= */
+.ad-section-wrap {
+  margin: 2.2rem auto 0;
+  max-width: 960px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1.5px dashed rgba(140, 106, 56, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.ad-section-wrap:hover {
+  border-color: rgba(140, 106, 56, 0.45);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.ad-disclaimer {
+  font-size: 0.68rem;
+  color: var(--brown-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  opacity: 0.85;
+}
