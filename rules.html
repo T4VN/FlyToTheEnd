@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vi" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Luật Chơi &amp; 7 Tầng Thử Thách 3D - Fly to The End 3.0 | T4VN</title>
+  <meta name="description" content="Hướng dẫn luật chơi Fly to The End 3.0: cơ chế nhiên liệu, nhịp độ mở khóa thử thách mỗi +2 cấp độ (Level 2-14), mô hình 3D 7 tầng chướng ngại vật, thời tiết động 5 trạng thái và 3 chế độ điều khiển.">
+  <meta name="keywords" content="luật chơi Fly to The End, hướng dẫn Fly to The End 3.0, 7 tầng thử thách, Flappy Alphabet, T4VN">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://flytotheend.t4vn.com/rules.html">
+
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/icon-512.png">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/game-icon.svg">
+  <link rel="apple-touch-icon" href="assets/images/icon-512.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fly to The End">
+  <meta property="og:title" content="Luật Chơi &amp; 7 Tầng Thử Thách 3D - Fly to The End 3.0">
+  <meta property="og:description" content="Nắm vững cơ chế nhiên liệu, 7 tầng thử thách mở khóa nhanh mỗi +2 cấp độ (Level 2-14) với mô hình 3D trực quan và 3 chế độ lái độc đáo.">
+  <meta property="og:url" content="https://flytotheend.t4vn.com/rules.html">
+  <meta property="og:image" content="https://flytotheend.t4vn.com/assets/images/icon-512.png">
+  <meta property="og:locale" content="vi_VN">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9027163152867616" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo" aria-label="Fly to The End Trang chủ">
+        <img src="assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="40" height="40">
+        <span class="logo-text">Fly <i>to</i> The End</span>
+      </a>
+
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="rules.html" class="nav-link active">Luật chơi</a></li>
+          <li><a href="landmarks.html" class="nav-link">Di tích VN</a></li>
+          <li><a href="demo.html" class="nav-link">Chơi thử</a></li>
+          <li><a href="privacy.html" class="nav-link">Bảo mật</a></li>
+          <li><a href="terms.html" class="nav-link">Điều khoản</a></li>
+          <li>
+            <a href="download.html" class="nav-cta-btn">Tải Game</a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Mở menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- SUBPAGE HERO -->
+    <section class="subpage-hero">
+      <div class="container">
+        <div class="badge-tag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Cẩm Nang Phi Công • Bản Cập Nhật 3.0
+        </div>
+        <h1 class="subpage-title">Luật Chơi &amp; 7 Tầng Thử Thách 3D</h1>
+        <p class="subpage-subtitle">
+          Nhịp game kịch tính ngay từ những phút đầu! Nắm vững cơ chế nhiên liệu, biên độ né ngang mở rộng, <strong>7 tầng thử thách mở khóa liên tiếp sau mỗi +2 cấp độ (Level 2 → 14)</strong> và 3 chế độ điều khiển độc nhất.
+        </p>
+        <div class="subpage-actions">
+          <a href="demo.html" class="btn-hero-demo">
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+            <span>Thực Hành Chơi Thử Ngay</span>
+          </a>
+          <a href="landmarks.html" class="btn-secondary-outline">Xem Các Di Tích Việt Nam 3D →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE RULES & PROGRESSIVE HAZARDS -->
+    <section class="rules-section" id="rules">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Cơ Chế Cốt Lõi</p>
+          <h2 class="section-title">4 Nguyên Tắc Sinh Tồn Trên Bầu Trời</h2>
+          <p class="section-subtitle">Hiểu rõ nhiên liệu, tốc độ tăng cấp và tầm né toàn trục giúp bạn chinh phục bảng xếp hạng nhanh hơn.</p>
+        </div>
+
+        <!-- Core Rules Summary Strip -->
+        <div class="core-rules-grid">
+          <article class="core-rule-card">
+            <div class="core-rule-badge">01 • NHIÊN LIỆU (FUEL)</div>
+            <h3>Giữ Đầy Bình Năng Lượng</h3>
+            <p>
+              Thanh nhiên liệu giảm dần liên tục theo quãng đường bay. Hãy thu thập các <strong>tinh thể xanh ngọc</strong> trên bầu trời để nạp lại nhiên liệu và tránh va chạm vật cản. Khi thanh <strong>FUEL chạm 0%</strong>, phi cơ sẽ hạ cánh xuống biển và kết thúc lượt bay.
+            </p>
+          </article>
+
+          <article class="core-rule-card">
+            <div class="core-rule-badge">02 • CẤP ĐỘ &amp; TỐC ĐỘ (LVL)</div>
+            <h3>Mỗi 1.000m Lên 1 Cấp Độ</h3>
+            <p>
+              Vượt qua mỗi mốc <strong>1.000m</strong>, cấp độ (<strong>LVL</strong>) tăng lên, mở khóa thêm một <strong>di tích lịch sử Việt Nam</strong> mới phía dưới cánh bay, và cứ mỗi <strong>+2 cấp độ</strong> lại xuất hiện thêm 1 tầng thử thách bầu trời mới.
+            </p>
+          </article>
+
+          <article class="core-rule-card">
+            <div class="core-rule-badge">03 • CƠ CHẾ NÉ MỚI</div>
+            <h3>Né Toàn Diện Trái–Phải &amp; Lên–Xuống</h3>
+            <p>
+              Biên độ di chuyển ngang mở rộng lên <strong>150 đơn vị</strong> kèm camera bám theo mượt mà và độ nhạy lái chuẩn xác — giúp bạn chủ động lách trái/phải né sét đánh, tàu vũ trụ và tên lửa khóa mục tiêu.
+            </p>
+          </article>
+
+          <article class="core-rule-card">
+            <div class="core-rule-badge">04 • KỶ LỤC CÁ NHÂN</div>
+            <h3>Bảng Xếp Hạng Top 5</h3>
+            <p>
+              Mọi lượt bay đều được tự động lưu cục bộ thành <strong>Bảng Xếp Hạng Top 5</strong> kèm quãng đường (m), cấp độ đạt được và ngày lập kỷ lục. Thử thách bản thân chinh phục trọn bộ 7 tầng thử thách và bay xuyên Việt!
+            </p>
+          </article>
+        </div>
+
+        <!-- Progressive Hazards Roadmap -->
+        <div class="hazards-header">
+          <h2 class="hazards-subheading">Lộ Trình Thử Thách Bầu Trời (Level 1 → 14+ • Mở Mỗi +2 Cấp Độ)</h2>
+          <p class="hazards-subdesc">Mỗi mô hình bên dưới lấy trực tiếp từ game — rê chuột để xem chuyển động hoặc nhấn vào từng mô hình để xoay 360°:</p>
+        </div>
+
+        <div class="hazards-grid">
+          <!-- Lv 1 -->
+          <article class="hazard-card hazard-base">
+            <div class="hazard-preview" data-hazard-id="enemy_block" role="button" tabindex="0" aria-label="Xem mô hình 3D Vật Cản Khối Đỏ">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-base">Level 1</span>
+                <span class="damage-pill damage-medium">-10 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Vật Cản Khối Đỏ &amp; Năng Lượng</h3>
+              <p class="hazard-desc">
+                Khởi động hành trình né các khối thiên thạch đỏ xoay quanh đường bay (phủ đều cả tầng cao lẫn tầng thấp) và làm quen nhịp gom tinh thể nhiên liệu xanh ngọc để duy trì hành trình.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Giữ nhịp bay đều ở vùng giữa để dễ dàng đổi độ cao khi thấy cụm nhiên liệu.</div>
+            </div>
+          </article>
+
+          <!-- Lv 2 -->
+          <article class="hazard-card">
+            <div class="hazard-preview" data-hazard-id="hazard_bird" role="button" tabindex="0" aria-label="Xem mô hình 3D Đàn Chim Trời">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill">Level 2+</span>
+                <span class="damage-pill damage-medium">-12 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Đàn Chim Trời (Birds)</h3>
+              <p class="hazard-desc">
+                Đàn chim 3D vỗ cánh bay thẳng từ phải sang trái ngang tầm bay ở nhiều tầng độ cao khác nhau, dao động nhấp nhô nhẹ theo nhịp sóng không khí khiến đường bay thêm thử thách.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Quan sát độ cao xuất hiện ở mép phải để kịp thời nâng mũi hoặc hạ độ cao né qua.</div>
+            </div>
+          </article>
+
+          <!-- Lv 4 -->
+          <article class="hazard-card">
+            <div class="hazard-preview hazard-preview--storm" data-hazard-id="hazard_comet" role="button" tabindex="0" aria-label="Xem mô hình 3D Mưa Sao Chổi">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill">Level 4+</span>
+                <span class="damage-pill damage-medium">-15 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Mưa Sao Chổi (Comets)</h3>
+              <p class="hazard-desc">
+                Những khối thiên thạch rực lửa với vệt đuôi sáng rực lao chéo tốc độ cao từ tầng mây trên xuống thẳng mặt biển, cắt ngang tuyến bay chính theo quỹ đạo nghiêng cố định.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Theo dõi góc rơi chéo và lùi hoặc tiến ngang để lọt qua khoảng trống an toàn.</div>
+            </div>
+          </article>
+
+          <!-- Lv 6 -->
+          <article class="hazard-card hazard-weather">
+            <div class="hazard-preview hazard-preview--sky" data-hazard-id="hazard_weather" role="button" tabindex="0" aria-label="Xem mô hình 3D Thời Tiết Động">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-weather">Level 6+</span>
+                <span class="damage-pill damage-safe">Hiệu ứng khí quyển</span>
+              </div>
+              <h3 class="hazard-title">Thời Tiết Động 5 Trạng Thái</h3>
+              <p class="hazard-desc">
+                Sau mỗi <strong>350m</strong>, bầu trời tự động chuyển cảnh mượt mà qua 5 thái cực thời tiết sống động, thay đổi ánh sáng, sắc độ sương mù và hiệu ứng hạt rơi toàn màn hình:
+              </p>
+              <div class="weather-chips">
+                <span>☀️ Nắng vàng</span>
+                <span>🌇 Hoàng hôn</span>
+                <span>🌙 Màn đêm</span>
+                <span>🌧️ Mưa rào</span>
+                <span>❄️ Tuyết rơi</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Lv 8 -->
+          <article class="hazard-card">
+            <div class="hazard-preview hazard-preview--storm" data-hazard-id="hazard_lightning" role="button" tabindex="0" aria-label="Xem mô hình 3D Sấm Sét Giáng Trời">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-high">Level 8+</span>
+                <span class="damage-pill damage-high">-25 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Sấm Sét Giáng Trời (Lightning)</h3>
+              <p class="hazard-desc">
+                Một đường tia đỏ thẳng đứng sẽ nhấp nháy cảnh báo trong <strong>1,1 giây</strong> trước khi tia sét xanh chói lòa giáng thẳng từ tầng mây xuống biển kèm chớp sáng toàn khung hình.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Không thể né sét bằng cách lên/xuống — hãy lách ngang <strong>trái hoặc phải</strong> ngay khi thấy vạch đỏ!</div>
+            </div>
+          </article>
+
+          <!-- Lv 10 -->
+          <article class="hazard-card">
+            <div class="hazard-preview" data-hazard-id="hazard_spaceship" role="button" tabindex="0" aria-label="Xem mô hình 3D Tàu Vũ Trụ Phóng Lên">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-high">Level 10+</span>
+                <span class="damage-pill damage-high">-20 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Tàu Vũ Trụ Phóng Lên</h3>
+              <p class="hazard-desc">
+                Tàu vũ trụ dựng thẳng dưới mặt biển, rung lắc và đốt nóng động cơ phun lửa xanh trong <strong>2–5 giây</strong> rồi bất ngờ tăng tốc phóng vút thẳng đứng lên tầng không trung.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Để ý vị trí bệ phóng phía dưới và giữ khoảng cách ngang trước khi tên lửa rời bệ.</div>
+            </div>
+          </article>
+
+          <!-- Lv 12 -->
+          <article class="hazard-card">
+            <div class="hazard-preview" data-hazard-id="hazard_missile" role="button" tabindex="0" aria-label="Xem mô hình 3D Tên Lửa Khóa Mục Tiêu">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-extreme">Level 12+</span>
+                <span class="damage-pill damage-high">-25 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Tên Lửa Khóa Mục Tiêu</h3>
+              <p class="hazard-desc">
+                Vòng ngắm đỏ xuất hiện và khóa chặt tọa độ hiện tại của máy bay trong <strong>1,2 giây</strong>, sau đó tên lửa phóng từ dưới biển lao tới và phát nổ ngay tại điểm đã khóa.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Tọa độ bị khóa cố định — chỉ cần rời khỏi vòng ngắm đỏ trước lúc tên lửa bay tới!</div>
+            </div>
+          </article>
+
+          <!-- Lv 14 -->
+          <article class="hazard-card">
+            <div class="hazard-preview" data-hazard-id="hazard_rival_plane" role="button" tabindex="0" aria-label="Xem mô hình 3D Phi Cơ Đối Thủ">
+              <canvas class="hazard-thumb" width="520" height="325"></canvas>
+              <span class="landmark-3d-pill">3D • Xoay 360°</span>
+            </div>
+            <div class="hazard-card-body">
+              <div class="hazard-card-top">
+                <span class="level-pill level-extreme">Level 14+</span>
+                <span class="damage-pill damage-high">-25 Fuel</span>
+              </div>
+              <h3 class="hazard-title">Phi Cơ Đối Thủ (Rival Plane)</h3>
+              <p class="hazard-desc">
+                Thử thách đỉnh cao dành cho phi công lão luyện: chiếc phi cơ cánh quạt đỏ đối thủ lao ngược chiều tốc độ cao từ mép phải sang trái, đòi hỏi quan sát sớm và phản xạ tức thời.
+              </p>
+              <div class="hazard-tip"><strong>Mẹo:</strong> Luôn quan sát xa về phía mép phải màn hình để kịp chuyển làn độ cao.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 GAMEPLAY MODES -->
+    <section class="modes-section" id="modes" style="border-top: none;">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Đột Phá Lối Chơi</p>
+          <h2 class="section-title">3 Chế Độ Điều Khiển Độc Nhất</h2>
+          <p class="section-subtitle">Tùy biến phong cách lái phi cơ linh hoạt, thậm chí có thể chuyển đổi ngay trong lúc Tạm dừng (Pause).</p>
+        </div>
+
+        <div class="modes-grid">
+          <article class="mode-item-web">
+            <div class="mode-icon-web">
+              <img src="assets/icons/tilt.svg" alt="Tilt mode" width="28" height="28">
+            </div>
+            <h3 class="mode-title-web">Nghiêng Điện Thoại (Tilt)</h3>
+            <p class="mode-desc-web">
+              Mặc định trên điện thoại di động. Tận dụng cảm biến con quay hồi chuyển (Gyroscope / Motion) — lắc và nghiêng máy lên/xuống, trái/phải để né vật cản như lái phi cơ thật!
+            </p>
+          </article>
+
+          <article class="mode-item-web featured">
+            <span class="mode-badge-web">Hỗ Trợ Đa Thiết Bị</span>
+            <div class="mode-icon-web">
+              <img src="assets/icons/touch.svg" alt="Touch mode" width="28" height="28">
+            </div>
+            <h3 class="mode-title-web">Chạm / Chuột &amp; Phím WASD</h3>
+            <p class="mode-desc-web">
+              Vuốt màn hình cảm ứng, rê chuột mượt mà hoặc dùng phím <strong>WASD / Phím Mũi Tên</strong> trên máy tính (tự động chọn mặc định trên PC &amp; Google Play Games on PC).
+            </p>
+          </article>
+
+          <article class="mode-item-web">
+            <div class="mode-icon-web">
+              <img src="assets/icons/voice.svg" alt="Voice mode" width="28" height="28">
+            </div>
+            <h3 class="mode-title-web">Giọng Đọc (Flappy Alphabet)</h3>
+            <p class="mode-desc-web">
+              Chế độ độc quyền rèn luyện phát âm tiếng Anh: phi cơ rơi tự do &amp; bạn đọc đúng chữ cái A, B, C... (kèm phiên âm IPA và từ gợi ý) để máy bay vút lên!
+            </p>
+          </article>
+        </div>
+
+        <!-- Google AdSense Banner -->
+        <div class="ad-section-wrap">
+          <div class="ad-disclaimer">QUẢNG CÁO</div>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9027163152867616"
+               data-ad-slot="3635303540"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+
+        <!-- REUSABLE APP DOWNLOAD BANNER -->
+        <section class="app-download-banner">
+          <div class="banner-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Tải Game Miễn Phí • Bản 3.0
+          </div>
+          <h2 class="banner-title">Sẵn Sàng Chinh Phục 7 Tầng Thử Thách?</h2>
+          <p class="banner-subtitle">Tải miễn phí trên Google Play • Mở khóa trọn vẹn 7 tầng thử thách (+2 cấp độ Level 2–14), thời tiết động 5 trạng thái, các di tích lịch sử Việt Nam 3D và 3 chế độ lái!</p>
+
+          <div class="store-buttons banner-stores">
+            <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="store-btn google-play" data-store="Google Play" title="Tải Fly to The End trên Google Play">
+              <img src="assets/icons/google-play.svg" alt="Google Play Icon" class="store-icon" width="30" height="30">
+              <div class="store-text">
+                <span class="store-subtext">Tải trên</span>
+                <span class="store-name">Google Play</span>
+              </div>
+            </a>
+            <a style="display: none;" href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="store-btn apple-store" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+              <img src="assets/icons/apple-store.svg" alt="Apple App Store Icon" class="store-icon" width="30" height="30">
+              <div class="store-text">
+                <span class="store-subtext">Tải trên</span>
+                <span class="store-name">App Store</span>
+              </div>
+            </a>
+            <a style="display: none;" href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="store-btn microsoft-store" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+              <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store Icon" class="store-icon" width="30" height="30">
+              <div class="store-text">
+                <span class="store-subtext">Tải trên</span>
+                <span class="store-name">Microsoft Store</span>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="36" height="36">
+            <span class="logo-text">Fly <i>to</i> The End</span>
+          </a>
+          <p>Tựa game phiêu lưu máy bay 3D đưa bạn qua các di tích lịch sử Việt Nam với 7 tầng thử thách theo các cấp độ và 3 chế độ điều khiển độc đáo do T4VN phát triển.</p>
+          <div class="footer-stores">
+            <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-store-btn store-btn-track" data-store="Google Play" title="Tải Fly to The End trên Google Play (CH Play)">
+              <img src="assets/icons/google-play.svg" alt="Google Play" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải miễn phí trên</span>
+                <span class="footer-store-name">Google Play</span>
+              </span>
+            </a>
+            <a style="display: none;" href="https://apps.apple.com/app/fly-to-the-end/id23151486" target="_blank" rel="noopener noreferrer" class="footer-store-btn" data-store="Apple App Store" title="Tải Fly to The End trên Apple App Store">
+              <img src="assets/icons/apple-store.svg" alt="App Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải trên</span>
+                <span class="footer-store-name">App Store</span>
+              </span>
+            </a>
+            <a style="display: none;" href="https://apps.microsoft.com/detail/9nblggh5flyt" target="_blank" rel="noopener noreferrer" class="footer-store-btn" data-store="Microsoft Store" title="Tải Fly to The End trên Microsoft Store">
+              <img src="assets/icons/microsoft-store.svg" alt="Microsoft Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Tải trên</span>
+                <span class="footer-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Khám Phá</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Trang chủ</a></li>
+            <li><a href="rules.html" class="footer-link">Luật chơi &amp; Thử thách</a></li>
+            <li><a href="landmarks.html" class="footer-link">Di tích Việt Nam 3D</a></li>
+            <li><a href="demo.html" class="footer-link">Chơi thử trực tuyến</a></li>
+            <li><a href="download.html" class="footer-link">Tải Game miễn phí</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Pháp Lý &amp; Hỗ Trợ</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html" class="footer-link">Chính sách bảo mật</a></li>
+            <li><a href="terms.html" class="footer-link">Điều khoản dịch vụ</a></li>
+            <li><a href="index.html#faq" class="footer-link">Câu hỏi thường gặp (FAQ)</a></li>
+            <li><a href="https://t4vn.com/contact/" target="_blank" rel="noopener noreferrer" class="footer-link">Liên hệ hỗ trợ (T4VN)</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2026</span> T4VN (Fly to The End). Tất cả các quyền được bảo lưu.</p>
+        <p>Phát triển vì trải nghiệm giải trí an toàn, lành mạnh và giàu bản sắc văn hóa Việt.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE 360° 3D MODAL VIEWER -->
+  <div class="landmark-modal" id="landmarkModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="landmarkModalName">
+    <div class="landmark-modal-dialog">
+      <button class="landmark-modal-close" id="landmarkModalClose" aria-label="Đóng trình xem 3D">&times;</button>
+
+      <div class="landmark-modal-stage-wrap">
+        <div class="landmark-modal-stage" id="landmarkModalStage"></div>
+        <div class="landmark-modal-hint">Kéo chuột / vuốt để xoay 360° • Cuộn để phóng to</div>
+        <div class="landmark-modal-toolbar">
+          <button type="button" class="modal-tool-btn is-active" id="landmarkAutoRotate" aria-pressed="true" title="Tự động xoay">↻ Tự xoay</button>
+          <button type="button" class="modal-tool-btn" id="landmarkZoomOut" title="Thu nhỏ">−</button>
+          <button type="button" class="modal-tool-btn" id="landmarkZoomIn" title="Phóng to">+</button>
+        </div>
+      </div>
+
+      <div class="landmark-modal-info">
+        <div class="landmark-modal-meta">
+          <span class="landmark-num" id="landmarkModalNum">#01 / 8</span>
+          <span class="level-pill level-base" id="landmarkModalRegion">Level 1</span>
+        </div>
+        <h3 class="landmark-modal-title" id="landmarkModalName">Vật Cản Khối Đỏ &amp; Năng Lượng</h3>
+        <p class="landmark-modal-loc" id="landmarkModalLoc"></p>
+        <p class="landmark-modal-desc" id="landmarkModalDesc"></p>
+        <span class="landmark-tag" id="landmarkModalTag"></span>
+
+        <div class="landmark-modal-nav">
+          <button type="button" class="modal-nav-btn" id="landmarkModalPrev">‹ Thử thách trước</button>
+          <button type="button" class="modal-nav-btn" id="landmarkModalNext">Thử thách tiếp ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/hazards-models.js"></script>
+  <script src="js/landmarks-showcase.js"></script>
+</body>
+</html>
