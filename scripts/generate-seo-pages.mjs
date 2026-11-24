@@ -1,9 +1,9 @@
 /**
  * FLY TO THE END - Static SEO Page & Sitemap Generator
  * Generates:
- *   - 42 individual landmark detail pages: landmarks/<slug>.html
+ *   - 63 individual landmark detail pages: landmarks/<slug>.html
  *   - 4 regional hub pages: landmarks/mien-bac.html, mien-trung.html, tay-nguyen.html, mien-nam.html
- *   - Updated sitemap.xml with all 53 indexable URLs
+ *   - Updated sitemap.xml with all indexable URLs
  *
  * Usage: node scripts/generate-seo-pages.mjs
  */
@@ -12,6 +12,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LANDMARKS, REGIONS, SITE_URL, LAST_MOD } from './landmarks-data.mjs';
+
+const TOTAL_LANDMARKS = LANDMARKS.length;
+const COUNT_BY_REGION = {
+  north: LANDMARKS.filter((l) => l.region === 'north').length,
+  central: LANDMARKS.filter((l) => l.region === 'central').length,
+  highlands: LANDMARKS.filter((l) => l.region === 'highlands').length,
+  south: LANDMARKS.filter((l) => l.region === 'south').length,
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,7 +93,7 @@ function renderFooter() {
             <img src="../assets/images/icon-512.png" alt="Fly to The End Logo" class="logo-icon" width="36" height="36">
             <span class="logo-text">Fly <i>to</i> The End</span>
           </a>
-          <p>Tựa game phiêu lưu máy bay 3D đưa bạn qua 42 di tích lịch sử &amp; danh thắng Việt Nam với 7 tầng thử thách theo cấp độ và 3 chế độ điều khiển độc đáo do T4VN phát triển.</p>
+          <p>Tựa game phiêu lưu máy bay 3D đưa bạn qua ${TOTAL_LANDMARKS} di tích lịch sử &amp; danh thắng Việt Nam với 7 tầng thử thách theo cấp độ và 3 chế độ điều khiển độc đáo do T4VN phát triển.</p>
           <div class="footer-stores">
             <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-store-btn store-btn-track" data-store="Google Play" title="Tải Fly to The End trên Google Play (CH Play)">
               <img src="../assets/icons/google-play.svg" alt="Google Play" width="24" height="24">
@@ -102,7 +110,7 @@ function renderFooter() {
           <ul class="footer-links">
             <li><a href="../index.html" class="footer-link">Trang chủ</a></li>
             <li><a href="../rules.html" class="footer-link">Luật chơi &amp; Thử thách</a></li>
-            <li><a href="../landmarks.html" class="footer-link">42 Di tích Việt Nam 3D</a></li>
+            <li><a href="../landmarks.html" class="footer-link">${TOTAL_LANDMARKS} Di tích Việt Nam 3D</a></li>
             <li><a href="../play/" class="footer-link">Chơi ngay trên Web (/play)</a></li>
             <li><a href="../download.html" class="footer-link">Tải Game miễn phí</a></li>
           </ul>
@@ -111,10 +119,10 @@ function renderFooter() {
         <div class="footer-col">
           <h4 class="footer-title">Theo Vùng Miền</h4>
           <ul class="footer-links">
-            <li><a href="mien-bac.html" class="footer-link">Di tích Miền Bắc (14)</a></li>
-            <li><a href="mien-trung.html" class="footer-link">Di tích Miền Trung (13)</a></li>
-            <li><a href="tay-nguyen.html" class="footer-link">Danh thắng Tây Nguyên (4)</a></li>
-            <li><a href="mien-nam.html" class="footer-link">Miền Nam &amp; Biển Đảo (11)</a></li>
+            <li><a href="mien-bac.html" class="footer-link">Di tích Miền Bắc (${COUNT_BY_REGION.north})</a></li>
+            <li><a href="mien-trung.html" class="footer-link">Di tích Miền Trung (${COUNT_BY_REGION.central})</a></li>
+            <li><a href="tay-nguyen.html" class="footer-link">Danh thắng Tây Nguyên (${COUNT_BY_REGION.highlands})</a></li>
+            <li><a href="mien-nam.html" class="footer-link">Miền Nam &amp; Biển Đảo (${COUNT_BY_REGION.south})</a></li>
             <li><a href="../privacy.html" class="footer-link">Chính sách bảo mật</a></li>
           </ul>
         </div>
@@ -206,7 +214,7 @@ LANDMARKS.forEach((lm, index) => {
   const faqs = [
     {
       q: `${lm.name} nằm ở đâu tại Việt Nam?`,
-      a: `${lm.name} tọa lạc tại ${lm.location}, thuộc khu vực ${region.name} Việt Nam (tọa độ tham khảo ${lm.lat.toFixed(4)}°N, ${lm.lng.toFixed(4)}°E). Đây là chặng dừng chân thứ #${pad2(lm.order)}/42 trong hành trình xuyên Việt của game Fly to The End.`,
+      a: `${lm.name} tọa lạc tại ${lm.location}, thuộc khu vực ${region.name} Việt Nam (tọa độ tham khảo ${lm.lat.toFixed(4)}°N, ${lm.lng.toFixed(4)}°E). Đây là chặng dừng chân thứ #${pad2(lm.order)}/${TOTAL_LANDMARKS} trong hành trình xuyên Việt của game Fly to The End.`,
     },
     {
       q: `${lm.name} có điểm gì nổi bật về lịch sử và kiến trúc?`,
@@ -295,7 +303,7 @@ ${renderHeader()}
       <div class="container">
         <ol class="breadcrumb-list">
           <li><a href="../index.html">Trang chủ</a></li>
-          <li><a href="../landmarks.html">42 Di tích VN 3D</a></li>
+          <li><a href="../landmarks.html">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
           <li><a href="${region.slug}.html">${escHtml(region.name)}</a></li>
           <li class="is-current" aria-current="page">${escHtml(lm.name)}</li>
         </ol>
@@ -327,7 +335,7 @@ ${renderHeader()}
           <div class="landmark-info-card">
             <div>
               <div class="landmark-detail-meta">
-                <span class="landmark-num">#${pad2(lm.order)} / 42</span>
+                <span class="landmark-num">#${pad2(lm.order)} / ${TOTAL_LANDMARKS}</span>
                 <a href="${region.slug}.html" class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</a>
                 <span class="${tagClass}">${escHtml(lm.tag)}</span>
               </div>
@@ -364,7 +372,7 @@ ${renderHeader()}
                 <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
                 <span>Bay Ngắm Trực Tuyến</span>
               </a>
-              <a href="../landmarks.html" class="btn-secondary-outline">← Tất cả 42 Di tích</a>
+              <a href="../landmarks.html" class="btn-secondary-outline">← Tất cả ${TOTAL_LANDMARKS} Di tích</a>
             </div>
           </div>
         </div>
@@ -537,7 +545,7 @@ ${renderHeader()}
       <div class="container">
         <ol class="breadcrumb-list">
           <li><a href="../index.html">Trang chủ</a></li>
-          <li><a href="../landmarks.html">42 Di tích VN 3D</a></li>
+          <li><a href="../landmarks.html">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
           <li class="is-current" aria-current="page">${escHtml(region.name)}</li>
         </ol>
       </div>
@@ -556,23 +564,28 @@ ${renderHeader()}
             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
             <span>Bay Ngắm ${escHtml(region.name)} Ngay</span>
           </a>
-          <a href="../landmarks.html" class="btn-secondary-outline">Xem toàn bộ 42 Di tích Việt Nam →</a>
+          <a href="../rules.html" class="btn-secondary-outline">Xem Luật Chơi &amp; 7 Tầng Thử Thách →</a>
         </div>
       </div>
     </section>
 
     <section class="landmarks-section" style="padding-top: 1.5rem;">
       <div class="container">
-        <div class="region-hub-bar" aria-label="Chuyển nhanh giữa các vùng miền">
-          <a href="../landmarks.html" class="region-hub-pill">Tất cả (42)</a>
+        <nav class="region-tabs" aria-label="Chọn vùng miền di tích">
+          <a href="../landmarks.html" class="region-tab">
+            Tất Cả <span class="tab-count">${TOTAL_LANDMARKS}</span>
+          </a>
           ${Object.values(REGIONS)
             .map((r) => {
               const cnt = LANDMARKS.filter((l) => l.region === r.key).length;
-              const active = r.key === region.key ? ' is-active' : '';
-              return `<a href="${r.slug}.html" class="region-hub-pill${active}">${escHtml(r.name)} (${cnt})</a>`;
+              const active = r.key === region.key ? ' active' : '';
+              const ariaCurrent = r.key === region.key ? ' aria-current="page"' : '';
+              return `<a href="${r.slug}.html" class="region-tab${active}"${ariaCurrent}>
+            ${escHtml(r.name)} <span class="tab-count">${cnt}</span>
+          </a>`;
             })
             .join('\n          ')}
-        </div>
+        </nav>
 
         <div class="landmarks-grid">
           ${regionLandmarks
@@ -620,7 +633,7 @@ ${renderFooter()}
       </div>
       <div class="landmark-modal-info">
         <div class="landmark-modal-meta">
-          <span class="landmark-num" id="landmarkModalNum">#01 / 42</span>
+          <span class="landmark-num" id="landmarkModalNum">#01 / ${TOTAL_LANDMARKS}</span>
           <span class="landmark-region ${region.badgeClass}" id="landmarkModalRegion">${escHtml(regionShort)}</span>
         </div>
         <h3 class="landmark-modal-title" id="landmarkModalName"></h3>
@@ -708,7 +721,7 @@ landmarksHtml = landmarksHtml
     `<meta name="twitter:image" content="${SITE_URL}/assets/images/og-banner-1200x628.png">`
   );
 
-// 4b. Replace JSON-LD with full 42-item ItemList pointing to individual URLs
+// 4b. Replace JSON-LD with full 63-item ItemList pointing to individual URLs
 const hubJsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -716,9 +729,9 @@ const hubJsonLd = {
       '@type': 'CollectionPage',
       '@id': `${SITE_URL}/landmarks.html#webpage`,
       url: `${SITE_URL}/landmarks.html`,
-      name: 'Các Di Tích Lịch Sử & Danh Thắng Việt Nam 3D - Fly to The End',
+      name: `${TOTAL_LANDMARKS} Di Tích Lịch Sử & Danh Thắng Việt Nam 3D - Fly to The End`,
       description:
-        'Bộ sưu tập 42 mô hình 3D Low-poly các di tích lịch sử, di sản UNESCO và danh thắng Việt Nam xuyên suốt Bắc - Trung - Tây Nguyên - Nam & Biển Đảo trong Fly to The End.',
+        `Bộ sưu tập ${TOTAL_LANDMARKS} mô hình 3D Low-poly các di tích lịch sử, chiến tích cách mạng, di sản UNESCO và danh thắng Việt Nam xuyên suốt Bắc - Trung - Tây Nguyên - Nam & Biển Đảo trong Fly to The End.`,
       inLanguage: 'vi-VN',
       dateModified: LAST_MOD,
       isPartOf: { '@id': `${SITE_URL}/#website` },
@@ -727,13 +740,13 @@ const hubJsonLd = {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: 'Di tích Việt Nam 3D', item: `${SITE_URL}/landmarks.html` },
+        { '@type': 'ListItem', position: 2, name: `${TOTAL_LANDMARKS} Di tích Việt Nam 3D`, item: `${SITE_URL}/landmarks.html` },
       ],
     },
     {
       '@type': 'ItemList',
-      name: 'Hành trình 42 Di tích Lịch sử & Danh thắng Việt Nam 3D',
-      description: 'Danh sách 42 mô hình di tích lịch sử & danh thắng Việt Nam 3D có trang chi tiết xoay 360° riêng trong Fly to The End',
+      name: `Hành trình ${TOTAL_LANDMARKS} Di tích Lịch sử & Danh thắng Việt Nam 3D`,
+      description: `Danh sách ${TOTAL_LANDMARKS} mô hình di tích lịch sử, chiến tích & danh thắng Việt Nam 3D có trang chi tiết xoay 360° riêng trong Fly to The End`,
       numberOfItems: LANDMARKS.length,
       itemListElement: LANDMARKS.map((lm, i) => ({
         '@type': 'ListItem',
@@ -750,26 +763,28 @@ landmarksHtml = landmarksHtml.replace(
   `<script type="application/ld+json">\n${safeJsonLd(hubJsonLd)}\n  </script>`
 );
 
-// 4c. Inject crawlable regional hub links bar below .region-tabs (idempotent)
-const regionHubBarHtml = `        <!-- SEO Crawlable Regional Hub Links -->
-        <nav class="region-hub-bar" aria-label="Trang tổng hợp di tích theo vùng miền">
-          <a href="landmarks/mien-bac.html" class="region-hub-pill">Trang Miền Bắc (14) →</a>
-          <a href="landmarks/mien-trung.html" class="region-hub-pill">Trang Miền Trung (13) →</a>
-          <a href="landmarks/tay-nguyen.html" class="region-hub-pill">Trang Tây Nguyên (4) →</a>
-          <a href="landmarks/mien-nam.html" class="region-hub-pill">Trang Miền Nam &amp; Đảo (11) →</a>
+// 4c. Unify .region-tabs into a single crawlable navigation bar & remove any duplicate .region-hub-bar
+const unifiedRegionTabsHtml = `        <!-- Region Filter Tabs (Unified SEO Navigation) -->
+        <nav class="region-tabs" aria-label="Chọn vùng miền di tích">
+          <a href="landmarks.html" class="region-tab active" aria-current="page">
+            Tất Cả <span class="tab-count">${LANDMARKS.length}</span>
+          </a>
+          ${Object.values(REGIONS)
+            .map((r) => {
+              const cnt = LANDMARKS.filter((l) => l.region === r.key).length;
+              return `<a href="landmarks/${r.slug}.html" class="region-tab">
+            ${escHtml(r.name)} <span class="tab-count">${cnt}</span>
+          </a>`;
+            })
+            .join('\n          ')}
         </nav>`;
 
-if (landmarksHtml.includes('<!-- SEO Crawlable Regional Hub Links -->')) {
-  landmarksHtml = landmarksHtml.replace(
-    /<!-- SEO Crawlable Regional Hub Links -->[\s\S]*?<\/nav>/,
-    regionHubBarHtml.trim()
+landmarksHtml = landmarksHtml
+  .replace(/\s*<!-- SEO Crawlable Regional Hub Links -->[\s\S]*?<\/nav>\s*/g, '\n\n        ')
+  .replace(
+    /<!-- Region Filter Tabs[\s\S]*?(<\/div>|<\/nav>)/,
+    unifiedRegionTabsHtml.trim()
   );
-} else {
-  landmarksHtml = landmarksHtml.replace(
-    /(<!-- 42 Landmarks Grid -->)/,
-    `${regionHubBarHtml}\n\n        $1`
-  );
-}
 
 // 4d. Rebuild all 42 landmark cards inside #landmarksGrid with direct crawlable links
 const cardsHtml = LANDMARKS.map((lm) => {

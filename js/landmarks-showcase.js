@@ -1,5 +1,5 @@
 /**
- * FLY TO THE END - Unified 3D Models Showcase (42 Landmarks + 8 Hazards)
+ * FLY TO THE END - Unified 3D Models Showcase (63 Landmarks + 8 Hazards)
  * Renders all real in-game 3D Low-poly models directly on homepage cards
  * using a single shared offscreen WebGLRenderer (zero WebGL context overflow),
  * live animated 3D hover preview, and an interactive 360-degree 3D Modal Viewer.

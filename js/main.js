@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Region Filter Tabs for Vietnamese Landmarks (with automatic count calculation)
-  const regionTabs = document.querySelectorAll('.region-tab');
+  // Region Filter Tabs for Vietnamese Landmarks (only for button-based tabs; <a> tabs navigate to dedicated SEO region pages)
+  const regionTabs = document.querySelectorAll('button.region-tab');
   const landmarkCards = document.querySelectorAll('#landmarksGrid .landmark-card');
   if (regionTabs.length > 0 && landmarkCards.length > 0) {
     // Auto-update tab counts from actual DOM cards for future landmark additions
