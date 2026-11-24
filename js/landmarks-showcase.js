@@ -63,14 +63,8 @@
     scene.add(rim);
   }
 
-  function prepareModel(kind, id, catalog) {
-    const cacheKey = kind + ':' + id;
-    if (modelCache[cacheKey]) return modelCache[cacheKey];
-    if (!catalog) return null;
-
-    const mesh = catalog.buildById(id);
+  function wrapMeshEntry(kind, id, catalog, mesh) {
     if (!mesh) return null;
-
     const fire = mesh.getObjectByName('anim_dragon_fire');
     if (fire) {
       fire.visible = true;
@@ -95,8 +89,21 @@
       mesh: mesh,
       size: size,
     };
-    modelCache[cacheKey] = entry;
+    modelCache[kind + ':' + id] = entry;
     return entry;
+  }
+
+  function prepareModelAsync(kind, id, catalog) {
+    const cacheKey = kind + ':' + id;
+    if (modelCache[cacheKey]) return Promise.resolve(modelCache[cacheKey]);
+    if (!catalog) return Promise.resolve(null);
+
+    if (typeof catalog.loadById === 'function') {
+      return catalog.loadById(id).then(function (mesh) {
+        return modelCache[cacheKey] || wrapMeshEntry(kind, id, catalog, mesh);
+      });
+    }
+    return Promise.resolve(wrapMeshEntry(kind, id, catalog, catalog.buildById(id)));
   }
 
   function computeCameraDistance(size, fovDeg, aspect, paddingFactor) {
@@ -142,63 +149,70 @@
   function renderThumbnail(previewEl) {
     const meta = getBoxMeta(previewEl);
     const targetCanvas = previewEl.querySelector('canvas.landmark-thumb, canvas.hazard-thumb');
-    if (!meta.id || !meta.catalog || !targetCanvas || previewEl.dataset.rendered === '1') return;
-    if (!initThumbRenderer()) return;
-
-    const entry = prepareModel(meta.kind, meta.id, meta.catalog);
-    if (!entry) return;
-
-    if (entry.pivot.parent) {
-      entry.pivot.parent.remove(entry.pivot);
+    if (!meta.id || !meta.catalog || !targetCanvas || previewEl.dataset.rendered === '1') {
+      return Promise.resolve();
     }
+    if (!initThumbRenderer()) return Promise.resolve();
 
-    const angles = getDefaultAngles(meta.kind, meta.id);
-    entry.pivot.rotation.set(angles.x, angles.y, 0);
+    return prepareModelAsync(meta.kind, meta.id, meta.catalog).then(function (entry) {
+      if (!entry || previewEl.dataset.rendered === '1') return;
 
-    const fire = entry.mesh.getObjectByName('anim_dragon_fire');
-    if (fire) {
-      fire.visible = true;
-      fire.scale.set(1.08, 0.98, 0.98);
-    }
+      if (entry.pivot.parent) {
+        entry.pivot.parent.remove(entry.pivot);
+      }
 
-    thumbScene.add(entry.pivot);
+      const angles = getDefaultAngles(meta.kind, meta.id);
+      entry.pivot.rotation.set(angles.x, angles.y, 0);
 
-    const pad = (meta.id === 'hazard_bird' || meta.id === 'hazard_rival_plane')
-      ? 1.48
-      : (meta.kind === 'hazard' ? 1.32 : 1.34);
-    const camDist = computeCameraDistance(entry.size, 38, THUMB_W / THUMB_H, pad);
-    thumbCamera.position.set(0, camDist * 0.25, camDist);
-    thumbCamera.lookAt(0, 0, 0);
-    thumbCamera.updateProjectionMatrix();
+      const fire = entry.mesh.getObjectByName('anim_dragon_fire');
+      if (fire) {
+        fire.visible = true;
+        fire.scale.set(1.08, 0.98, 0.98);
+      }
 
-    thumbRenderer.render(thumbScene, thumbCamera);
-    thumbScene.remove(entry.pivot);
+      thumbScene.add(entry.pivot);
 
-    targetCanvas.width = THUMB_W;
-    targetCanvas.height = THUMB_H;
-    const ctx = targetCanvas.getContext('2d');
-    if (ctx) {
-      ctx.clearRect(0, 0, THUMB_W, THUMB_H);
-      ctx.drawImage(thumbRenderer.domElement, 0, 0, THUMB_W, THUMB_H);
-    }
-    previewEl.dataset.rendered = '1';
-    previewEl.classList.add('is-ready');
+      const pad = (meta.id === 'hazard_bird' || meta.id === 'hazard_rival_plane')
+        ? 1.48
+        : (meta.kind === 'hazard' ? 1.32 : 1.34);
+      const camDist = computeCameraDistance(entry.size, 38, THUMB_W / THUMB_H, pad);
+      thumbCamera.position.set(0, camDist * 0.25, camDist);
+      thumbCamera.lookAt(0, 0, 0);
+      thumbCamera.updateProjectionMatrix();
+
+      thumbRenderer.render(thumbScene, thumbCamera);
+      thumbScene.remove(entry.pivot);
+
+      targetCanvas.width = THUMB_W;
+      targetCanvas.height = THUMB_H;
+      const ctx = targetCanvas.getContext('2d');
+      if (ctx) {
+        ctx.clearRect(0, 0, THUMB_W, THUMB_H);
+        ctx.drawImage(thumbRenderer.domElement, 0, 0, THUMB_W, THUMB_H);
+      }
+      previewEl.dataset.rendered = '1';
+      previewEl.classList.add('is-ready');
+    });
   }
 
-  // Render thumbnails in smooth non-blocking batches (hazards first since #rules is above #landmarks!)
+  // Render thumbnails in smooth non-blocking batches (up to 6 concurrent CDN fetches)
   const renderQueue = allPreviewBoxes.slice();
-  function processRenderQueue() {
-    let count = 0;
-    while (renderQueue.length > 0 && count < 3) {
+  const MAX_CONCURRENT_THUMBS = 6;
+  let activeThumbs = 0;
+
+  function pumpRenderQueue() {
+    while (activeThumbs < MAX_CONCURRENT_THUMBS && renderQueue.length > 0) {
       const box = renderQueue.shift();
-      renderThumbnail(box);
-      count++;
-    }
-    if (renderQueue.length > 0) {
-      requestAnimationFrame(processRenderQueue);
+      activeThumbs++;
+      renderThumbnail(box).finally(function () {
+        activeThumbs--;
+        if (renderQueue.length > 0) {
+          requestAnimationFrame(pumpRenderQueue);
+        }
+      });
     }
   }
-  requestAnimationFrame(processRenderQueue);
+  requestAnimationFrame(pumpRenderQueue);
 
   // =========================================================================
   // 2. SINGLE SHARED LIVE 3D RENDERER (used for card hover spin & 360° modal)
@@ -248,43 +262,48 @@
     liveCamera.updateProjectionMatrix();
   }
 
+  let mountRequestToken = 0;
+
   function mountLiveModel(kind, id, catalog, hostEl, mode) {
     if (!ensureLiveRenderer()) return;
-    const entry = prepareModel(kind, id, catalog);
-    if (!entry) return;
+    const token = ++mountRequestToken;
+    prepareModelAsync(kind, id, catalog).then(function (entry) {
+      if (token !== mountRequestToken || !entry) return;
 
-    if (liveEntry && liveEntry.pivot.parent === liveScene) {
-      liveScene.remove(liveEntry.pivot);
-    }
-    if (entry.pivot.parent) {
-      entry.pivot.parent.remove(entry.pivot);
-    }
+      if (liveEntry && liveEntry.pivot.parent === liveScene) {
+        liveScene.remove(liveEntry.pivot);
+      }
+      if (entry.pivot.parent) {
+        entry.pivot.parent.remove(entry.pivot);
+      }
 
-    liveEntry = entry;
-    liveMode = mode;
-    liveHost = hostEl;
+      liveEntry = entry;
+      liveMode = mode;
+      liveHost = hostEl;
 
-    if (liveRenderer.domElement.parentNode !== hostEl) {
-      hostEl.appendChild(liveRenderer.domElement);
-    }
+      if (liveRenderer.domElement.parentNode !== hostEl) {
+        hostEl.appendChild(liveRenderer.domElement);
+      }
 
-    liveScene.add(entry.pivot);
-    resizeLiveRenderer();
+      liveScene.add(entry.pivot);
+      resizeLiveRenderer();
 
-    const angles = getDefaultAngles(kind, id);
-    rotY = angles.y;
-    rotX = mode === 'modal' ? Math.max(0.12, angles.x) : angles.x;
-    targetRotY = rotY;
-    targetRotX = rotX;
-    zoomFactor = 1.0;
-    targetZoom = 1.0;
-    autoRotate = true;
-    updateAutoRotateBtn();
+      const angles = getDefaultAngles(kind, id);
+      rotY = angles.y;
+      rotX = mode === 'modal' ? Math.max(0.12, angles.x) : angles.x;
+      targetRotY = rotY;
+      targetRotX = rotX;
+      zoomFactor = 1.0;
+      targetZoom = 1.0;
+      autoRotate = true;
+      updateAutoRotateBtn();
 
-    startLiveLoop();
+      startLiveLoop();
+    });
   }
 
   function unmountLiveModel() {
+    mountRequestToken++;
     if (rafId) {
       cancelAnimationFrame(rafId);
       rafId = 0;

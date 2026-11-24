@@ -12,7 +12,8 @@
   if (!landmarkId) return;
 
   const catalog = window.VietnamLandmarksCatalog;
-  const mesh = catalog.buildById(landmarkId);
+
+  function initDetailViewer(mesh) {
   if (!mesh) return;
 
   const fire = mesh.getObjectByName('anim_dragon_fire');
@@ -200,4 +201,13 @@
   }
 
   requestAnimationFrame(tick);
+  }
+
+  if (typeof catalog.loadById === 'function') {
+    catalog.loadById(landmarkId).then(function (mesh) {
+      if (mesh) initDetailViewer(mesh);
+    });
+  } else {
+    initDetailViewer(catalog.buildById(landmarkId));
+  }
 })();
