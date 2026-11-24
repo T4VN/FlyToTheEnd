@@ -125,7 +125,7 @@ function renderFooter() {
             <li><a href="../index.html" class="footer-link">Trang chủ</a></li>
             <li><a href="../rules.html" class="footer-link">Luật chơi &amp; Thử thách</a></li>
             <li><a href="../landmarks.html" class="footer-link">${TOTAL_LANDMARKS} Di tích Việt Nam 3D</a></li>
-            <li><a href="../play/" class="footer-link">Chơi ngay trên Web (/play)</a></li>
+            <li><a href="../play/" class="footer-link">Chơi ngay</a></li>
             <li><a href="../download.html" class="footer-link">Tải Game miễn phí</a></li>
           </ul>
         </div>
@@ -236,7 +236,7 @@ LANDMARKS.forEach((lm, index) => {
     },
     {
       q: `Làm sao để ngắm và bay qua ${lm.name} trong Fly to The End?`,
-      a: `Bạn có thể xoay 360° trực tiếp mô hình 3D Low-poly của ${lm.name} ngay trên trang này, hoặc nhấn "Bay Ngắm Trực Tuyến" để lái phi cơ 3D miễn phí trên trình duyệt (/play) hoặc tải bản Android trên Google Play.`,
+      a: `Bạn có thể xoay 360° trực tiếp mô hình 3D Low-poly của ${lm.name} ngay trên trang này, hoặc nhấn "Bay Ngắm Trực Tuyến" để lái phi cơ 3D miễn phí trên trình duyệt hoặc tải bản Android trên Google Play.`,
     },
   ];
 
