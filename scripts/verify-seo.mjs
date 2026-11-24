@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const root = path.resolve(__dirname, '..');
+const targetArg = process.argv[2];
+const root = targetArg ? path.resolve(__dirname, '..', targetArg) : path.resolve(__dirname, '..');
+console.log('Verifying SEO in:', root);
 
 // 1. Validate sitemap.xml
 const sm = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
