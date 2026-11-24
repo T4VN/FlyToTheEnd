@@ -102,6 +102,20 @@ function renderFooter() {
                 <span class="footer-store-name">Google Play</span>
               </span>
             </a>
+            <span class="footer-store-btn footer-store-btn--coming-soon" aria-disabled="true" title="Apple App Store — Coming Soon">
+              <img src="../assets/icons/apple-store.svg" alt="App Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Coming Soon</span>
+                <span class="footer-store-name">App Store</span>
+              </span>
+            </span>
+            <span class="footer-store-btn footer-store-btn--coming-soon" aria-disabled="true" title="Microsoft Store — Coming Soon">
+              <img src="../assets/icons/microsoft-store.svg" alt="Microsoft Store" width="24" height="24">
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Coming Soon</span>
+                <span class="footer-store-name">Microsoft Store</span>
+              </span>
+            </span>
           </div>
         </div>
 

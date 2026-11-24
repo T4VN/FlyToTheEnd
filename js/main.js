@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Track Store Link Clicks
-  const storeButtons = document.querySelectorAll('.store-btn, .footer-store-btn');
+  const storeButtons = document.querySelectorAll('.store-btn:not(.store-btn--coming-soon), .footer-store-btn:not(.footer-store-btn--coming-soon)');
   storeButtons.forEach(btn => {
     btn.addEventListener('click', function (e) {
       const storeName = this.dataset.store || 'store';

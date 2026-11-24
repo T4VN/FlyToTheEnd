@@ -422,6 +422,36 @@ img, svg {
   line-height: 1.2;
 }
 
+.store-btn.store-btn--coming-soon {
+  background: rgba(255, 255, 255, 0.72);
+  border-style: dashed;
+  border-color: rgba(139, 102, 70, 0.35);
+  box-shadow: none;
+  cursor: default;
+  user-select: none;
+}
+
+.store-btn.store-btn--coming-soon:hover {
+  transform: none;
+  border-color: rgba(139, 102, 70, 0.35);
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.store-btn.store-btn--coming-soon .store-icon {
+  opacity: 0.65;
+  filter: grayscale(35%);
+}
+
+.store-btn.store-btn--coming-soon .store-subtext {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.store-btn.store-btn--coming-soon .store-name {
+  color: var(--text-muted);
+}
+
 .hero-stats {
   display: flex;
   justify-content: center;
@@ -1238,6 +1268,36 @@ img, svg {
   border-color: #4285F4;
   box-shadow: 0 8px 20px rgba(66, 133, 244, 0.18);
   background: #fffdf9;
+}
+
+.footer-store-btn.footer-store-btn--coming-soon {
+  background: rgba(255, 255, 255, 0.68);
+  border-style: dashed;
+  border-color: rgba(139, 102, 70, 0.32);
+  box-shadow: none;
+  cursor: default;
+  user-select: none;
+}
+
+.footer-store-btn.footer-store-btn--coming-soon:hover {
+  transform: none;
+  border-color: rgba(139, 102, 70, 0.32);
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.footer-store-btn.footer-store-btn--coming-soon img {
+  opacity: 0.65;
+  filter: grayscale(35%);
+}
+
+.footer-store-btn.footer-store-btn--coming-soon .footer-store-sub {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.footer-store-btn.footer-store-btn--coming-soon .footer-store-name {
+  color: var(--text-muted);
 }
 
 .footer-store-btn img {
@@ -4017,5 +4077,354 @@ body.modal-open {
   .landmark-fact-row {
     grid-template-columns: 1fr;
     gap: 0.15rem;
+  }
+}
+
+/* ========================================================
+   MOBILE UX & RESPONSIVE POLISH (<= 768px & <= 480px)
+   ======================================================== */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Header & mobile menu touch targets */
+  .nav-links {
+    padding: 1rem 1.15rem 1.25rem;
+    max-height: calc(100vh - 4.2rem);
+    overflow-y: auto;
+  }
+
+  .nav-link {
+    padding: 0.72rem 0.9rem;
+    font-size: 1rem;
+  }
+
+  /* Hero compactness & typography */
+  .hero {
+    padding: 1.5rem 0 1.75rem;
+  }
+
+  .hero-game-badge {
+    padding: 0.55rem 1rem;
+    gap: 0.75rem;
+    margin-bottom: 0.95rem;
+  }
+
+  .hero-icon-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .hero-game-title {
+    font-size: 1.15rem;
+  }
+
+  .badge-tag {
+    font-size: 0.72rem;
+    padding: 0.34rem 0.85rem;
+    line-height: 1.35;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 0.95rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 7.2vw, 2.35rem);
+    line-height: 1.18;
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-desc {
+    font-size: 0.93rem;
+    line-height: 1.58;
+    margin-bottom: 1.35rem;
+  }
+
+  .hero-demo-action {
+    margin-bottom: 1.15rem;
+  }
+
+  /* Store buttons: Google Play full-width on top, Apple & Microsoft side-by-side */
+  .store-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .store-btn,
+  .store-btn--lg {
+    width: 100%;
+    min-width: 0;
+    padding: 0.68rem 0.85rem;
+    gap: 0.6rem;
+    border-radius: 16px;
+    justify-content: center;
+  }
+
+  .store-btn.google-play {
+    grid-column: 1 / -1;
+    padding: 0.78rem 1.1rem;
+    gap: 0.85rem;
+  }
+
+  .store-btn .store-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .store-btn.google-play .store-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .store-btn .store-subtext {
+    font-size: 0.64rem;
+  }
+
+  .store-btn .store-name {
+    font-size: 0.88rem;
+  }
+
+  .store-btn.google-play .store-name {
+    font-size: 1rem;
+  }
+
+  /* Hero stats: compact 2x2 grid instead of tall 4-row stack */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 0.75rem;
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  /* Multiplayer P2P Showcase */
+  .mp-section {
+    padding: 2.25rem 0 1.25rem;
+  }
+
+  .mp-showcase-card {
+    padding: 1.5rem 1.1rem;
+    border-radius: 20px;
+  }
+
+  .mp-header {
+    margin-bottom: 1.4rem;
+  }
+
+  .mp-header .section-title {
+    font-size: 1.55rem;
+    line-height: 1.22;
+  }
+
+  .mp-header .section-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .mp-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .mp-card {
+    padding: 1.1rem 1rem;
+    border-radius: 16px;
+  }
+
+  .mp-card-title {
+    font-size: 1.02rem;
+  }
+
+  .mp-card-desc {
+    font-size: 0.87rem;
+  }
+
+  .mp-cta-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mp-cta-bar .btn-hero-demo,
+  .mp-cta-bar .btn-secondary-outline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Summary Hub & Sections vertical rhythm */
+  .hub-section,
+  .features-section,
+  .faq-section,
+  .demo-teaser-section {
+    padding: 2.4rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    line-height: 1.22;
+  }
+
+  .section-subtitle {
+    font-size: 0.93rem;
+  }
+
+  .hub-card {
+    padding: 1.35rem 1.15rem;
+    border-radius: 18px;
+  }
+
+  .hub-card-title {
+    font-size: 1.2rem;
+  }
+
+  /* Play Online Teaser & 9:16 Trailer Card */
+  .demo-teaser-card {
+    padding: 1.5rem 1.15rem;
+    gap: 1.75rem;
+    border-radius: 20px;
+  }
+
+  .teaser-title {
+    font-size: 1.5rem;
+    line-height: 1.24;
+  }
+
+  .teaser-desc {
+    font-size: 0.92rem;
+  }
+
+  .teaser-features {
+    gap: 0.45rem;
+  }
+
+  .teaser-features span {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .teaser-cta-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .teaser-cta-group .btn-hero-demo,
+  .teaser-cta-group .btn-secondary-outline {
+    width: 100% !important;
+    justify-content: center;
+  }
+
+  .phone-trailer-card,
+  .download-trailer-showcase .phone-trailer-card {
+    width: min(290px, 100%);
+    border-radius: 26px;
+  }
+
+  /* FAQ */
+  .faq-question {
+    font-size: 0.96rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .faq-answer p {
+    font-size: 0.9rem;
+    padding: 0 1.1rem 1rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .footer-grid {
+    gap: 1.75rem;
+  }
+
+  .footer-stores {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .footer-store-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 0.7rem;
+    gap: 0.5rem;
+  }
+
+  .footer-store-btn:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-store-name {
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-hero-demo {
+    padding: 0.9rem 1.15rem;
+    font-size: 0.98rem;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-hero-demo .play-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .btn-hero-demo .btn-badge {
+    font-size: 0.68rem;
+    padding: 0.22rem 0.6rem;
+  }
+
+  .btn-secondary-outline {
+    padding: 0.82rem 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .store-buttons {
+    gap: 0.55rem;
+  }
+
+  .store-btn {
+    padding: 0.6rem 0.65rem;
+    gap: 0.45rem;
+  }
+
+  .store-btn .store-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .store-buttons,
+  .footer-stores {
+    grid-template-columns: 1fr;
   }
 }
