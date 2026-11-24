@@ -3527,3 +3527,495 @@ body.modal-open {
   gap: 1rem;
   padding-top: 0.5rem;
 }
+
+
+/* ========================================================
+   LANDMARK DETAIL PAGES & REGIONAL SEO HUBS
+   ======================================================== */
+.breadcrumb-bar {
+  padding: 1.1rem 0 0.25rem;
+}
+
+.breadcrumb-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.breadcrumb-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.breadcrumb-list li + li::before {
+  content: '›';
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.breadcrumb-list a {
+  color: var(--brown-text);
+  font-weight: 600;
+}
+
+.breadcrumb-list a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.breadcrumb-list .is-current {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* Detail Hero Grid */
+.landmark-detail-hero {
+  padding: 1.25rem 0 2.5rem;
+}
+
+.landmark-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.landmark-stage-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  background: radial-gradient(circle at 50% 35%, #fffdf7 0%, #f5e6cc 65%, #ebd2ab 100%);
+  border: 1.5px solid var(--border-card);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.landmark-detail-stage {
+  flex: 1;
+  width: 100%;
+  min-height: 360px;
+  cursor: grab;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landmark-detail-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.landmark-detail-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.landmark-stage-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.38rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: rgba(35, 25, 15, 0.78);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.landmark-stage-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.84);
+  border-top: 1px solid var(--border-card);
+}
+
+.landmark-stage-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.landmark-stage-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.landmark-info-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--border-card);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.landmark-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.landmark-detail-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.landmark-detail-loc {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown-text);
+  margin-bottom: 0.85rem;
+}
+
+.landmark-detail-lead {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.landmark-facts-list {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--card-box-bg);
+  border: 1px solid var(--border-card);
+}
+
+.landmark-fact-row {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.landmark-fact-label {
+  font-weight: 700;
+  color: var(--brown-label);
+}
+
+.landmark-fact-value {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.landmark-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Rich Content Sections */
+.landmark-article-section {
+  padding: 0 0 2.75rem;
+}
+
+.landmark-article-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.landmark-content-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-card);
+  padding: 1.65rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.landmark-content-box h2 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 0.85rem;
+}
+
+.landmark-content-box p {
+  font-size: 0.96rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.landmark-highlights-box {
+  background: linear-gradient(135deg, #fffdf9 0%, #fdf4e3 100%);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-card);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.landmark-highlights-box h2 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 0.85rem;
+}
+
+.landmark-highlights-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.85rem;
+}
+
+.landmark-highlights-list li {
+  background: #ffffff;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  font-weight: 600;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.landmark-highlights-list li::before {
+  content: '✦';
+  color: var(--primary);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+/* Prev / Next Journey Nav */
+.landmark-journey-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0 2.5rem;
+}
+
+.journey-nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.15rem 1.35rem;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.journey-nav-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.journey-nav-card.is-next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.journey-nav-dir {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+}
+
+.journey-nav-title {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.journey-nav-sub {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* Related Landmarks & Card Footer Link */
+.related-landmarks-section {
+  margin-top: 2rem;
+}
+
+.related-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.related-section-head h2 {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.related-all-link {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.related-all-link:hover {
+  text-decoration: underline;
+}
+
+.related-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.related-mini-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.related-mini-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.related-mini-num {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--brown-label);
+}
+
+.related-mini-name {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.related-mini-loc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* Landmark Card SEO Link Enhancements */
+.landmark-name-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.landmark-name-link:hover {
+  color: var(--primary);
+}
+
+.landmark-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--border-card);
+}
+
+.landmark-detail-link {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.landmark-detail-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Region Hub Directory Links */
+.region-hub-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin: 0 0 1.75rem;
+}
+
+.region-hub-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1.5px solid var(--border-card);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--brown-text);
+}
+
+.region-hub-pill:hover,
+.region-hub-pill.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+@media (max-width: 920px) {
+  .landmark-detail-grid,
+  .landmark-article-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landmark-stage-card {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 640px) {
+  .landmark-journey-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-nav-card.is-next {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .landmark-fact-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
