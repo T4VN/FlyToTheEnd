@@ -95,6 +95,19 @@ function renderFooter() {
           </a>
           <p>Tựa game phiêu lưu máy bay 3D đưa bạn qua ${TOTAL_LANDMARKS} di tích lịch sử &amp; danh thắng Việt Nam với 7 tầng thử thách theo cấp độ và 3 chế độ điều khiển độc đáo do T4VN phát triển.</p>
           <div class="footer-stores">
+            <a href="../play/" class="footer-store-btn store-btn-track" data-store="Web Browser" title="Chơi Fly to The End trực tiếp trên trình duyệt Web">
+              <svg viewBox="0 0 34 34" width="24" height="24" fill="none" aria-hidden="true" style="flex-shrink:0;">
+                <circle cx="17" cy="17" r="14" fill="#FFF0ED" stroke="#F25346" stroke-width="2"/>
+                <ellipse cx="17" cy="17" rx="6.5" ry="14" stroke="#F25346" stroke-width="1.8"/>
+                <path d="M3.5 17H30.5" stroke="#F25346" stroke-width="1.8"/>
+                <path d="M6.2 10.5C9.5 11.8 13.1 12.4 17 12.4C20.9 12.4 24.5 11.8 27.8 10.5" stroke="#F25346" stroke-width="1.5"/>
+                <path d="M6.2 23.5C9.5 22.2 13.1 21.6 17 21.6C20.9 21.6 24.5 22.2 27.8 23.5" stroke="#F25346" stroke-width="1.5"/>
+              </svg>
+              <span class="footer-store-text">
+                <span class="footer-store-sub">Chơi ngay trên</span>
+                <span class="footer-store-name">Trình duyệt Web</span>
+              </span>
+            </a>
             <a href="https://play.google.com/store/apps/details?id=com.t4vn.flytotheend" target="_blank" rel="noopener noreferrer" class="footer-store-btn store-btn-track" data-store="Google Play" title="Tải Fly to The End trên Google Play (CH Play)">
               <img src="../assets/icons/google-play.svg" alt="Google Play" width="24" height="24">
               <span class="footer-store-text">
