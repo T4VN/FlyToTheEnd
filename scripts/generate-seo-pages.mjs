@@ -135,7 +135,6 @@ function renderFooter() {
         <div class="footer-col">
           <h4 class="footer-title">Khám Phá</h4>
           <ul class="footer-links">
-            <li><a href="../index.html" class="footer-link">Trang chủ</a></li>
             <li><a href="../rules.html" class="footer-link">Luật chơi &amp; Thử thách</a></li>
             <li><a href="../landmarks.html" class="footer-link">${TOTAL_LANDMARKS} Di tích Việt Nam 3D</a></li>
             <li><a href="../play/" class="footer-link">Chơi ngay</a></li>
