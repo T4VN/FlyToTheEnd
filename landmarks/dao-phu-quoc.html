@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://cdn.flytotheend.t4vn.com; connect-src 'self' https://cdn.flytotheend.t4vn.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Đảo Ngọc Phú Quốc (Kiên Giang) - Mô Hình 3D &amp; Lịch Sử | Fly to The End</title>
   <meta name="title" content="Đảo Ngọc Phú Quốc (Kiên Giang) - Mô Hình 3D &amp; Lịch Sử | Fly to The End">
@@ -188,7 +190,7 @@
               <noscript><p style="padding:2rem;text-align:center;">Bật JavaScript để xoay 360° mô hình 3D Đảo Ngọc Phú Quốc.</p></noscript>
             </div>
             <div class="landmark-stage-toolbar">
-              <span class="landmark-stage-hint">Kéo chuột / vuốt để xoay 360° • Cuộn để phóng to</span>
+              <span class="landmark-stage-hint">Kéo chuột / vuốt để xoay 360° • Ctrl + Cuộn hoặc +/− để phóng to</span>
               <div class="landmark-stage-btns">
                 <button type="button" class="modal-tool-btn is-active" id="detailAutoRotate" aria-pressed="true" title="Tự động xoay">↻ Tự xoay</button>
                 <button type="button" class="modal-tool-btn" id="detailZoomOut" title="Thu nhỏ">−</button>
@@ -275,7 +277,7 @@
           <h2 class="section-title" style="font-size: 1.55rem; text-align: left; margin-bottom: 1rem;">Câu hỏi thường gặp về Đảo Ngọc Phú Quốc</h2>
           <div class="faq-list">
             <div class="faq-item active">
-              <button class="faq-question" type="button">
+              <button class="faq-question" type="button" aria-expanded="true">
                 <span>Đảo Ngọc Phú Quốc nằm ở đâu tại Việt Nam?</span>
                 <span class="faq-icon">+</span>
               </button>
@@ -284,7 +286,7 @@
               </div>
             </div>
             <div class="faq-item">
-              <button class="faq-question" type="button">
+              <button class="faq-question" type="button" aria-expanded="false">
                 <span>Đảo Ngọc Phú Quốc có điểm gì nổi bật về lịch sử và kiến trúc?</span>
                 <span class="faq-icon">+</span>
               </button>
@@ -293,7 +295,7 @@
               </div>
             </div>
             <div class="faq-item">
-              <button class="faq-question" type="button">
+              <button class="faq-question" type="button" aria-expanded="false">
                 <span>Làm sao để ngắm và bay qua Đảo Ngọc Phú Quốc trong Fly to The End?</span>
                 <span class="faq-icon">+</span>
               </button>
@@ -388,9 +390,9 @@
   <!-- @include partials/footer-landmarks.html -->
 
   <!-- Scripts -->
-  <script src="../js/three.min.js"></script>
-  <script src="../js/main.js"></script>
-  <script src="../js/landmarks-demo.js"></script>
-  <script src="../js/landmark-detail-3d.js"></script>
+  <script src="../js/three.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/landmarks-demo.js" defer></script>
+  <script src="../js/landmark-detail-3d.js" defer></script>
 </body>
 </html>

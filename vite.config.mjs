@@ -61,11 +61,11 @@ function renderPartial(partialPath, attrs) {
  * Watches partials/ for instant reload in `vite dev`.
  */
 function htmlPartialsPlugin() {
-  const partialsDir = path.resolve(__dirname, 'partials');
+  const partialsDir = path.resolve(__dirname, 'partials') + path.sep;
   return {
     name: 'html-partials',
     handleHotUpdate({ file, server }) {
-      if (file.startsWith(partialsDir)) {
+      if (path.resolve(file).startsWith(partialsDir)) {
         server.ws.send({ type: 'full-reload' });
         return [];
       }

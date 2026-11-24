@@ -1,6 +1,6 @@
 /**
  * FLY TO THE END - Main Web Scripts
- * Handles Navigation, FAQ Accordions, Language Toggle & Analytics Hooks
+ * Handles Navigation, FAQ Accordions, Analytics Hooks & Trailer Widgets
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Dynamic Year
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+    yearEl.textContent = String(new Date().getFullYear());
   }
 
   // Mobile Menu Toggle
@@ -29,21 +29,18 @@ document.addEventListener('DOMContentLoaded', function () {
       setMenuOpen(!isExpanded);
     });
 
-    // Close menu when clicking links
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
+    navLinks.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
         setMenuOpen(false);
       });
     });
 
-    // Close menu when clicking outside
     document.addEventListener('click', function (e) {
       if (!navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
         setMenuOpen(false);
       }
     });
 
-    // Close menu on Escape key
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navLinks.classList.contains('show')) {
         setMenuOpen(false);
@@ -52,91 +49,70 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // FAQ Accordion
+  // FAQ Accordion with aria-expanded accessibility sync
   const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
+  function syncFaqAria() {
+    faqItems.forEach(function (item) {
+      const btn = item.querySelector('.faq-question');
+      if (btn) {
+        btn.setAttribute('aria-expanded', item.classList.contains('active') ? 'true' : 'false');
+      }
+    });
+  }
+  syncFaqAria();
+
+  faqItems.forEach(function (item) {
     const questionBtn = item.querySelector('.faq-question');
     if (questionBtn) {
-      questionBtn.addEventListener('click', () => {
+      questionBtn.addEventListener('click', function () {
         const isActive = item.classList.contains('active');
-        // Close others
-        faqItems.forEach(other => other.classList.remove('active'));
+        faqItems.forEach(function (other) {
+          other.classList.remove('active');
+        });
         if (!isActive) {
           item.classList.add('active');
         }
+        syncFaqAria();
       });
     }
   });
 
-  // Smooth Scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Safe Smooth Scroll for same-page hash anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      const targetElement = document.querySelector(targetId);
+      if (!targetId || targetId === '#') return;
+      const targetElement = document.getElementById(targetId.slice(1));
       if (targetElement) {
         e.preventDefault();
         targetElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
   });
 
-  // Region Filter Tabs for Vietnamese Landmarks (only for button-based tabs; <a> tabs navigate to dedicated SEO region pages)
-  const regionTabs = document.querySelectorAll('button.region-tab');
-  const landmarkCards = document.querySelectorAll('#landmarksGrid .landmark-card');
-  if (regionTabs.length > 0 && landmarkCards.length > 0) {
-    // Auto-update tab counts from actual DOM cards for future landmark additions
-    regionTabs.forEach(tab => {
-      const region = tab.dataset.region || 'all';
-      const countEl = tab.querySelector('.tab-count');
-      if (countEl) {
-        const count = region === 'all'
-          ? landmarkCards.length
-          : Array.from(landmarkCards).filter(c => c.dataset.region === region).length;
-        countEl.textContent = count;
-      }
-    });
-
-    regionTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const selectedRegion = tab.dataset.region || 'all';
-
-        regionTabs.forEach(t => {
-          const isSelected = t === tab;
-          t.classList.toggle('active', isSelected);
-          t.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-        });
-
-        landmarkCards.forEach(card => {
-          const cardRegion = card.dataset.region;
-          const shouldShow = selectedRegion === 'all' || cardRegion === selectedRegion;
-          card.classList.toggle('is-hidden', !shouldShow);
-        });
-      });
-    });
-  }
-
-  // Track Store Link Clicks
-  const storeButtons = document.querySelectorAll('.store-btn:not(.store-btn--coming-soon), .footer-store-btn:not(.footer-store-btn--coming-soon)');
-  storeButtons.forEach(btn => {
-    btn.addEventListener('click', function (e) {
+  // Track Store Link Clicks (Google Analytics hook if gtag exists)
+  const storeButtons = document.querySelectorAll(
+    '.store-btn:not(.store-btn--coming-soon), .footer-store-btn:not(.footer-store-btn--coming-soon)'
+  );
+  storeButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
       const storeName = this.dataset.store || 'store';
-      console.log(`[Store Download Click] ${storeName}`);
-      // Google Analytics event hook if gtag exists
       if (typeof gtag === 'function') {
         gtag('event', 'click_download', {
-          store_platform: storeName
+          store_platform: storeName,
         });
       }
     });
   });
 
-  // 9:16 Gameplay Trailer Widgets (VI/EN switch, sound & play/pause controls)
+  // 9:16 Gameplay Trailer Widgets (viewport-aware playback, VI/EN switch, mutually exclusive audio)
   const trailerWidgets = document.querySelectorAll('[data-trailer-widget]');
-  trailerWidgets.forEach(widget => {
+  const allTrailerVideos = [];
+
+  trailerWidgets.forEach(function (widget) {
     const video = widget.querySelector('video');
     const langBtns = widget.querySelectorAll('[data-video-lang]');
     const playBtn = widget.querySelector('[data-video-toggle-play]');
@@ -144,6 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const muteBtn = widget.querySelector('[data-video-toggle-mute]');
     const muteLabel = widget.querySelector('[data-mute-label]');
     if (!video) return;
+
+    allTrailerVideos.push(video);
+    let userPaused = false;
+    let isInView = false;
+    let pendingMetaHandler = null;
 
     function syncControls() {
       if (playLabel) {
@@ -155,70 +136,104 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    function togglePlay() {
+      if (video.paused) {
+        userPaused = false;
+        video.play().catch(function () {});
+      } else {
+        userPaused = true;
+        video.pause();
+      }
+    }
+
     video.addEventListener('play', syncControls);
     video.addEventListener('pause', syncControls);
     video.addEventListener('volumechange', syncControls);
-
-    video.addEventListener('click', () => {
-      if (video.paused) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
+    video.addEventListener('click', togglePlay);
 
     if (playBtn) {
-      playBtn.addEventListener('click', () => {
-        if (video.paused) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
+      playBtn.addEventListener('click', togglePlay);
     }
 
     if (muteBtn) {
-      muteBtn.addEventListener('click', () => {
-        video.muted = !video.muted;
+      muteBtn.addEventListener('click', function () {
+        const nextMuted = !video.muted;
+        if (!nextMuted) {
+          // Ensure only one trailer plays sound at a time
+          allTrailerVideos.forEach(function (other) {
+            if (other !== video && !other.muted) {
+              other.muted = true;
+            }
+          });
+        }
+        video.muted = nextMuted;
         if (!video.muted && video.paused) {
-          video.play().catch(() => {});
+          userPaused = false;
+          video.play().catch(function () {});
         }
         syncControls();
       });
     }
 
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
+    langBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
         const newSrc = btn.getAttribute('data-src');
         const newPoster = btn.getAttribute('data-poster');
         if (!newSrc || video.getAttribute('src') === newSrc) return;
 
-        const wasPaused = video.paused;
+        const shouldPlay = !userPaused && isInView;
         const wasMuted = video.muted;
         const currentTime = video.currentTime || 0;
 
-        langBtns.forEach(b => {
+        langBtns.forEach(function (b) {
           const active = b === btn;
           b.classList.toggle('active', active);
           b.setAttribute('aria-selected', active ? 'true' : 'false');
         });
 
+        if (pendingMetaHandler) {
+          video.removeEventListener('loadedmetadata', pendingMetaHandler);
+          pendingMetaHandler = null;
+        }
+
         if (newPoster) video.setAttribute('poster', newPoster);
         video.setAttribute('src', newSrc);
         video.load();
         video.muted = wasMuted;
-        video.addEventListener('loadedmetadata', function onMeta() {
-          video.removeEventListener('loadedmetadata', onMeta);
-          if (currentTime > 0 && currentTime < video.duration) {
+
+        pendingMetaHandler = function () {
+          video.removeEventListener('loadedmetadata', pendingMetaHandler);
+          pendingMetaHandler = null;
+          if (currentTime > 0 && Number.isFinite(video.duration) && currentTime < video.duration) {
             video.currentTime = currentTime;
           }
-          if (!wasPaused) {
-            video.play().catch(() => {});
+          if (shouldPlay) {
+            video.play().catch(function () {});
           }
           syncControls();
-        });
+        };
+        video.addEventListener('loadedmetadata', pendingMetaHandler);
       });
     });
+
+    if (typeof IntersectionObserver === 'function') {
+      const videoObserver = new IntersectionObserver(function (entries) {
+        for (let i = 0; i < entries.length; i++) {
+          isInView = entries[i].isIntersecting;
+          if (isInView) {
+            if (!userPaused) {
+              video.play().catch(function () {});
+            }
+          } else if (!video.paused) {
+            video.pause();
+          }
+        }
+      }, { threshold: 0.25 });
+      videoObserver.observe(widget);
+    } else {
+      isInView = true;
+      video.play().catch(function () {});
+    }
 
     syncControls();
   });

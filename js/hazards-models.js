@@ -1,5 +1,5 @@
 /**
- * FLY TO THE END - 8 In-Game 3D Hazard & Challenge Models (Three.js r90)
+ * FLY TO THE END - 8 In-Game 3D Hazard & Challenge Models (Three.js r187)
  * Ported directly from FlyToTheEnd-Modern/src/hazards.ts & src/main.ts
  * for live 3D previews and 360° interactive inspection on the website.
  */
@@ -24,7 +24,7 @@
       color: color,
       emissive: emissive || 0x000000,
       emissiveIntensity: emissiveIntensity || 0,
-      flatShading: THREE.FlatShading,
+      flatShading: true,
     };
     if (extra) {
       for (const k in extra) opts[k] = extra[k];
@@ -33,7 +33,7 @@
   }
 
   // ============================================================
-  // 1. LEVEL 1-9: RED ENNEMY TETRAHEDRON + TEAL ENERGY CRYSTAL
+  // 1. LEVEL 1: RED ENEMY TETRAHEDRON + TEAL ENERGY CRYSTAL
   // ============================================================
   function buildEnemyBlock() {
     const g = new THREE.Object3D();
@@ -58,11 +58,12 @@
     coin2.position.set(14, -5, -4);
     g.add(coin2);
 
+    g.userData._anim = { enemy: enemy, coin: coin, coin2: coin2 };
     return g;
   }
 
   // ============================================================
-  // 2. LEVEL 10+: BIRD (Exact from hazards.ts)
+  // 2. LEVEL 2+: BIRD (Exact from hazards.ts)
   // ============================================================
   function buildBird() {
     const g = new THREE.Object3D();
@@ -111,11 +112,12 @@
     birdWrap.add(wingR);
 
     g.add(birdWrap);
+    g.userData._anim = { wingL: wingL, wingR: wingR, birdBody: birdWrap };
     return g;
   }
 
   // ============================================================
-  // 3. LEVEL 20+: COMET (Exact from hazards.ts)
+  // 3. LEVEL 4+: COMET (Exact from hazards.ts)
   // ============================================================
   function buildComet() {
     const g = new THREE.Object3D();
@@ -148,19 +150,18 @@
     innerTail.position.set(-11, 0, 0);
     comet.add(innerTail);
 
-    // Streak diagonally down-left just like in-game!
     comet.rotation.z = -Math.PI * 0.78;
     g.add(comet);
+    g.userData._anim = { cometTail: tailMesh };
     return g;
   }
 
   // ============================================================
-  // 4. LEVEL 30+: WEATHER (In-game Cloud + Sun + Rain & Snow Drops)
+  // 4. LEVEL 6+: WEATHER (In-game Cloud + Sun + Rain & Snow Drops)
   // ============================================================
   function buildWeather() {
     const g = new THREE.Object3D();
 
-    // Warm low-poly sun peeking behind cloud
     const sun = new THREE.Mesh(
       new THREE.IcosahedronGeometry(8.5, 0),
       phong(0xfacc15, 0xf59e0b, 0.5)
@@ -169,7 +170,6 @@
     sun.position.set(11, 9, -6);
     g.add(sun);
 
-    // Low-poly in-game cloud cluster (from main.ts Cloud)
     const cloud = new THREE.Object3D();
     cloud.name = 'anim_weather_cloud';
     const cloudMat = phong(0xf1f5f9, 0xcbd5e1, 0.12);
@@ -187,7 +187,6 @@
     });
     g.add(cloud);
 
-    // Raindrops (blue) & snowflakes (white) falling underneath
     const precip = new THREE.Object3D();
     precip.name = 'anim_weather_precip';
     const rainMat = phong(0x38bdf8, 0x0284c7, 0.35);
@@ -212,16 +211,16 @@
     });
     g.add(precip);
 
+    g.userData._anim = { wSun: sun, precip: precip };
     return g;
   }
 
   // ============================================================
-  // 5. LEVEL 40+: LIGHTNING STRIKE (Exact jagged sky-blue bolt + red telegraph)
+  // 5. LEVEL 8+: LIGHTNING STRIKE (Jagged sky-blue bolt + red telegraph)
   // ============================================================
   function buildLightning() {
     const g = new THREE.Object3D();
 
-    // Dark thundercloud above
     const cloudMat = phong(0x475569, 0x1e293b, 0.2);
     [[-8, 16, 0, 0.72], [0, 18, 2, 0.9], [9, 16, -1, 0.75]].forEach(function (p) {
       const m = new THREE.Mesh(new THREE.SphereGeometry(9, 6, 6), cloudMat);
@@ -230,7 +229,6 @@
       g.add(m);
     });
 
-    // Red vertical telegraph warning beam (from hazards.ts warningLine)
     const warnBeam = new THREE.Mesh(
       new THREE.CylinderGeometry(0.45, 0.45, 34, 6),
       new THREE.MeshBasicMaterial({ color: 0xef4444, transparent: true, opacity: 0.75 })
@@ -239,7 +237,6 @@
     warnBeam.position.set(-7, -1, -2);
     g.add(warnBeam);
 
-    // Jagged sky-blue lightning bolt built from connected 3D segments
     const boltGroup = new THREE.Object3D();
     boltGroup.name = 'anim_lightning_bolt';
     const boltMat = phong(0x38bdf8, 0x0ea5e9, 0.9);
@@ -253,6 +250,7 @@
       new THREE.Vector3(-1, -18, 2),
     ];
 
+    const upVec = new THREE.Vector3(0, 1, 0);
     for (let i = 0; i < pts.length - 1; i++) {
       const a = pts[i];
       const b = pts[i + 1];
@@ -262,7 +260,7 @@
 
       const seg = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 0.9, len + 0.6, 5), boltMat);
       seg.position.copy(mid);
-      seg.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+      seg.quaternion.setFromUnitVectors(upVec, dir.clone().normalize());
       boltGroup.add(seg);
 
       const inner = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.35, len + 0.4, 5), coreMat);
@@ -272,11 +270,12 @@
     }
 
     g.add(boltGroup);
+    g.userData._anim = { lWarn: warnBeam, lBolt: boltGroup };
     return g;
   }
 
   // ============================================================
-  // 6. LEVEL 50+: SPACESHIP LAUNCH (Exact from hazards.ts)
+  // 6. LEVEL 10+: SPACESHIP LAUNCH (Exact from hazards.ts)
   // ============================================================
   function buildSpaceship() {
     const g = new THREE.Object3D();
@@ -307,16 +306,16 @@
     ship.add(flame);
 
     g.add(ship);
+    g.userData._anim = { ship: ship, shipFlame: flame };
     return g;
   }
 
   // ============================================================
-  // 7. LEVEL 60+: TARGETED LOCK-ON MISSILE (Exact from hazards.ts)
+  // 7. LEVEL 12+: TARGETED LOCK-ON MISSILE (Exact from hazards.ts)
   // ============================================================
   function buildMissile() {
     const g = new THREE.Object3D();
 
-    // Pulsing crimson Target Reticle (from hazards.ts reticleMesh)
     const reticle = new THREE.Object3D();
     reticle.name = 'anim_missile_reticle';
     reticle.position.set(7, 6, -2);
@@ -330,7 +329,6 @@
     reticle.add(crossV);
     g.add(reticle);
 
-    // Missile 3D model flying diagonally toward reticle
     const missile = new THREE.Object3D();
     missile.name = 'anim_missile_body';
     missile.position.set(-7, -7, 3);
@@ -343,7 +341,6 @@
     tip.position.y = 10;
     missile.add(tip);
 
-    // Rear fins + exhaust glow
     const finMat = phong(0x64748b);
     const f1 = new THREE.Mesh(new THREE.BoxGeometry(8, 3.8, 0.8), finMat);
     f1.position.y = -5.5;
@@ -359,11 +356,12 @@
     missile.add(glow);
 
     g.add(missile);
+    g.userData._anim = { reticle: reticle };
     return g;
   }
 
   // ============================================================
-  // 8. LEVEL 70+: RIVAL PLANE (Exact from hazards.ts, r90 vertices)
+  // 8. LEVEL 14+: RIVAL PLANE (Exact BufferGeometry tapering from hazards.ts)
   // ============================================================
   function buildRivalPlane() {
     const g = new THREE.Object3D();
@@ -373,16 +371,19 @@
     const rivalDark = 0x23190f;
 
     const geomCabin = new THREE.BoxGeometry(80, 50, 50, 1, 1, 1);
-    if (geomCabin.vertices && geomCabin.vertices.length >= 8) {
-      geomCabin.vertices[4].y -= 10;
-      geomCabin.vertices[4].z += 20;
-      geomCabin.vertices[5].y -= 10;
-      geomCabin.vertices[5].z -= 20;
-      geomCabin.vertices[6].y += 30;
-      geomCabin.vertices[6].z += 20;
-      geomCabin.vertices[7].y += 30;
-      geomCabin.vertices[7].z -= 20;
+    const pos = geomCabin.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const px = pos.getX(i);
+      const py = pos.getY(i);
+      const pz = pos.getZ(i);
+      if (px < 0) {
+        if (py > 0) pos.setY(i, py - 10);
+        if (py < 0) pos.setY(i, py + 30);
+        if (pz > 0) pos.setZ(i, pz - 20);
+        if (pz < 0) pos.setZ(i, pz + 20);
+      }
     }
+    geomCabin.computeVertexNormals();
     const cabin = new THREE.Mesh(geomCabin, phong(rivalPrimary));
     modelGroup.add(cabin);
 
@@ -407,16 +408,19 @@
     modelGroup.add(windshield);
 
     const geomProp = new THREE.BoxGeometry(20, 10, 10, 1, 1, 1);
-    if (geomProp.vertices && geomProp.vertices.length >= 8) {
-      geomProp.vertices[4].y -= 5;
-      geomProp.vertices[4].z += 5;
-      geomProp.vertices[5].y -= 5;
-      geomProp.vertices[5].z -= 5;
-      geomProp.vertices[6].y += 5;
-      geomProp.vertices[6].z += 5;
-      geomProp.vertices[7].y += 5;
-      geomProp.vertices[7].z -= 5;
+    const propPos = geomProp.attributes.position;
+    for (let i = 0; i < propPos.count; i++) {
+      const px = propPos.getX(i);
+      const py = propPos.getY(i);
+      const pz = propPos.getZ(i);
+      if (px < 0) {
+        if (py > 0) propPos.setY(i, py - 5);
+        if (py < 0) propPos.setY(i, py + 5);
+        if (pz > 0) propPos.setZ(i, pz - 5);
+        if (pz < 0) propPos.setZ(i, pz + 5);
+      }
     }
+    geomProp.computeVertexNormals();
     const propeller = new THREE.Mesh(geomProp, phong(0x59332e));
     propeller.name = 'anim_rival_propeller';
     const blade1 = new THREE.Mesh(new THREE.BoxGeometry(1, 80, 10, 1, 1, 1), phong(rivalDark));
@@ -442,10 +446,10 @@
     wheelTireL.position.z = -25;
     modelGroup.add(wheelTireL);
 
-    // Flip to face LEFT (-X) & scale down to match showcase scale
     modelGroup.rotation.y = Math.PI;
     modelGroup.scale.set(0.32, 0.32, 0.32);
     g.add(modelGroup);
+    g.userData._anim = { prop: propeller };
     return g;
   }
 
@@ -462,91 +466,72 @@
 
   function animateHazard(mesh, time) {
     if (!mesh) return;
+    const anim = mesh.userData && mesh.userData._anim;
+    if (!anim) return;
     const t = typeof time === 'number' ? time : performance.now();
 
-    // Level 1-9 Enemy & Coin
-    const enemy = mesh.getObjectByName('anim_spin_enemy');
-    if (enemy) {
-      enemy.rotation.y = t * 0.0016;
-      enemy.rotation.z = t * 0.0012;
+    if (anim.enemy) {
+      anim.enemy.rotation.y = t * 0.0016;
+      anim.enemy.rotation.z = t * 0.0012;
     }
-    const coin = mesh.getObjectByName('anim_spin_coin');
-    if (coin) {
-      coin.rotation.y = -t * 0.0024;
-      coin.position.y = 5 + Math.sin(t * 0.004) * 1.6;
+    if (anim.coin) {
+      anim.coin.rotation.y = -t * 0.0024;
+      anim.coin.position.y = 5 + Math.sin(t * 0.004) * 1.6;
     }
-    const coin2 = mesh.getObjectByName('anim_spin_coin_2');
-    if (coin2) {
-      coin2.rotation.y = t * 0.0028;
-      coin2.position.y = -5 + Math.cos(t * 0.004) * 1.4;
+    if (anim.coin2) {
+      anim.coin2.rotation.y = t * 0.0028;
+      anim.coin2.position.y = -5 + Math.cos(t * 0.004) * 1.4;
     }
 
-    // Level 10+ Bird flapping
-    const wingL = mesh.getObjectByName('anim_wing_l');
-    const wingR = mesh.getObjectByName('anim_wing_r');
-    if (wingL && wingR) {
+    if (anim.wingL && anim.wingR) {
       const flap = Math.sin(t * 0.015) * 0.62;
-      wingL.rotation.x = flap;
-      wingR.rotation.x = -flap;
+      anim.wingL.rotation.x = flap;
+      anim.wingR.rotation.x = -flap;
     }
-    const birdBody = mesh.getObjectByName('anim_bird_body');
-    if (birdBody) {
-      birdBody.position.y = Math.sin(t * 0.005) * 1.4;
-    }
-
-    // Level 20+ Comet tail pulsing
-    const cometTail = mesh.getObjectByName('anim_comet_tail');
-    if (cometTail) {
-      cometTail.scale.x = 0.9 + Math.sin(t * 0.022) * 0.16;
+    if (anim.birdBody) {
+      anim.birdBody.position.y = Math.sin(t * 0.005) * 1.4;
     }
 
-    // Level 30+ Weather motion
-    const wSun = mesh.getObjectByName('anim_weather_sun');
-    if (wSun) {
-      wSun.rotation.y = t * 0.001;
+    if (anim.cometTail) {
+      anim.cometTail.scale.x = 0.9 + Math.sin(t * 0.022) * 0.16;
     }
-    const precip = mesh.getObjectByName('anim_weather_precip');
-    if (precip) {
-      for (let i = 0; i < precip.children.length; i++) {
-        const drop = precip.children[i];
+
+    if (anim.wSun) {
+      anim.wSun.rotation.y = t * 0.001;
+    }
+    if (anim.precip) {
+      const children = anim.precip.children;
+      for (let i = 0; i < children.length; i++) {
+        const drop = children[i];
         const baseY = drop.userData.baseY || -12;
-        const cycle = ((t * 0.012 + i * 2.7) % 10);
+        const cycle = (t * 0.012 + i * 2.7) % 10;
         drop.position.y = baseY + 4 - cycle;
       }
     }
 
-    // Level 40+ Lightning flash
-    const lWarn = mesh.getObjectByName('anim_lightning_warn');
-    const lBolt = mesh.getObjectByName('anim_lightning_bolt');
-    if (lWarn && lBolt) {
+    if (anim.lWarn && anim.lBolt) {
       const blink = Math.floor(t / 160) % 2 === 0;
-      lWarn.material.opacity = blink ? 0.85 : 0.25;
+      anim.lWarn.material.opacity = blink ? 0.85 : 0.25;
       const pulse = 0.85 + Math.sin(t * 0.02) * 0.18;
-      lBolt.scale.set(pulse, 1, pulse);
+      anim.lBolt.scale.set(pulse, 1, pulse);
     }
 
-    // Level 50+ Spaceship thruster flicker
-    const shipFlame = mesh.getObjectByName('anim_ship_flame');
-    if (shipFlame) {
+    if (anim.shipFlame) {
       const flicker = 0.85 + Math.sin(t * 0.04) * 0.28;
-      shipFlame.scale.set(1, flicker, 1);
+      anim.shipFlame.scale.set(1, flicker, 1);
     }
-    const ship = mesh.getObjectByName('anim_spaceship');
-    if (ship) {
-      ship.position.y = Math.sin(t * 0.006) * 1.5;
+    if (anim.ship) {
+      anim.ship.position.y = Math.sin(t * 0.006) * 1.5;
     }
 
-    // Level 60+ Missile reticle pulse
-    const reticle = mesh.getObjectByName('anim_missile_reticle');
-    if (reticle) {
+    if (anim.reticle) {
       const s = 0.94 + Math.sin(t * 0.012) * 0.14;
-      reticle.scale.set(s, s, 1);
+      anim.reticle.scale.set(s, s, 1);
     }
 
-    // Level 70+ Rival plane propeller spin
-    const prop = mesh.getObjectByName('anim_rival_propeller');
-    if (prop) {
-      prop.rotation.x += 0.34;
+    if (anim.prop) {
+      // Frame-rate independent propeller spin (~20 rad/s, matching 0.34 rad @ 60fps)
+      anim.prop.rotation.x = t * 0.0204;
     }
   }
 

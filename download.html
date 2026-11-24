@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://cdn.flytotheend.t4vn.com; connect-src 'self' https://cdn.flytotheend.t4vn.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Tải Game Fly to The End Miễn Phí (Bản Chính Thức) | T4VN</title>
   <meta name="title" content="Tải Game Fly to The End Miễn Phí (Bản Chính Thức) | T4VN">
@@ -108,7 +110,7 @@
     <section class="subpage-hero download-hero">
       <div class="container">
         <div class="download-hero-card">
-          <img src="assets/images/icon-512.png" alt="Fly to The End Icon" class="download-hero-icon" width="96" height="96">
+          <img src="assets/images/icon-192.png" alt="Fly to The End Icon" class="download-hero-icon" width="96" height="96" decoding="async">
           <div class="badge-tag" style="margin-bottom: 0.85rem;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Phiên Bản Chính Thức • Miễn Phí 100%
@@ -190,11 +192,10 @@
                 <video class="phone-trailer-video"
                        src="https://cdn.flytotheend.t4vn.com/videos/trailer-vi.mp4"
                        poster="assets/images/trailer-poster-vi.png"
-                       autoplay
                        loop
                        muted
                        playsinline
-                       preload="metadata"
+                       preload="none"
                        aria-label="Video trailer gameplay thực tế Fly to The End">
                 </video>
                 <div class="phone-trailer-controls">
@@ -223,11 +224,10 @@
                 <video class="phone-trailer-video"
                        src="https://cdn.flytotheend.t4vn.com/videos/p2p-race-vi.mp4"
                        poster="assets/images/p2p-race-poster-vi.jpg"
-                       autoplay
                        loop
                        muted
                        playsinline
-                       preload="metadata"
+                       preload="none"
                        aria-label="Video mô phỏng đua nhiều người P2P 4 phi cơ trong Fly to The End">
                 </video>
                 <div class="phone-trailer-controls">
@@ -349,6 +349,6 @@
   <!-- @include partials/footer.html -->
 
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

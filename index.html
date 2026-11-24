@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://cdn.flytotheend.t4vn.com; connect-src 'self' https://cdn.flytotheend.t4vn.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   
   <!-- SEO Primary Meta Tags -->
   <title>Fly to The End - Game Máy Bay 3D, Đua Nhiều Người P2P &amp; Di Tích Việt Nam | T4VN</title>
@@ -394,11 +396,10 @@
                   <video class="phone-trailer-video"
                          src="https://cdn.flytotheend.t4vn.com/videos/p2p-race-vi.mp4"
                          poster="assets/images/p2p-race-poster-vi.jpg"
-                         autoplay
                          loop
                          muted
                          playsinline
-                         preload="metadata"
+                         preload="none"
                          aria-label="Video mô phỏng đua nhiều người P2P 4 phi cơ trong Fly to The End">
                   </video>
                   <div class="phone-trailer-controls">
@@ -611,11 +612,10 @@
                 <video class="phone-trailer-video"
                        src="https://cdn.flytotheend.t4vn.com/videos/trailer-vi.mp4"
                        poster="assets/images/trailer-poster-vi.png"
-                       autoplay
                        loop
                        muted
                        playsinline
-                       preload="metadata"
+                       preload="none"
                        aria-label="Video trailer gameplay thực tế Fly to The End">
                 </video>
                 <div class="phone-trailer-controls">
@@ -763,7 +763,7 @@
 
         <div class="faq-list">
           <div class="faq-item active">
-            <button class="faq-question">
+            <button class="faq-question" type="button" aria-expanded="true">
               Trong game có những loại chướng ngại vật nào?
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -773,7 +773,7 @@
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" type="button" aria-expanded="false">
               Các di tích Việt Nam xuất hiện theo thứ tự nào?
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -783,7 +783,7 @@
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" type="button" aria-expanded="false">
               Làm sao để tạo phòng đua cùng bạn bè?
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -793,7 +793,7 @@
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" type="button" aria-expanded="false">
               Chế độ Đọc chữ cái dùng micro như thế nào?
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -823,6 +823,6 @@
   <!-- @include partials/footer.html -->
 
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

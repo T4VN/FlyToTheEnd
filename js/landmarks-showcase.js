@@ -1,7 +1,7 @@
 /**
  * FLY TO THE END - Unified 3D Models Showcase (63 Landmarks + 8 Hazards)
- * Renders all real in-game 3D Low-poly models directly on homepage cards
- * using a single shared offscreen WebGLRenderer (zero WebGL context overflow),
+ * Renders real in-game 3D Low-poly models lazily via IntersectionObserver,
+ * a single shared offscreen WebGLRenderer (auto-disposed when idle),
  * live animated 3D hover preview, and an interactive 360-degree 3D Modal Viewer.
  */
 (function () {
@@ -46,15 +46,17 @@
     return { x: 0.08, y: -0.44 };
   }
 
-  // Cache built 3D models so each model is constructed only once
+  // Cache built 3D models and deduplicate in-flight builds
   const modelCache = Object.create(null);
+  const modelPromises = Object.create(null);
 
+  // Calibrated for Three.js r187 physical lighting units
   function createLighting(scene) {
-    const hemi = new THREE.HemisphereLight(0xfff9f0, 0x7c5c38, 0.95);
-    const ambient = new THREE.AmbientLight(0xdc8874, 0.42);
-    const sun = new THREE.DirectionalLight(0xffffff, 0.92);
+    const hemi = new THREE.HemisphereLight(0xfff9f0, 0x7c5c38, 1.85);
+    const ambient = new THREE.AmbientLight(0xdc8874, 0.85);
+    const sun = new THREE.DirectionalLight(0xffffff, 2.35);
     sun.position.set(130, 220, 190);
-    const rim = new THREE.DirectionalLight(0x93c5fd, 0.28);
+    const rim = new THREE.DirectionalLight(0x93c5fd, 0.72);
     rim.position.set(-140, 90, -160);
 
     scene.add(hemi);
@@ -96,14 +98,23 @@
   function prepareModelAsync(kind, id, catalog) {
     const cacheKey = kind + ':' + id;
     if (modelCache[cacheKey]) return Promise.resolve(modelCache[cacheKey]);
+    if (modelPromises[cacheKey]) return modelPromises[cacheKey];
     if (!catalog) return Promise.resolve(null);
 
+    let promise;
     if (typeof catalog.loadById === 'function') {
-      return catalog.loadById(id).then(function (mesh) {
+      promise = catalog.loadById(id).then(function (mesh) {
         return modelCache[cacheKey] || wrapMeshEntry(kind, id, catalog, mesh);
       });
+    } else {
+      promise = Promise.resolve(wrapMeshEntry(kind, id, catalog, catalog.buildById(id)));
     }
-    return Promise.resolve(wrapMeshEntry(kind, id, catalog, catalog.buildById(id)));
+
+    modelPromises[cacheKey] = promise;
+    promise.finally(function () {
+      delete modelPromises[cacheKey];
+    });
+    return promise;
   }
 
   function computeCameraDistance(size, fovDeg, aspect, paddingFactor) {
@@ -116,17 +127,28 @@
     return Math.max(distV, distH) * (paddingFactor || 1.32);
   }
 
+  function showPreviewFallback(previewEl, text) {
+    if (previewEl.querySelector('.preview-fallback-msg')) return;
+    const msg = document.createElement('span');
+    msg.className = 'preview-fallback-msg';
+    msg.textContent = text;
+    previewEl.appendChild(msg);
+  }
+
   // =========================================================================
-  // 1. SINGLE SHARED OFFSCREEN SNAPSHOT RENDERER (renders all 30 cards cleanly)
+  // 1. SINGLE SHARED OFFSCREEN SNAPSHOT RENDERER (lazy via IntersectionObserver)
   // =========================================================================
   let thumbRenderer = null;
   let thumbScene = null;
   let thumbCamera = null;
+  let thumbIdleTimer = 0;
+  let webglUnavailable = false;
   const THUMB_W = 520;
   const THUMB_H = 325;
 
   function initThumbRenderer() {
     if (thumbRenderer) return true;
+    if (webglUnavailable) return false;
     try {
       thumbScene = new THREE.Scene();
       createLighting(thumbScene);
@@ -134,17 +156,41 @@
       thumbRenderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true,
-        preserveDrawingBuffer: true,
       });
       thumbRenderer.setPixelRatio(1);
       thumbRenderer.setSize(THUMB_W, THUMB_H, false);
       thumbRenderer.setClearColor(0x000000, 0);
       return true;
     } catch (e) {
+      webglUnavailable = true;
       console.warn('WebGL thumbnail renderer unavailable:', e);
       return false;
     }
   }
+
+  function disposeThumbRenderer() {
+    if (thumbIdleTimer) {
+      clearTimeout(thumbIdleTimer);
+      thumbIdleTimer = 0;
+    }
+    if (thumbRenderer) {
+      thumbRenderer.dispose();
+      thumbRenderer = null;
+    }
+    thumbScene = null;
+    thumbCamera = null;
+  }
+
+  function scheduleThumbIdleDispose() {
+    if (thumbIdleTimer) clearTimeout(thumbIdleTimer);
+    thumbIdleTimer = window.setTimeout(function () {
+      if (activeThumbs === 0 && renderQueue.length === 0) {
+        disposeThumbRenderer();
+      }
+    }, 15000);
+  }
+
+  const deferredThumbBoxes = new Set();
 
   function renderThumbnail(previewEl) {
     const meta = getBoxMeta(previewEl);
@@ -152,10 +198,25 @@
     if (!meta.id || !meta.catalog || !targetCanvas || previewEl.dataset.rendered === '1') {
       return Promise.resolve();
     }
-    if (!initThumbRenderer()) return Promise.resolve();
+    if (!initThumbRenderer()) {
+      showPreviewFallback(previewEl, 'Trình duyệt chưa hỗ trợ WebGL 3D');
+      return Promise.resolve();
+    }
 
     return prepareModelAsync(meta.kind, meta.id, meta.catalog).then(function (entry) {
-      if (!entry || previewEl.dataset.rendered === '1') return;
+      if (previewEl.dataset.rendered === '1') return;
+      if (!entry) {
+        showPreviewFallback(previewEl, 'Không tải được mô hình 3D');
+        return;
+      }
+
+      // Never steal entry.pivot while it is actively mounted in the live hover/modal scene
+      if (liveEntry === entry && liveMode !== 'idle') {
+        deferredThumbBoxes.add(previewEl);
+        return;
+      }
+
+      if (!initThumbRenderer()) return;
 
       if (entry.pivot.parent) {
         entry.pivot.parent.remove(entry.pivot);
@@ -192,15 +253,29 @@
       }
       previewEl.dataset.rendered = '1';
       previewEl.classList.add('is-ready');
+      const oldFallback = previewEl.querySelector('.preview-fallback-msg');
+      if (oldFallback) oldFallback.remove();
     });
   }
 
-  // Render thumbnails in smooth non-blocking batches (up to 6 concurrent CDN fetches)
-  const renderQueue = allPreviewBoxes.slice();
-  const MAX_CONCURRENT_THUMBS = 6;
+  // Lazy IntersectionObserver queue (fetches & renders only visible/nearby cards)
+  const renderQueue = [];
+  const queuedBoxes = new WeakSet();
+  const MAX_CONCURRENT_THUMBS = 5;
   let activeThumbs = 0;
 
+  function enqueueBox(box) {
+    if (queuedBoxes.has(box) || box.dataset.rendered === '1') return;
+    queuedBoxes.add(box);
+    renderQueue.push(box);
+    pumpRenderQueue();
+  }
+
   function pumpRenderQueue() {
+    if (thumbIdleTimer) {
+      clearTimeout(thumbIdleTimer);
+      thumbIdleTimer = 0;
+    }
     while (activeThumbs < MAX_CONCURRENT_THUMBS && renderQueue.length > 0) {
       const box = renderQueue.shift();
       activeThumbs++;
@@ -208,11 +283,30 @@
         activeThumbs--;
         if (renderQueue.length > 0) {
           requestAnimationFrame(pumpRenderQueue);
+        } else if (activeThumbs === 0) {
+          scheduleThumbIdleDispose();
         }
       });
     }
   }
-  requestAnimationFrame(pumpRenderQueue);
+
+  if (typeof IntersectionObserver === 'function') {
+    const thumbObserver = new IntersectionObserver(function (entries) {
+      for (let i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          const box = entries[i].target;
+          thumbObserver.unobserve(box);
+          enqueueBox(box);
+        }
+      }
+    }, { rootMargin: '280px 0px' });
+
+    allPreviewBoxes.forEach(function (box) {
+      thumbObserver.observe(box);
+    });
+  } else {
+    allPreviewBoxes.forEach(enqueueBox);
+  }
 
   // =========================================================================
   // 2. SINGLE SHARED LIVE 3D RENDERER (used for card hover spin & 360° modal)
@@ -222,8 +316,10 @@
   let liveCamera = null;
   let liveEntry = null;
   let liveHost = null;
+  let pendingHoverHost = null;
   let liveMode = 'idle'; // 'idle' | 'hover' | 'modal'
   let rafId = 0;
+  let isContextLost = false;
 
   let rotY = -0.44;
   let rotX = 0.14;
@@ -238,6 +334,7 @@
 
   function ensureLiveRenderer() {
     if (liveRenderer) return true;
+    if (webglUnavailable) return false;
     try {
       liveScene = new THREE.Scene();
       createLighting(liveScene);
@@ -246,8 +343,23 @@
       liveRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       liveRenderer.setClearColor(0x000000, 0);
       liveRenderer.domElement.className = 'landmark-live-canvas';
+      liveRenderer.domElement.addEventListener('webglcontextlost', function (e) {
+        e.preventDefault();
+        isContextLost = true;
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      });
+      liveRenderer.domElement.addEventListener('webglcontextrestored', function () {
+        isContextLost = false;
+        if (liveMode !== 'idle' && liveEntry && !document.hidden) {
+          startLiveLoop();
+        }
+      });
       return true;
     } catch (e) {
+      webglUnavailable = true;
       console.warn('WebGL live renderer unavailable:', e);
       return false;
     }
@@ -262,13 +374,55 @@
     liveCamera.updateProjectionMatrix();
   }
 
+  function renderModalStageFallback(hostEl, msg, onRetry) {
+    hostEl.textContent = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'stage-fallback-box';
+    const p = document.createElement('p');
+    p.textContent = msg;
+    wrap.appendChild(p);
+    if (typeof onRetry === 'function') {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'modal-tool-btn';
+      btn.textContent = '↻ Thử lại';
+      btn.addEventListener('click', onRetry);
+      wrap.appendChild(btn);
+    }
+    hostEl.appendChild(wrap);
+  }
+
   let mountRequestToken = 0;
 
   function mountLiveModel(kind, id, catalog, hostEl, mode) {
-    if (!ensureLiveRenderer()) return;
+    if (!ensureLiveRenderer()) {
+      if (mode === 'modal') {
+        renderModalStageFallback(hostEl, 'Trình duyệt của bạn không hỗ trợ WebGL 3D.');
+      }
+      return;
+    }
     const token = ++mountRequestToken;
+    pendingHoverHost = mode === 'hover' ? hostEl : null;
+
+    if (mode === 'modal') {
+      const existingFallback = hostEl.querySelector('.stage-fallback-box');
+      if (existingFallback) existingFallback.remove();
+    }
+
     prepareModelAsync(kind, id, catalog).then(function (entry) {
-      if (token !== mountRequestToken || !entry) return;
+      if (token !== mountRequestToken) return;
+      if (mode === 'hover' && pendingHoverHost !== hostEl) return;
+
+      if (!entry) {
+        if (mode === 'modal') {
+          renderModalStageFallback(
+            hostEl,
+            'Không thể tải mô hình 3D lúc này. Vui lòng kiểm tra kết nối mạng.',
+            function () { mountLiveModel(kind, id, catalog, hostEl, mode); }
+          );
+        }
+        return;
+      }
 
       if (liveEntry && liveEntry.pivot.parent === liveScene) {
         liveScene.remove(liveEntry.pivot);
@@ -280,6 +434,7 @@
       liveEntry = entry;
       liveMode = mode;
       liveHost = hostEl;
+      if (mode === 'hover') pendingHoverHost = null;
 
       if (liveRenderer.domElement.parentNode !== hostEl) {
         hostEl.appendChild(liveRenderer.domElement);
@@ -304,6 +459,7 @@
 
   function unmountLiveModel() {
     mountRequestToken++;
+    pendingHoverHost = null;
     if (rafId) {
       cancelAnimationFrame(rafId);
       rafId = 0;
@@ -317,20 +473,34 @@
     liveEntry = null;
     liveHost = null;
     liveMode = 'idle';
+
+    // Render any card thumbnails that were deferred while their model was live
+    if (deferredThumbBoxes.size > 0) {
+      const pending = Array.from(deferredThumbBoxes);
+      deferredThumbBoxes.clear();
+      pending.forEach(function (box) {
+        if (box.dataset.rendered !== '1') {
+          renderQueue.push(box);
+        }
+      });
+      pumpRenderQueue();
+    }
   }
 
   function startLiveLoop() {
     if (rafId) cancelAnimationFrame(rafId);
+    if (document.hidden || isContextLost) return;
     let lastTime = performance.now();
 
     function tick() {
-      if (liveMode === 'idle' || !liveEntry || !liveRenderer) {
+      if (liveMode === 'idle' || !liveEntry || !liveRenderer || document.hidden || isContextLost) {
         rafId = 0;
         return;
       }
 
       const now = performance.now();
-      const dt = Math.min(50, now - lastTime);
+      const dt = Math.min(50, Math.max(0, now - lastTime));
+      const dtSec = dt / 1000;
       lastTime = now;
 
       if (liveMode === 'hover') {
@@ -339,9 +509,11 @@
         targetRotY += dt * 0.00055;
       }
 
-      rotY += (targetRotY - rotY) * 0.14;
-      rotX += (targetRotX - rotX) * 0.14;
-      zoomFactor += (targetZoom - zoomFactor) * 0.14;
+      // Frame-rate independent exponential smoothing
+      const damp = 1 - Math.exp(-9 * dtSec);
+      rotY += (targetRotY - rotY) * damp;
+      rotX += (targetRotX - rotX) * damp;
+      zoomFactor += (targetZoom - zoomFactor) * damp;
 
       liveEntry.pivot.rotation.set(rotX, rotY, 0);
       if (liveEntry.catalog && liveEntry.catalog.animate) {
@@ -363,6 +535,17 @@
     rafId = requestAnimationFrame(tick);
   }
 
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    } else if (liveMode !== 'idle' && liveEntry && !isContextLost && !rafId) {
+      startLiveLoop();
+    }
+  });
+
   // Hover live preview on desktop devices (only when modal is closed)
   const canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
   if (canHover) {
@@ -377,7 +560,7 @@
 
       box.addEventListener('mouseleave', function () {
         box.classList.remove('is-live');
-        if (liveMode === 'hover' && liveHost === box) {
+        if (pendingHoverHost === box || (liveMode === 'hover' && liveHost === box)) {
           unmountLiveModel();
         }
       });
@@ -385,7 +568,7 @@
   }
 
   // =========================================================================
-  // 3. INTERACTIVE 360° 3D INSPECTOR MODAL (works for both Landmarks & Hazards)
+  // 3. INTERACTIVE 360° 3D INSPECTOR MODAL (scoped to visible page cards)
   // =========================================================================
   const modal = document.getElementById('landmarkModal');
   const modalStage = document.getElementById('landmarkModalStage');
@@ -404,6 +587,7 @@
 
   let activeModalKind = 'landmark';
   let currentModalIndex = 0;
+  let lastFocusedEl = null;
 
   function updateAutoRotateBtn() {
     if (!btnAutoRotate) return;
@@ -411,47 +595,65 @@
     btnAutoRotate.setAttribute('aria-pressed', autoRotate ? 'true' : 'false');
   }
 
-  function getModalData(kind, index) {
-    if (kind === 'hazard' && hazardsCatalog) {
-      const info = hazardsCatalog.list[index];
-      const box = hazardBoxes.find(function (b) { return b.dataset.hazardId === info.id; });
-      const card = box ? box.closest('.hazard-card') : null;
+  function getBoxesForKind(kind) {
+    return kind === 'hazard' ? hazardBoxes : landmarkBoxes;
+  }
+
+  function getModalData(kind, boxIndex) {
+    const boxes = getBoxesForKind(kind);
+    const box = boxes[boxIndex];
+    const total = boxes.length;
+
+    if (kind === 'hazard' && hazardsCatalog && box) {
+      const id = box.dataset.hazardId;
+      const info = hazardsCatalog.list.find(function (item) { return item.id === id; }) || {
+        id: id,
+        nameVi: '',
+        levelVi: '',
+      };
+      const card = box.closest('.hazard-card');
       const lvlEl = card ? card.querySelector('.level-pill') : null;
       const dmgEl = card ? card.querySelector('.damage-pill') : null;
+      const titleEl = card ? card.querySelector('.hazard-title') : null;
       const descEl = card ? card.querySelector('.hazard-desc') : null;
       const tipEl = card ? card.querySelector('.hazard-tip') : null;
       return {
         kind: 'hazard',
-        id: info.id,
+        id: id,
         catalog: hazardsCatalog,
-        num: '#' + String(index + 1).padStart(2, '0') + ' / ' + hazardsCatalog.list.length,
+        num: '#' + String(boxIndex + 1).padStart(2, '0') + ' / ' + total,
         badgeText: lvlEl ? lvlEl.textContent.trim() : info.levelVi,
         badgeClass: lvlEl ? lvlEl.className : 'level-pill',
-        name: info.nameVi,
+        name: info.nameVi || (titleEl ? titleEl.textContent.trim() : ''),
         sub: dmgEl ? '⚡ Tác động: ' + dmgEl.textContent.trim() : '',
         desc: descEl ? descEl.textContent.trim() : '',
-        tagText: tipEl ? tipEl.textContent.trim() : 'Thử thách bản cập nhật 3.0',
+        tagText: tipEl ? tipEl.textContent.trim() : 'Thử thách Fly to The End v4.0',
         tagClass: 'landmark-tag',
         prevLabel: '‹ Thử thách trước',
         nextLabel: 'Thử thách tiếp ›',
       };
     }
 
-    const info = landmarksCatalog.list[index];
-    const box = landmarkBoxes.find(function (b) { return b.dataset.landmarkId === info.id; });
+    const id = box ? box.dataset.landmarkId : '';
+    const info =
+      landmarksCatalog && Array.isArray(landmarksCatalog.list)
+        ? landmarksCatalog.list.find(function (item) { return item.id === id; })
+        : null;
     const card = box ? box.closest('.landmark-card') : null;
     const regEl = card ? card.querySelector('.landmark-region') : null;
+    const nameEl = card ? card.querySelector('.landmark-name') : null;
+    const locEl = card ? card.querySelector('.landmark-loc') : null;
     const descEl = card ? card.querySelector('.landmark-desc') : null;
     const tagEl = card ? card.querySelector('.landmark-tag') : null;
     return {
       kind: 'landmark',
-      id: info.id,
+      id: id,
       catalog: landmarksCatalog,
-      num: '#' + String(index + 1).padStart(2, '0') + ' / ' + landmarksCatalog.list.length,
+      num: '#' + String(boxIndex + 1).padStart(2, '0') + ' / ' + total,
       badgeText: regEl ? regEl.textContent.trim() : '',
       badgeClass: regEl ? regEl.className : 'landmark-region',
-      name: info.nameVi,
-      sub: '📍 ' + info.locationVi,
+      name: (info && info.nameVi) || (nameEl ? nameEl.textContent.trim() : ''),
+      sub: (info && info.locationVi) ? '📍 ' + info.locationVi : (locEl ? locEl.textContent.trim() : ''),
       desc: descEl ? descEl.textContent.trim() : '',
       tagText: tagEl ? tagEl.textContent.trim() : '',
       tagClass: tagEl ? tagEl.className : 'landmark-tag',
@@ -460,16 +662,23 @@
     };
   }
 
-  function openModelModal(kind, index) {
+  function openModelModal(kind, boxIndex) {
     if (!modal || !modalStage) return;
-    const cat = kind === 'hazard' ? hazardsCatalog : landmarksCatalog;
-    if (!cat) return;
+    const boxes = getBoxesForKind(kind);
+    if (boxes.length === 0) return;
+
+    const wasOpen = modal.classList.contains('is-open');
+    if (!wasOpen) {
+      lastFocusedEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    }
 
     activeModalKind = kind;
-    currentModalIndex = (index + cat.list.length) % cat.list.length;
+    currentModalIndex = ((boxIndex % boxes.length) + boxes.length) % boxes.length;
     const data = getModalData(kind, currentModalIndex);
+    if (!data.id || !data.catalog) return;
 
     allPreviewBoxes.forEach(function (b) { b.classList.remove('is-live'); });
+    pendingHoverHost = null;
 
     if (modalNum) modalNum.textContent = data.num;
     if (modalRegion) {
@@ -490,6 +699,10 @@
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
+    if (!wasOpen && btnModalClose) {
+      btnModalClose.focus();
+    }
+
     requestAnimationFrame(function () {
       mountLiveModel(data.kind, data.id, data.catalog, modalStage, 'modal');
     });
@@ -502,21 +715,33 @@
     document.body.classList.remove('modal-open');
     isDragging = false;
     unmountLiveModel();
+    if (lastFocusedEl && typeof lastFocusedEl.focus === 'function') {
+      lastFocusedEl.focus();
+      lastFocusedEl = null;
+    }
   }
 
-  allPreviewBoxes.forEach(function (box) {
-    const meta = getBoxMeta(box);
-    if (!meta.catalog) return;
-    const idx = meta.catalog.list.findIndex(function (item) { return item.id === meta.id; });
-    if (idx < 0) return;
-
+  // Bind click & keyboard handlers unconditionally (never depends on async manifest readiness!)
+  hazardBoxes.forEach(function (box, idx) {
     box.addEventListener('click', function () {
-      openModelModal(meta.kind, idx);
+      openModelModal('hazard', idx);
     });
     box.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openModelModal(meta.kind, idx);
+        openModelModal('hazard', idx);
+      }
+    });
+  });
+
+  landmarkBoxes.forEach(function (box, idx) {
+    box.addEventListener('click', function () {
+      openModelModal('landmark', idx);
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModelModal('landmark', idx);
       }
     });
   });
@@ -589,6 +814,7 @@
       }
     }, { passive: false });
     window.addEventListener('touchend', onDragEnd);
+    window.addEventListener('touchcancel', onDragEnd);
 
     modalStage.addEventListener('wheel', function (e) {
       if (liveMode !== 'modal') return;

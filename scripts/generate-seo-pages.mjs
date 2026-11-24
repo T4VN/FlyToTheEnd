@@ -59,6 +59,8 @@ function renderHead({ title, description, keywords, canonicalUrl, jsonLd }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://cdn.flytotheend.t4vn.com; connect-src 'self' https://cdn.flytotheend.t4vn.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>${escHtml(title)}</title>
   <meta name="title" content="${escHtml(title)}">
@@ -237,7 +239,7 @@ ${renderHeader()}
               <noscript><p style="padding:2rem;text-align:center;">Bật JavaScript để xoay 360° mô hình 3D ${escHtml(lm.name)}.</p></noscript>
             </div>
             <div class="landmark-stage-toolbar">
-              <span class="landmark-stage-hint">Kéo chuột / vuốt để xoay 360° • Cuộn để phóng to</span>
+              <span class="landmark-stage-hint">Kéo chuột / vuốt để xoay 360° • Ctrl + Cuộn hoặc +/− để phóng to</span>
               <div class="landmark-stage-btns">
                 <button type="button" class="modal-tool-btn is-active" id="detailAutoRotate" aria-pressed="true" title="Tự động xoay">↻ Tự xoay</button>
                 <button type="button" class="modal-tool-btn" id="detailZoomOut" title="Thu nhỏ">−</button>
@@ -324,7 +326,7 @@ ${renderHeader()}
             ${faqs
               .map(
                 (f, i) => `<div class="faq-item${i === 0 ? ' active' : ''}">
-              <button class="faq-question" type="button">
+              <button class="faq-question" type="button" aria-expanded="${i === 0 ? 'true' : 'false'}">
                 <span>${escHtml(f.q)}</span>
                 <span class="faq-icon">+</span>
               </button>
@@ -391,10 +393,10 @@ ${renderHeader()}
 ${renderFooter()}
 
   <!-- Scripts -->
-  <script src="../js/three.min.js"></script>
-  <script src="../js/main.js"></script>
-  <script src="../js/landmarks-demo.js"></script>
-  <script src="../js/landmark-detail-3d.js"></script>
+  <script src="../js/three.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/landmarks-demo.js" defer></script>
+  <script src="../js/landmark-detail-3d.js" defer></script>
 </body>
 </html>
 `;
@@ -565,10 +567,10 @@ ${renderFooter()}
   </div>
 
   <!-- Scripts -->
-  <script src="../js/three.min.js"></script>
-  <script src="../js/main.js"></script>
-  <script src="../js/landmarks-demo.js"></script>
-  <script src="../js/landmarks-showcase.js"></script>
+  <script src="../js/three.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/landmarks-demo.js" defer></script>
+  <script src="../js/landmarks-showcase.js" defer></script>
 </body>
 </html>
 `;
@@ -626,8 +628,16 @@ fs.writeFileSync(path.join(WEB_ROOT, 'sitemap.xml'), sitemapXml, 'utf8');
 const landmarksHtmlPath = path.join(WEB_ROOT, 'landmarks.html');
 let landmarksHtml = fs.readFileSync(landmarksHtmlPath, 'utf8');
 
-// 4a. Upgrade OG & Twitter image to 1200x628 banner
+// 4a. Upgrade OG & Twitter image to 1200x628 banner, ensure CSP/Referrer & deferred scripts
+const WEB_CSP = `default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://cdn.flytotheend.t4vn.com; connect-src 'self' https://cdn.flytotheend.t4vn.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self';`;
+if (!landmarksHtml.includes('http-equiv="Content-Security-Policy"')) {
+  landmarksHtml = landmarksHtml.replace(
+    /<meta http-equiv="X-UA-Compatible" content="IE=edge">/,
+    `<meta http-equiv="X-UA-Compatible" content="IE=edge">\n  <meta http-equiv="Content-Security-Policy" content="${WEB_CSP}">\n  <meta name="referrer" content="strict-origin-when-cross-origin">`
+  );
+}
 landmarksHtml = landmarksHtml
+  .replace(/<script src="(js\/[^"]+\.js)"><\/script>/g, '<script src="$1" defer></script>')
   .replace(
     /<meta property="og:image" content="https:\/\/flytotheend\.t4vn\.com\/assets\/images\/icon-512\.png">\s*<meta property="og:image:width" content="512">\s*<meta property="og:image:height" content="512">/,
     `<meta property="og:image" content="${SITE_URL}/assets/images/og-banner-1200x628.png">\n  <meta property="og:image:width" content="1200">\n  <meta property="og:image:height" content="628">`

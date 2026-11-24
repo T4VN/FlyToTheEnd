@@ -30,7 +30,37 @@ const genFiles = fs
   .readdirSync(path.join(root, 'landmarks'))
   .filter((f) => f.endsWith('.html'))
   .map((f) => path.join(root, 'landmarks', f));
-const toCheck = [...genFiles, path.join(root, 'landmarks.html'), path.join(root, 'index.html')];
+const toCheck = [
+  ...genFiles,
+  path.join(root, 'landmarks.html'),
+  path.join(root, 'index.html'),
+  path.join(root, 'rules.html'),
+  path.join(root, 'download.html'),
+  path.join(root, 'privacy.html'),
+  path.join(root, 'terms.html'),
+];
+
+// Verify /play/index.html exists and has basic SEO tags
+const playHtmlPath = path.join(root, 'play', 'index.html');
+let playErrors = 0;
+if (!fs.existsSync(playHtmlPath)) {
+  console.error('MISSING PLAY ENTRY:', playHtmlPath);
+  playErrors++;
+} else {
+  const playHtml = fs.readFileSync(playHtmlPath, 'utf8');
+  if (!/<title>[^<]+<\/title>/.test(playHtml)) {
+    console.error('NO TITLE IN PLAY:', playHtmlPath);
+    playErrors++;
+  }
+  if (!/<meta\s+name="description"\s+content="[^"]+"\s*\/?>/i.test(playHtml)) {
+    console.error('NO DESC IN PLAY:', playHtmlPath);
+    playErrors++;
+  }
+  if (!/<link\s+rel="canonical"\s+href="https:\/\/flytotheend\.t4vn\.com\/play\/"\s*\/?>/i.test(playHtml)) {
+    console.error('NO CANONICAL IN PLAY:', playHtmlPath);
+    playErrors++;
+  }
+}
 
 let jsonErrors = 0;
 let metaErrors = 0;
@@ -101,7 +131,9 @@ console.log('Meta/H1 errors:', metaErrors);
 console.log('Duplicate canonicals:', duplicateCanonicals);
 console.log('Broken internal HTML links:', brokenInternalLinks);
 
-if (missingFiles + jsonErrors + metaErrors + duplicateCanonicals + brokenInternalLinks > 0) {
+console.log('Play entry errors:', playErrors);
+
+if (missingFiles + jsonErrors + metaErrors + duplicateCanonicals + brokenInternalLinks + playErrors > 0) {
   process.exit(1);
 }
 console.log('ALL SEO CHECKS PASSED!');
