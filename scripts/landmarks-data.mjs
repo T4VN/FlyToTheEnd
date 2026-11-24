@@ -106,7 +106,7 @@ export const LANDMARKS = [
     "keywords": "Khu di tích Pác Bó, Hang Pác Bó 3D, Suối Lê-nin Cao Bằng, di tích lịch sử Cao Bằng"
   },
   {
-    "order": 2,
+    "order": 3,
     "id": "thac_ban_gioc",
     "slug": "thac-ban-gioc",
     "region": "north",
@@ -206,7 +206,7 @@ export const LANDMARKS = [
     "keywords": "ATK Định Hóa, ATK Định Hóa 3D, đồi Tỉn Keo Thái Nguyên, Thủ đô gió ngàn Việt Bắc"
   },
   {
-    "order": 3,
+    "order": 7,
     "id": "dinh_fansipan",
     "slug": "dinh-fansipan",
     "region": "north",
@@ -231,7 +231,7 @@ export const LANDMARKS = [
     "keywords": "Đỉnh Fansipan, Fansipan 3D, Nóc nhà Đông Dương, Sa Pa Lào Cai, mô hình 3D Fansipan"
   },
   {
-    "order": 4,
+    "order": 8,
     "id": "mu_cang_chai",
     "slug": "mu-cang-chai",
     "region": "north",
@@ -256,7 +256,7 @@ export const LANDMARKS = [
     "keywords": "Ruộng Bậc Thang Mù Cang Chải, Mù Cang Chải 3D, Yên Bái, danh thắng Tây Bắc"
   },
   {
-    "order": 5,
+    "order": 9,
     "id": "dien_bien_phu",
     "slug": "dien-bien-phu",
     "region": "north",
@@ -281,7 +281,7 @@ export const LANDMARKS = [
     "keywords": "Tượng Đài Điện Biên Phủ, Điện Biên Phủ 3D, đồi D1 Điện Biên, di tích lịch sử Việt Nam"
   },
   {
-    "order": 6,
+    "order": 10,
     "id": "den_hung",
     "slug": "den-hung",
     "region": "north",
@@ -331,7 +331,7 @@ export const LANDMARKS = [
     "keywords": "Đền Đô Bắc Ninh, Đền Đô 3D, Lý Bát Đế, Thủy Đình Đền Đô, di tích lịch sử Bắc Ninh"
   },
   {
-    "order": 7,
+    "order": 12,
     "id": "chua_mot_cot",
     "slug": "chua-mot-cot",
     "region": "north",
@@ -356,7 +356,7 @@ export const LANDMARKS = [
     "keywords": "Chùa Một Cột, Chùa Một Cột 3D, Hà Nội, Diên Hựu Tự, mô hình 3D Chùa Một Cột"
   },
   {
-    "order": 8,
+    "order": 13,
     "id": "ho_guom",
     "slug": "ho-guom",
     "region": "north",
@@ -381,7 +381,7 @@ export const LANDMARKS = [
     "keywords": "Tháp Rùa Hồ Gươm, Hồ Gươm 3D, Hồ Hoàn Kiếm, mô hình 3D Tháp Rùa Hà Nội"
   },
   {
-    "order": 9,
+    "order": 14,
     "id": "khue_van_cac",
     "slug": "khue-van-cac",
     "region": "north",
@@ -406,7 +406,7 @@ export const LANDMARKS = [
     "keywords": "Văn Miếu Khuê Văn Các, Khuê Văn Các 3D, Quốc Tử Giám Hà Nội, mô hình 3D Văn Miếu"
   },
   {
-    "order": 10,
+    "order": 15,
     "id": "cau_long_bien",
     "slug": "cau-long-bien",
     "region": "north",
@@ -481,7 +481,7 @@ export const LANDMARKS = [
     "keywords": "Bãi cọc Bạch Đằng, Bãi cọc Bạch Đằng 3D, chiến thắng Bạch Đằng Hải Phòng, Ngô Quyền Trần Hưng Đạo"
   },
   {
-    "order": 11,
+    "order": 18,
     "id": "vinh_ha_long",
     "slug": "vinh-ha-long",
     "region": "north",
@@ -506,7 +506,7 @@ export const LANDMARKS = [
     "keywords": "Vịnh Hạ Long, Vịnh Hạ Long 3D, Di sản UNESCO Quảng Ninh, Hòn Trống Mái 3D"
   },
   {
-    "order": 12,
+    "order": 19,
     "id": "chua_dong_yen_tu",
     "slug": "chua-dong-yen-tu",
     "region": "north",
@@ -556,7 +556,7 @@ export const LANDMARKS = [
     "keywords": "Đền Trần Nam Định, Đền Trần 3D, Hào khí Đông A, cổng Ngũ Môn Đền Trần, di tích Nam Định"
   },
   {
-    "order": 13,
+    "order": 21,
     "id": "trang_an",
     "slug": "trang-an",
     "region": "north",
@@ -581,7 +581,7 @@ export const LANDMARKS = [
     "keywords": "Danh Thắng Tràng An, Tràng An 3D, Ninh Bình, Di sản UNESCO Tràng An"
   },
   {
-    "order": 14,
+    "order": 22,
     "id": "chua_bai_dinh",
     "slug": "chua-bai-dinh",
     "region": "north",
@@ -606,7 +606,7 @@ export const LANDMARKS = [
     "keywords": "Bảo Tháp Chùa Bái Đính, Chùa Bái Đính 3D, Ninh Bình, mô hình 3D Chùa Bái Đính"
   },
   {
-    "order": 15,
+    "order": 23,
     "id": "thanh_nha_ho",
     "slug": "thanh-nha-ho",
     "region": "central",
@@ -631,7 +631,7 @@ export const LANDMARKS = [
     "keywords": "Thành Nhà Hồ, Thành Nhà Hồ 3D, Tây Đô Thanh Hóa, Di sản UNESCO Thanh Hóa"
   },
   {
-    "order": 16,
+    "order": 24,
     "id": "lang_sen_que_bac",
     "slug": "lang-sen-que-bac",
     "region": "central",
@@ -681,7 +681,7 @@ export const LANDMARKS = [
     "keywords": "Ngã ba Đồng Lộc, Ngã ba Đồng Lộc 3D, 10 cô gái Đồng Lộc, di tích lịch sử Hà Tĩnh"
   },
   {
-    "order": 17,
+    "order": 26,
     "id": "phong_nha",
     "slug": "phong-nha",
     "region": "central",
@@ -731,7 +731,7 @@ export const LANDMARKS = [
     "keywords": "Địa đạo Vịnh Mốc, Địa đạo Vịnh Mốc 3D, làng hầm Vĩnh Linh, di tích lịch sử Quảng Trị"
   },
   {
-    "order": 18,
+    "order": 28,
     "id": "cau_hien_luong",
     "slug": "cau-hien-luong",
     "region": "central",
@@ -781,7 +781,7 @@ export const LANDMARKS = [
     "keywords": "Thành Cổ Quảng Trị, Thành Cổ Quảng Trị 3D, 81 ngày đêm 1972, di tích lịch sử Quảng Trị"
   },
   {
-    "order": 19,
+    "order": 30,
     "id": "kinh_thanh_hue",
     "slug": "kinh-thanh-hue",
     "region": "central",
@@ -806,7 +806,7 @@ export const LANDMARKS = [
     "keywords": "Kinh Thành Huế, Ngọ Môn Huế 3D, Cố đô Huế, Di sản UNESCO Huế"
   },
   {
-    "order": 20,
+    "order": 31,
     "id": "chua_thien_mu",
     "slug": "chua-thien-mu",
     "region": "central",
@@ -831,7 +831,7 @@ export const LANDMARKS = [
     "keywords": "Chùa Thiên Mụ, Chùa Thiên Mụ 3D, Tháp Phước Duyên, sông Hương Huế"
   },
   {
-    "order": 21,
+    "order": 32,
     "id": "cau_rong",
     "slug": "cau-rong",
     "region": "central",
@@ -856,7 +856,7 @@ export const LANDMARKS = [
     "keywords": "Cầu Rồng Đà Nẵng, Cầu Rồng 3D, Cầu Rồng phun lửa, mô hình 3D Cầu Rồng"
   },
   {
-    "order": 22,
+    "order": 33,
     "id": "cau_vang",
     "slug": "cau-vang",
     "region": "central",
@@ -881,7 +881,7 @@ export const LANDMARKS = [
     "keywords": "Cầu Vàng Bà Nà Hills, Cầu Vàng 3D, Đà Nẵng, mô hình 3D Cầu Vàng"
   },
   {
-    "order": 23,
+    "order": 34,
     "id": "pho_co_hoi_an",
     "slug": "pho-co-hoi-an",
     "region": "central",
@@ -906,7 +906,7 @@ export const LANDMARKS = [
     "keywords": "Phố Cổ Hội An, Hội An 3D, Chùa Cầu Hội An, Di sản UNESCO Quảng Nam"
   },
   {
-    "order": 24,
+    "order": 35,
     "id": "thanh_dia_my_son",
     "slug": "thanh-dia-my-son",
     "region": "central",
@@ -931,7 +931,7 @@ export const LANDMARKS = [
     "keywords": "Thánh Địa Mỹ Sơn, Mỹ Sơn 3D, Quảng Nam, đền tháp Chăm Pa UNESCO"
   },
   {
-    "order": 25,
+    "order": 36,
     "id": "dao_ly_son",
     "slug": "dao-ly-son",
     "region": "central",
@@ -981,7 +981,7 @@ export const LANDMARKS = [
     "keywords": "Bảo tàng Quang Trung, Bảo tàng Quang Trung 3D, Tây Sơn Bình Định, Nguyễn Huệ, di tích Bình Định"
   },
   {
-    "order": 26,
+    "order": 38,
     "id": "ganh_da_dia",
     "slug": "ganh-da-dia",
     "region": "central",
@@ -1031,7 +1031,7 @@ export const LANDMARKS = [
     "keywords": "Tàu Không Số Vũng Rô, di tích Vũng Rô 3D, Đường Hồ Chí Minh trên biển, di tích lịch sử Phú Yên"
   },
   {
-    "order": 27,
+    "order": 40,
     "id": "thap_cham",
     "slug": "thap-cham-po-nagar",
     "region": "central",
@@ -1081,7 +1081,7 @@ export const LANDMARKS = [
     "keywords": "Tháp Pô Klong Garai, Tháp Chăm Ninh Thuận 3D, di tích Ninh Thuận, kiến trúc Champa"
   },
   {
-    "order": 28,
+    "order": 42,
     "id": "nha_rong_kon_tum",
     "slug": "nha-rong-kon-tum",
     "region": "highlands",
@@ -1131,7 +1131,7 @@ export const LANDMARKS = [
     "keywords": "Chiến thắng Đắk Tô Tân Cảnh, Đắk Tô Tân Cảnh 3D, xe tăng 377 Kon Tum, di tích Tây Nguyên"
   },
   {
-    "order": 29,
+    "order": 44,
     "id": "bien_ho_tnung",
     "slug": "bien-ho-tnung",
     "region": "highlands",
@@ -1156,7 +1156,7 @@ export const LANDMARKS = [
     "keywords": "Biển Hồ T'Nưng, Biển Hồ Pleiku 3D, Gia Lai, Đôi mắt Pleiku"
   },
   {
-    "order": 30,
+    "order": 45,
     "id": "bao_tang_ca_phe",
     "slug": "bao-tang-the-gioi-ca-phe",
     "region": "highlands",
@@ -1181,7 +1181,7 @@ export const LANDMARKS = [
     "keywords": "Bảo Tàng Thế Giới Cà Phê, Bảo Tàng Cà Phê 3D, Buôn Ma Thuột Đắk Lắk"
   },
   {
-    "order": 31,
+    "order": 46,
     "id": "quang_truong_lam_vien",
     "slug": "quang-truong-lam-vien",
     "region": "highlands",
@@ -1206,7 +1206,7 @@ export const LANDMARKS = [
     "keywords": "Quảng Trường Lâm Viên, Quảng Trường Lâm Viên 3D, Đà Lạt Lâm Đồng, Nụ Hoa Atisô"
   },
   {
-    "order": 32,
+    "order": 47,
     "id": "doi_cat_mui_ne",
     "slug": "doi-cat-mui-ne",
     "region": "south",
@@ -1306,7 +1306,7 @@ export const LANDMARKS = [
     "keywords": "Địa đạo Củ Chi, Địa đạo Củ Chi 3D, Đất thép thành đồng, Đền Bến Dược, di tích lịch sử TPHCM"
   },
   {
-    "order": 33,
+    "order": 51,
     "id": "tuong_chua_vung_tau",
     "slug": "tuong-chua-kito-vung-tau",
     "region": "south",
@@ -1356,7 +1356,7 @@ export const LANDMARKS = [
     "keywords": "Nhà tù Côn Đảo, Nhà tù Côn Đảo 3D, Cầu tàu 914, Nghĩa trang Hàng Dương, di tích Bà Rịa Vũng Tàu"
   },
   {
-    "order": 34,
+    "order": 53,
     "id": "nha_tho_duc_ba",
     "slug": "nha-tho-duc-ba",
     "region": "south",
@@ -1381,7 +1381,7 @@ export const LANDMARKS = [
     "keywords": "Nhà Thờ Đức Bà Sài Gòn, Nhà Thờ Đức Bà 3D, TP Hồ Chí Minh, kiến trúc Sài Gòn"
   },
   {
-    "order": 35,
+    "order": 54,
     "id": "cho_ben_thanh",
     "slug": "cho-ben-thanh",
     "region": "south",
@@ -1406,7 +1406,7 @@ export const LANDMARKS = [
     "keywords": "Chợ Bến Thành, Chợ Bến Thành 3D, Quận 1 TP HCM, tháp đồng hồ Chợ Bến Thành"
   },
   {
-    "order": 36,
+    "order": 55,
     "id": "dinh_doc_lap",
     "slug": "dinh-doc-lap",
     "region": "south",
@@ -1431,7 +1431,7 @@ export const LANDMARKS = [
     "keywords": "Dinh Độc Lập, Dinh Độc Lập 3D, Hội trường Thống Nhất, TP Hồ Chí Minh"
   },
   {
-    "order": 37,
+    "order": 56,
     "id": "landmark_81",
     "slug": "landmark-81",
     "region": "south",
@@ -1456,7 +1456,7 @@ export const LANDMARKS = [
     "keywords": "Landmark 81, Landmark 81 3D, tòa nhà cao nhất Việt Nam, TP Hồ Chí Minh"
   },
   {
-    "order": 38,
+    "order": 57,
     "id": "cau_my_thuan",
     "slug": "cau-my-thuan",
     "region": "south",
@@ -1506,7 +1506,7 @@ export const LANDMARKS = [
     "keywords": "Di tích Đồng Khởi Bến Tre, Đồng Khởi Bến Tre 3D, Xứ Dừa Bến Tre, Đội quân tóc dài"
   },
   {
-    "order": 39,
+    "order": 59,
     "id": "cho_noi_cai_rang",
     "slug": "cho-noi-cai-rang",
     "region": "south",
@@ -1531,7 +1531,7 @@ export const LANDMARKS = [
     "keywords": "Chợ Nổi Cái Răng, Chợ Nổi Cái Răng 3D, Cần Thơ, văn hóa sông nước miền Tây"
   },
   {
-    "order": 40,
+    "order": 60,
     "id": "dien_gio_bac_lieu",
     "slug": "dien-gio-bac-lieu",
     "region": "south",
@@ -1556,7 +1556,7 @@ export const LANDMARKS = [
     "keywords": "Cánh Đồng Điện Gió Bạc Liêu, Điện Gió Bạc Liêu 3D, Bạc Liêu, năng lượng xanh"
   },
   {
-    "order": 41,
+    "order": 61,
     "id": "dao_phu_quoc",
     "slug": "dao-phu-quoc",
     "region": "south",
@@ -1606,7 +1606,7 @@ export const LANDMARKS = [
     "keywords": "Cột mốc chủ quyền Trường Sa, Trường Sa 3D, Hải đăng Trường Sa, biển đảo Việt Nam Khánh Hòa"
   },
   {
-    "order": 42,
+    "order": 63,
     "id": "mui_ca_mau",
     "slug": "mui-ca-mau",
     "region": "south",
