@@ -13,15 +13,38 @@
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./icon-192.png" />
-    <title>Fly to The End — 3D Sky Adventure</title>
-  <script type="module" crossorigin src="./assets/Dtdc3r0b.js"></script>
+    <title>Fly to The End — 3D Sky Adventure</title>
+    <style id="bootLoaderStyle">html,body{background:#dbe4c6;width:100%;height:100%;margin:0;padding:0;overflow:hidden}html:not(.app-ready) #gameHolder{opacity:0;visibility:hidden;pointer-events:none}#gameHolder{transition:opacity .24s ease-out}.app-loader{z-index:99999;padding:max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));color:#23190f;-webkit-font-smoothing:antialiased;-webkit-user-select:none;user-select:none;opacity:1;background:linear-gradient(#dbe4c6 0%,#f0e2be 52%,#f7d9aa 100%);flex-direction:column;justify-content:center;align-items:center;font-family:Plus Jakarta Sans Variable,Plus Jakarta Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;transition:opacity .26s ease-out;display:flex;position:fixed;top:0;bottom:0;left:0;right:0}.app-loader.app-loader--hidden{opacity:0;pointer-events:none}.app-loader__card{text-align:center;background:#fffcf5db;border:1px solid #ffffffeb;border-radius:28px;flex-direction:column;align-items:center;width:min(360px,90vw);padding:32px 26px 28px;display:flex;box-shadow:0 20px 50px #59332e24,0 4px 14px #59332e0f}.app-loader__sky{justify-content:center;align-items:center;width:112px;height:76px;margin-bottom:14px;display:flex;position:relative}.app-loader__cloud{background:#ffffffd9;border-radius:999px;position:absolute;box-shadow:0 4px 10px #68c3c02e}.app-loader__cloud--1{width:44px;height:14px;animation:2.6s ease-in-out infinite loaderCloudDrift;top:10px;left:2px}.app-loader__cloud--2{width:34px;height:11px;animation:3.1s ease-in-out infinite reverse loaderCloudDrift;bottom:10px;right:4px}.app-loader__plane{z-index:2;color:#f25346;filter:drop-shadow(0 8px 14px #f2534647);width:64px;height:64px;animation:1.9s ease-in-out infinite loaderPlaneFloat;position:relative}.app-loader__title{letter-spacing:-.02em;color:#23190f;margin:0;font-family:Playfair Display Variable,Playfair Display,Georgia,serif;font-size:clamp(1.65rem,5vw,2rem);font-weight:800;line-height:1.15}.app-loader__title i{color:#f25346;font-style:italic}.app-loader__subtitle{color:#7c5c38;margin:6px 0 22px;font-size:.86rem;font-weight:600}.app-loader__track{background:#59332e1f;border-radius:999px;width:100%;height:10px;position:relative;overflow:hidden;box-shadow:inset 0 1px 2px #23190f1a}.app-loader__bar{background:linear-gradient(90deg,#f25346 0%,#f5986e 60%,#f4ce93 100%);border-radius:999px;width:12%;height:100%;transition:width .22s ease-out;position:relative}.app-loader--booting .app-loader__bar{width:38%;animation:1.25s ease-in-out infinite loaderIndeterminate}.app-loader__meta{color:#6b5239;justify-content:space-between;align-items:center;gap:10px;width:100%;margin-top:10px;font-size:.78rem;font-weight:600;display:flex}.app-loader__status{text-align:left;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.app-loader__percent{font-variant-numeric:tabular-nums;color:#d6372a;flex-shrink:0;font-weight:800}@keyframes loaderPlaneFloat{0%,to{transform:translateY(0)rotate(-6deg)}50%{transform:translateY(-7px)rotate(2deg)}}@keyframes loaderCloudDrift{0%,to{opacity:.75;transform:translate(0)}50%{opacity:1;transform:translate(10px)}}@keyframes loaderIndeterminate{0%{transform:translate(-110%)}to{transform:translate(280%)}}@media (prefers-reduced-motion:reduce){.app-loader__plane,.app-loader__cloud--1,.app-loader__cloud--2,.app-loader--booting .app-loader__bar{animation:none}}</style>
+  <script type="module" crossorigin src="./assets/DkymzEbJ.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/4tVxZq34.js">
   <link rel="modulepreload" crossorigin href="./assets/RgojXK8T.js">
-  <link rel="modulepreload" crossorigin href="./assets/ChVm1wzq.js">
+  <link rel="modulepreload" crossorigin href="./assets/D7vrv806.js">
   <link rel="stylesheet" crossorigin href="./assets/EqJ6_FgY.css">
   <link rel="stylesheet" crossorigin href="./assets/CHYMLYjH.css">
 </head>
 <body>
+    <!-- BOOT LOADING SCREEN (Web + Windows/Tauri + Android/iOS Capacitor) -->
+    <div class="app-loader app-loader--booting" id="appLoader" role="status" aria-live="polite" aria-busy="true">
+        <div class="app-loader__card">
+            <div class="app-loader__sky" aria-hidden="true">
+                <span class="app-loader__cloud app-loader__cloud--1"></span>
+                <svg class="app-loader__plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" fill="rgba(242, 83, 70, 0.14)"></path>
+                </svg>
+                <span class="app-loader__cloud app-loader__cloud--2"></span>
+            </div>
+            <h1 class="app-loader__title">Fly <i>to</i> The End</h1>
+            <p class="app-loader__subtitle" id="appLoaderSubtitle">Fly Across the Skies of Vietnam</p>
+            <div class="app-loader__track">
+                <div class="app-loader__bar" id="appLoaderBar"></div>
+            </div>
+            <div class="app-loader__meta">
+                <span class="app-loader__status" id="appLoaderStatus">Loading...</span>
+                <span class="app-loader__percent" id="appLoaderPercent">0%</span>
+            </div>
+        </div>
+    </div>
+
     <div class="game-holder" id="gameHolder">
         <!-- 3D CANVAS WORLD -->
         <div class="world" id="world"></div>
