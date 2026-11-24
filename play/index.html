@@ -14,12 +14,12 @@
     <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./icon-192.png" />
     <title>Fly to The End — 3D Sky Adventure</title>
-  <script type="module" crossorigin src="./assets/BDBcF1dg.js"></script>
+  <script type="module" crossorigin src="./assets/7QzTZiBx.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/4tVxZq34.js">
   <link rel="modulepreload" crossorigin href="./assets/bQg95iRz.js">
-  <link rel="modulepreload" crossorigin href="./assets/Dbl6TJGh.js">
+  <link rel="modulepreload" crossorigin href="./assets/BV86N_Da.js">
   <link rel="stylesheet" crossorigin href="./assets/EqJ6_FgY.css">
-  <link rel="stylesheet" crossorigin href="./assets/17j5Gy8V.css">
+  <link rel="stylesheet" crossorigin href="./assets/CHYMLYjH.css">
 </head>
 <body>
     <div class="game-holder" id="gameHolder">
@@ -303,7 +303,13 @@
         <div class="screen-overlay" id="screenLobby2P" style="display: none;">
             <div class="menu-card lobby-card">
                 <h2 id="txtLobbyTitle">RACE WITH FRIENDS</h2>
-                <p class="lobby-subtitle" id="txtLobbyDesc">Create a 4-digit room code or enter a friend's code to fly together</p>
+                <p class="lobby-subtitle" id="txtLobbyDesc">Create a room code or enter a friend's code to fly together</p>
+
+                <!-- Pilot Name (Synced with Room & Global Top 20) -->
+                <div class="pilot-name-row lobby-name-row">
+                    <input type="text" id="inputPilotNameLobby" class="pilot-name-input" maxlength="18" placeholder="Pilot name..." autocomplete="off" />
+                    <button class="btn-save-name" id="btnSavePilotNameLobby" type="button">Save</button>
+                </div>
 
                 <!-- Step 1: Create or Join -->
                 <div id="lobbyEntryView" class="lobby-entry-view">
@@ -314,7 +320,7 @@
                     <div class="lobby-divider"><span>OR</span></div>
 
                     <div class="lobby-join-row">
-                        <input type="text" id="inputRoomCode2P" class="room-code-input" maxlength="6" placeholder="4-digit code" autocomplete="off" />
+                        <input type="text" id="inputRoomCode2P" class="room-code-input" maxlength="6" placeholder="Room code" autocomplete="off" />
                         <button class="btn-secondary btn-join-room" id="btnJoinRoom2P">
                             <span id="txtBtnJoinRoom">Join</span>
                         </button>
@@ -355,6 +361,21 @@
                     <div class="lobby-status-box" id="lobbyStatusBox">
                         <span class="status-dot" id="lobbyStatusDot"></span>
                         <span id="txtLobbyStatus">Waiting for friends to enter the room code...</span>
+                    </div>
+
+                    <!-- Joined Players List -->
+                    <div class="lobby-players-box" id="lobbyPlayersBox">
+                        <div class="lobby-players-header">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span id="txtLobbyPlayersTitle">PLAYERS IN ROOM</span>
+                            <span class="lobby-players-count" id="lobbyPlayersCount">1</span>
+                        </div>
+                        <div class="lobby-players-list" id="lobbyPlayersList"></div>
                     </div>
 
                     <button class="btn-primary" id="btnStartRace2P" disabled style="opacity: 0.5; margin-bottom: 8px;">
