@@ -14,12 +14,12 @@
     <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./icon-192.png" />
     <title>Fly to The End — 3D Sky Adventure</title>
-  <script type="module" crossorigin src="./assets/HoUrrxeb.js"></script>
+  <script type="module" crossorigin src="./assets/BDBcF1dg.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/4tVxZq34.js">
   <link rel="modulepreload" crossorigin href="./assets/bQg95iRz.js">
-  <link rel="modulepreload" crossorigin href="./assets/D9QH7ok2.js">
+  <link rel="modulepreload" crossorigin href="./assets/Dbl6TJGh.js">
   <link rel="stylesheet" crossorigin href="./assets/EqJ6_FgY.css">
-  <link rel="stylesheet" crossorigin href="./assets/1-2tk7S5.css">
+  <link rel="stylesheet" crossorigin href="./assets/17j5Gy8V.css">
 </head>
 <body>
     <div class="game-holder" id="gameHolder">
@@ -62,13 +62,28 @@
                     </div>
                 </div>
 
-                <!-- Pause Button -->
-                <button class="btn-pause" id="btnPause" title="Pause">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
-                        <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
-                    </svg>
-                </button>
+                <!-- HUD Action Buttons (Music Toggle + Pause) -->
+                <div class="hud-actions">
+                    <button class="btn-pause btn-music-hud" id="btnMusicHud" type="button" title="Background Music" aria-label="Toggle Background Music" aria-pressed="true">
+                        <svg class="icon-music-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        <svg class="icon-music-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                            <line x1="2" y1="2" x2="22" y2="22"></line>
+                        </svg>
+                    </button>
+                    <button class="btn-pause" id="btnPause" type="button" title="Pause">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+                            <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <!-- Vietnamese Heritage Landmark Badge -->
@@ -161,10 +176,23 @@
         <!-- SCREEN 1: MAIN MENU -->
         <div class="screen-overlay" id="screenMenu">
             <div class="menu-card">
-                <!-- LANGUAGE SWITCHER -->
+                <!-- LANGUAGE SWITCHER & MUSIC TOGGLE -->
                 <div class="lang-switch-wrapper">
-                    <button class="lang-btn" id="btnLangVi"><span class="lang-tag">VI</span> Tiếng Việt</button>
-                    <button class="lang-btn" id="btnLangEn"><span class="lang-tag">EN</span> English</button>
+                    <button class="lang-btn" id="btnLangVi" type="button"><span class="lang-tag">VI</span> Tiếng Việt</button>
+                    <button class="lang-btn" id="btnLangEn" type="button"><span class="lang-tag">EN</span> English</button>
+                    <button class="lang-btn btn-music-toggle active" id="btnMusicMenu" type="button" title="Background Music" aria-label="Toggle Background Music" aria-pressed="true">
+                        <svg class="icon-music-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        <svg class="icon-music-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                            <line x1="2" y1="2" x2="22" y2="22"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 <div class="brand">
@@ -348,10 +376,23 @@
         <!-- SCREEN 2: PAUSE MENU -->
         <div class="screen-overlay" id="screenPause" style="display: none;">
             <div class="menu-card pause-card">
-                <!-- LANGUAGE SWITCHER IN PAUSE -->
+                <!-- LANGUAGE SWITCHER & MUSIC TOGGLE IN PAUSE -->
                 <div class="lang-switch-wrapper">
-                    <button class="lang-btn" id="pauseLangVi"><span class="lang-tag">VI</span> Tiếng Việt</button>
-                    <button class="lang-btn" id="pauseLangEn"><span class="lang-tag">EN</span> English</button>
+                    <button class="lang-btn" id="pauseLangVi" type="button"><span class="lang-tag">VI</span> Tiếng Việt</button>
+                    <button class="lang-btn" id="pauseLangEn" type="button"><span class="lang-tag">EN</span> English</button>
+                    <button class="lang-btn btn-music-toggle active" id="btnMusicPause" type="button" title="Background Music" aria-label="Toggle Background Music" aria-pressed="true">
+                        <svg class="icon-music-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        <svg class="icon-music-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                            <line x1="2" y1="2" x2="22" y2="22"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 <h2 id="txtPauseTitle">PAUSED</h2>
