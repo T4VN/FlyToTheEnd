@@ -17,26 +17,37 @@ document.addEventListener('DOMContentLoaded', function () {
   const navLinks = document.getElementById('navLinks');
 
   if (mobileBtn && navLinks) {
+    function setMenuOpen(open) {
+      navLinks.classList.toggle('show', open);
+      mobileBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileBtn.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
+    }
+
     mobileBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
-      mobileBtn.setAttribute('aria-expanded', !isExpanded);
-      navLinks.classList.toggle('show');
+      setMenuOpen(!isExpanded);
     });
 
     // Close menu when clicking links
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('show');
-        mobileBtn.setAttribute('aria-expanded', 'false');
+        setMenuOpen(false);
       });
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', function (e) {
       if (!navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
-        navLinks.classList.remove('show');
-        mobileBtn.setAttribute('aria-expanded', 'false');
+        setMenuOpen(false);
+      }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('show')) {
+        setMenuOpen(false);
+        mobileBtn.focus();
       }
     });
   }
