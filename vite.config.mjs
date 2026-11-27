@@ -199,10 +199,44 @@ function collectHtmlInputs() {
   return inputs;
 }
 
+/**
+ * Serves extensionless clean URLs (e.g. /rules -> /rules.html, /landmarks/mien-bac -> /landmarks/mien-bac.html)
+ * in `vite dev` and `vite preview`, matching Cloudflare Pages Pretty URLs behavior.
+ */
+function cleanUrlsDevPlugin() {
+  const attachMiddleware = (middlewares, baseDir) => {
+    middlewares.use((req, _res, next) => {
+      if ((req.method === 'GET' || req.method === 'HEAD') && req.url) {
+        const qIndex = req.url.indexOf('?');
+        const rawPath = qIndex >= 0 ? req.url.slice(0, qIndex) : req.url;
+        const query = qIndex >= 0 ? req.url.slice(qIndex) : '';
+        if (rawPath !== '/' && !rawPath.endsWith('/') && !path.posix.extname(rawPath)) {
+          const candidate = path.join(baseDir, rawPath.replace(/^\/+/, '') + '.html');
+          if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+            req.url = `${rawPath}.html${query}`;
+          }
+        }
+      }
+      next();
+    });
+  };
+
+  return {
+    name: 'clean-urls-dev',
+    configureServer(server) {
+      attachMiddleware(server.middlewares, __dirname);
+    },
+    configurePreviewServer(server) {
+      attachMiddleware(server.middlewares, path.resolve(__dirname, 'dist'));
+    },
+  };
+}
+
 export default defineConfig({
   base: '/',
   publicDir: false,
   plugins: [
+    cleanUrlsDevPlugin(),
     htmlPartialsPlugin(),
     minifyHtmlPlugin(),
     staticAssetsAndMinifyJsPlugin(),

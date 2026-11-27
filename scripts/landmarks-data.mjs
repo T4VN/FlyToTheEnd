@@ -4,7 +4,7 @@
  */
 
 export const SITE_URL = "https://flytotheend.t4vn.com";
-export const LAST_MOD = "2026-11-24";
+export const LAST_MOD = "2026-11-27";
 
 export const REGIONS = {
   "north": {

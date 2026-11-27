@@ -124,8 +124,8 @@ LANDMARKS.forEach((lm, index) => {
   const nextLm = LANDMARKS[(index + 1) % LANDMARKS.length];
   const sameRegion = LANDMARKS.filter((other) => other.region === lm.region && other.id !== lm.id);
 
-  const canonicalUrl = `${SITE_URL}/landmarks/${lm.slug}.html`;
-  const regionUrl = `${SITE_URL}/landmarks/${region.slug}.html`;
+  const canonicalUrl = `${SITE_URL}/landmarks/${lm.slug}`;
+  const regionUrl = `${SITE_URL}/landmarks/${region.slug}`;
   const title = `${lm.name} (${lm.location}) - Mô Hình 3D & Lịch Sử | Fly to The End`;
   const description = `Khám phá ${lm.name} tại ${lm.location} qua mô hình 3D xoay 360° trực tiếp trong Fly to The End. ${lm.shortDesc}`;
 
@@ -162,7 +162,7 @@ LANDMARKS.forEach((lm, index) => {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE_URL}/` },
-          { '@type': 'ListItem', position: 2, name: 'Di tích Việt Nam 3D', item: `${SITE_URL}/landmarks.html` },
+          { '@type': 'ListItem', position: 2, name: 'Di tích Việt Nam 3D', item: `${SITE_URL}/landmarks` },
           { '@type': 'ListItem', position: 3, name: region.name, item: regionUrl },
           { '@type': 'ListItem', position: 4, name: lm.name, item: canonicalUrl },
         ],
@@ -220,9 +220,9 @@ ${renderHeader()}
     <nav class="breadcrumb-bar" aria-label="Breadcrumb">
       <div class="container">
         <ol class="breadcrumb-list">
-          <li><a href="../index.html">Trang chủ</a></li>
-          <li><a href="../landmarks.html">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
-          <li><a href="${region.slug}.html">${escHtml(region.name)}</a></li>
+          <li><a href="/">Trang chủ</a></li>
+          <li><a href="/landmarks">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
+          <li><a href="/landmarks/${region.slug}">${escHtml(region.name)}</a></li>
           <li class="is-current" aria-current="page">${escHtml(lm.name)}</li>
         </ol>
       </div>
@@ -254,7 +254,7 @@ ${renderHeader()}
             <div>
               <div class="landmark-detail-meta">
                 <span class="landmark-num">#${pad2(lm.order)} / ${TOTAL_LANDMARKS}</span>
-                <a href="${region.slug}.html" class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</a>
+                <a href="/landmarks/${region.slug}" class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</a>
                 <span class="${tagClass}">${escHtml(lm.tag)}</span>
               </div>
               <h1 class="landmark-detail-title">${escHtml(lm.name)}</h1>
@@ -264,7 +264,7 @@ ${renderHeader()}
               <div class="landmark-facts-list">
                 <div class="landmark-fact-row">
                   <span class="landmark-fact-label">Vùng miền</span>
-                  <span class="landmark-fact-value"><a href="${region.slug}.html">${escHtml(region.name)}</a></span>
+                  <span class="landmark-fact-value"><a href="/landmarks/${region.slug}">${escHtml(region.name)}</a></span>
                 </div>
                 <div class="landmark-fact-row">
                   <span class="landmark-fact-label">Địa phương</span>
@@ -286,11 +286,11 @@ ${renderHeader()}
             </div>
 
             <div class="landmark-detail-actions">
-              <a href="../play/" class="btn-hero-demo">
+              <a href="/play/" class="btn-hero-demo">
                 <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
                 <span>Bay Ngắm Trực Tuyến</span>
               </a>
-              <a href="../landmarks.html" class="btn-secondary-outline">← Tất cả ${TOTAL_LANDMARKS} Di tích</a>
+              <a href="/landmarks" class="btn-secondary-outline">← Tất cả ${TOTAL_LANDMARKS} Di tích</a>
             </div>
           </div>
         </div>
@@ -341,12 +341,12 @@ ${renderHeader()}
 
         <!-- PREV / NEXT JOURNEY NAVIGATION -->
         <nav class="landmark-journey-nav" aria-label="Điều hướng hành trình xuyên Việt">
-          <a href="${prevLm.slug}.html" class="journey-nav-card">
+          <a href="/landmarks/${prevLm.slug}" class="journey-nav-card">
             <span class="journey-nav-dir">‹ Chặng trước (#${pad2(prevLm.order)})</span>
             <span class="journey-nav-title">${escHtml(prevLm.name)}</span>
             <span class="journey-nav-sub">📍 ${escHtml(prevLm.location)}</span>
           </a>
-          <a href="${nextLm.slug}.html" class="journey-nav-card is-next">
+          <a href="/landmarks/${nextLm.slug}" class="journey-nav-card is-next">
             <span class="journey-nav-dir">Chặng tiếp theo (#${pad2(nextLm.order)}) ›</span>
             <span class="journey-nav-title">${escHtml(nextLm.name)}</span>
             <span class="journey-nav-sub">📍 ${escHtml(nextLm.location)}</span>
@@ -371,13 +371,13 @@ ${renderHeader()}
         <section class="related-landmarks-section">
           <div class="related-section-head">
             <h2>Các địa danh 3D khác tại ${escHtml(region.name)}</h2>
-            <a href="${region.slug}.html" class="related-all-link">Xem tất cả ${sameRegion.length + 1} di tích ${escHtml(region.name)} →</a>
+            <a href="/landmarks/${region.slug}" class="related-all-link">Xem tất cả ${sameRegion.length + 1} di tích ${escHtml(region.name)} →</a>
           </div>
           <div class="related-mini-grid">
             ${sameRegion
               .slice(0, 8)
               .map(
-                (r) => `<a href="${r.slug}.html" class="related-mini-card">
+                (r) => `<a href="/landmarks/${r.slug}" class="related-mini-card">
               <span class="related-mini-num">#${pad2(r.order)} • ${escHtml(r.tag)}</span>
               <span class="related-mini-name">${escHtml(r.name)}</span>
               <span class="related-mini-loc">📍 ${escHtml(r.location)}</span>
@@ -409,7 +409,7 @@ ${renderFooter()}
 // =========================================================================
 Object.values(REGIONS).forEach((region) => {
   const regionLandmarks = LANDMARKS.filter((lm) => lm.region === region.key);
-  const canonicalUrl = `${SITE_URL}/landmarks/${region.slug}.html`;
+  const canonicalUrl = `${SITE_URL}/landmarks/${region.slug}`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -428,7 +428,7 @@ Object.values(REGIONS).forEach((region) => {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE_URL}/` },
-          { '@type': 'ListItem', position: 2, name: 'Di tích Việt Nam 3D', item: `${SITE_URL}/landmarks.html` },
+          { '@type': 'ListItem', position: 2, name: 'Di tích Việt Nam 3D', item: `${SITE_URL}/landmarks` },
           { '@type': 'ListItem', position: 3, name: region.name, item: canonicalUrl },
         ],
       },
@@ -440,7 +440,7 @@ Object.values(REGIONS).forEach((region) => {
           '@type': 'ListItem',
           position: i + 1,
           name: `${lm.name} (${lm.location})`,
-          url: `${SITE_URL}/landmarks/${lm.slug}.html`,
+          url: `${SITE_URL}/landmarks/${lm.slug}`,
         })),
       },
     ],
@@ -462,8 +462,8 @@ ${renderHeader()}
     <nav class="breadcrumb-bar" aria-label="Breadcrumb">
       <div class="container">
         <ol class="breadcrumb-list">
-          <li><a href="../index.html">Trang chủ</a></li>
-          <li><a href="../landmarks.html">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
+          <li><a href="/">Trang chủ</a></li>
+          <li><a href="/landmarks">${TOTAL_LANDMARKS} Di tích VN 3D</a></li>
           <li class="is-current" aria-current="page">${escHtml(region.name)}</li>
         </ol>
       </div>
@@ -478,11 +478,11 @@ ${renderHeader()}
         <h1 class="subpage-title">${escHtml(region.fullName)}</h1>
         <p class="subpage-subtitle">${escHtml(region.intro)}</p>
         <div class="subpage-actions">
-          <a href="../play/" class="btn-hero-demo">
+          <a href="/play/" class="btn-hero-demo">
             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
             <span>Bay Ngắm ${escHtml(region.name)} Ngay</span>
           </a>
-          <a href="../rules.html" class="btn-secondary-outline">Xem Luật Chơi &amp; 7 Tầng Thử Thách →</a>
+          <a href="/rules" class="btn-secondary-outline">Xem Luật Chơi &amp; 7 Tầng Thử Thách →</a>
         </div>
       </div>
     </section>
@@ -490,7 +490,7 @@ ${renderHeader()}
     <section class="landmarks-section" style="padding-top: 1.5rem;">
       <div class="container">
         <nav class="region-tabs" aria-label="Chọn vùng miền di tích">
-          <a href="../landmarks.html" class="region-tab">
+          <a href="/landmarks" class="region-tab">
             Tất Cả <span class="tab-count">${TOTAL_LANDMARKS}</span>
           </a>
           ${Object.values(REGIONS)
@@ -498,7 +498,7 @@ ${renderHeader()}
               const cnt = LANDMARKS.filter((l) => l.region === r.key).length;
               const active = r.key === region.key ? ' active' : '';
               const ariaCurrent = r.key === region.key ? ' aria-current="page"' : '';
-              return `<a href="${r.slug}.html" class="region-tab${active}"${ariaCurrent}>
+              return `<a href="/landmarks/${r.slug}" class="region-tab${active}"${ariaCurrent}>
             ${escHtml(r.name)} <span class="tab-count">${cnt}</span>
           </a>`;
             })
@@ -518,12 +518,12 @@ ${renderHeader()}
                 <span class="landmark-num">#${pad2(lm.order)}</span>
                 <span class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</span>
               </div>
-              <h2 class="landmark-name"><a href="${lm.slug}.html" class="landmark-name-link">${escHtml(lm.name)}</a></h2>
+              <h2 class="landmark-name"><a href="/landmarks/${lm.slug}" class="landmark-name-link">${escHtml(lm.name)}</a></h2>
               <p class="landmark-loc">📍 ${escHtml(lm.location)}</p>
               <p class="landmark-desc">${escHtml(lm.shortDesc)}</p>
               <div class="landmark-card-footer">
                 <span class="${lm.isUnesco ? 'landmark-tag tag-unesco' : 'landmark-tag'}">${escHtml(lm.tag)}</span>
-                <a href="${lm.slug}.html" class="landmark-detail-link">Chi tiết 3D →</a>
+                <a href="/landmarks/${lm.slug}" class="landmark-detail-link">Chi tiết 3D →</a>
               </div>
             </div>
           </article>`
@@ -583,22 +583,22 @@ ${renderFooter()}
 // =========================================================================
 const coreUrls = [
   { loc: `${SITE_URL}/`, changefreq: 'weekly', priority: '1.0' },
-  { loc: `${SITE_URL}/landmarks.html`, changefreq: 'weekly', priority: '0.95' },
-  { loc: `${SITE_URL}/rules.html`, changefreq: 'weekly', priority: '0.9' },
-  { loc: `${SITE_URL}/download.html`, changefreq: 'weekly', priority: '0.9' },
+  { loc: `${SITE_URL}/landmarks`, changefreq: 'weekly', priority: '0.95' },
+  { loc: `${SITE_URL}/rules`, changefreq: 'weekly', priority: '0.9' },
+  { loc: `${SITE_URL}/download`, changefreq: 'weekly', priority: '0.9' },
   { loc: `${SITE_URL}/play/`, changefreq: 'weekly', priority: '0.9' },
-  { loc: `${SITE_URL}/privacy.html`, changefreq: 'monthly', priority: '0.6' },
-  { loc: `${SITE_URL}/terms.html`, changefreq: 'monthly', priority: '0.5' },
+  { loc: `${SITE_URL}/privacy`, changefreq: 'monthly', priority: '0.6' },
+  { loc: `${SITE_URL}/terms`, changefreq: 'monthly', priority: '0.5' },
 ];
 
 const regionUrls = Object.values(REGIONS).map((r) => ({
-  loc: `${SITE_URL}/landmarks/${r.slug}.html`,
+  loc: `${SITE_URL}/landmarks/${r.slug}`,
   changefreq: 'weekly',
   priority: '0.85',
 }));
 
 const landmarkUrls = LANDMARKS.map((lm) => ({
-  loc: `${SITE_URL}/landmarks/${lm.slug}.html`,
+  loc: `${SITE_URL}/landmarks/${lm.slug}`,
   changefreq: 'monthly',
   priority: '0.8',
 }));
@@ -653,8 +653,8 @@ const hubJsonLd = {
   '@graph': [
     {
       '@type': 'CollectionPage',
-      '@id': `${SITE_URL}/landmarks.html#webpage`,
-      url: `${SITE_URL}/landmarks.html`,
+      '@id': `${SITE_URL}/landmarks#webpage`,
+      url: `${SITE_URL}/landmarks`,
       name: `${TOTAL_LANDMARKS} Di Tích Lịch Sử & Danh Thắng Việt Nam 3D - Fly to The End`,
       description:
         `Bộ sưu tập ${TOTAL_LANDMARKS} mô hình 3D Low-poly các di tích lịch sử, chiến tích cách mạng, di sản UNESCO và danh thắng Việt Nam xuyên suốt Bắc - Trung - Tây Nguyên - Nam & Biển Đảo trong Fly to The End.`,
@@ -666,7 +666,7 @@ const hubJsonLd = {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: `${TOTAL_LANDMARKS} Di tích Việt Nam 3D`, item: `${SITE_URL}/landmarks.html` },
+        { '@type': 'ListItem', position: 2, name: `${TOTAL_LANDMARKS} Di tích Việt Nam 3D`, item: `${SITE_URL}/landmarks` },
       ],
     },
     {
@@ -678,7 +678,7 @@ const hubJsonLd = {
         '@type': 'ListItem',
         position: i + 1,
         name: `${lm.name} (${lm.location})`,
-        url: `${SITE_URL}/landmarks/${lm.slug}.html`,
+        url: `${SITE_URL}/landmarks/${lm.slug}`,
       })),
     },
   ],
@@ -692,13 +692,13 @@ landmarksHtml = landmarksHtml.replace(
 // 4c. Unify .region-tabs into a single crawlable navigation bar & remove any duplicate .region-hub-bar
 const unifiedRegionTabsHtml = `        <!-- Region Filter Tabs (Unified SEO Navigation) -->
         <nav class="region-tabs" aria-label="Chọn vùng miền di tích">
-          <a href="landmarks.html" class="region-tab active" aria-current="page">
+          <a href="/landmarks" class="region-tab active" aria-current="page">
             Tất Cả <span class="tab-count">${LANDMARKS.length}</span>
           </a>
           ${Object.values(REGIONS)
             .map((r) => {
               const cnt = LANDMARKS.filter((l) => l.region === r.key).length;
-              return `<a href="landmarks/${r.slug}.html" class="region-tab">
+              return `<a href="/landmarks/${r.slug}" class="region-tab">
             ${escHtml(r.name)} <span class="tab-count">${cnt}</span>
           </a>`;
             })
@@ -725,14 +725,14 @@ const cardsHtml = LANDMARKS.map((lm) => {
             <div class="landmark-card-body">
               <div class="landmark-card-head">
                 <span class="landmark-num">#${pad2(lm.order)}</span>
-                <a href="landmarks/${region.slug}.html" class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</a>
+                <a href="/landmarks/${region.slug}" class="landmark-region ${region.badgeClass}">${escHtml(regionShort)}</a>
               </div>
-              <h3 class="landmark-name"><a href="landmarks/${lm.slug}.html" class="landmark-name-link">${escHtml(lm.name)}</a></h3>
+              <h3 class="landmark-name"><a href="/landmarks/${lm.slug}" class="landmark-name-link">${escHtml(lm.name)}</a></h3>
               <p class="landmark-loc">📍 ${escHtml(lm.location)}</p>
               <p class="landmark-desc">${escHtml(lm.shortDesc)}</p>
               <div class="landmark-card-footer">
                 <span class="${tagClass}">${escHtml(lm.tag)}</span>
-                <a href="landmarks/${lm.slug}.html" class="landmark-detail-link">Chi tiết 3D →</a>
+                <a href="/landmarks/${lm.slug}" class="landmark-detail-link">Chi tiết 3D →</a>
               </div>
             </div>
           </article>`;
