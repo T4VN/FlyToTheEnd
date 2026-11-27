@@ -237,4 +237,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
     syncControls();
   });
+
+  // Interaction-deferred AdSense loader (eliminates initial unused JS & Best Practices warning)
+  const adClient = document.body && document.body.getAttribute('data-adsense-client');
+  const adSlots = document.querySelectorAll('ins.adsbygoogle[data-ad-lazy="true"]');
+  if (adClient && adSlots.length) {
+    let adBooted = false;
+    const adEvts = ['pointerdown', 'mousemove', 'touchstart', 'scroll', 'keydown', 'wheel'];
+    function pushAdSlot(ins) {
+      if (!ins || ins.dataset.adPushed === '1') return;
+      ins.dataset.adPushed = '1';
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+    }
+    function bootAds() {
+      if (adBooted) return;
+      adBooted = true;
+      adEvts.forEach(function (ev) { window.removeEventListener(ev, bootAds); });
+      if (!document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) {
+        const s = document.createElement('script');
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(adClient);
+        document.head.appendChild(s);
+      }
+      if (typeof IntersectionObserver === 'function') {
+        const adIo = new IntersectionObserver(function (entries) {
+          for (let i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+              pushAdSlot(entries[i].target);
+              adIo.unobserve(entries[i].target);
+            }
+          }
+        }, { rootMargin: '320px 0px', threshold: 0.01 });
+        adSlots.forEach(function (ins) { adIo.observe(ins); });
+      } else {
+        adSlots.forEach(pushAdSlot);
+      }
+    }
+    adEvts.forEach(function (ev) { window.addEventListener(ev, bootAds, { once: true, passive: true }); });
+  }
 });

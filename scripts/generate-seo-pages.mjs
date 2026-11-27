@@ -102,11 +102,11 @@ function renderHead({ title, description, keywords, canonicalUrl, jsonLd }) {
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="../css/style.css">
 
   <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9027163152867616" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-9027163152867616"><link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
   <!-- Structured Data JSON-LD for SEO -->
   <script type="application/ld+json">
@@ -212,7 +212,7 @@ LANDMARKS.forEach((lm, index) => {
     canonicalUrl,
     jsonLd,
   })}
-<body>
+<body data-adsense-client="ca-pub-9027163152867616">
 ${renderHeader()}
 
   <main>
@@ -356,15 +356,12 @@ ${renderHeader()}
         <!-- Google AdSense Banner -->
         <div class="ad-section-wrap">
           <div class="ad-disclaimer">QUẢNG CÁO</div>
-          <ins class="adsbygoogle"
+          <ins class="adsbygoogle" data-ad-lazy="true"
                style="display:block"
                data-ad-client="ca-pub-9027163152867616"
                data-ad-slot="3635303540"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
         </div>
 
         <!-- RELATED SAME-REGION LANDMARKS -->
@@ -455,7 +452,7 @@ Object.values(REGIONS).forEach((region) => {
     canonicalUrl,
     jsonLd,
   })}
-<body>
+<body data-adsense-client="ca-pub-9027163152867616">
 ${renderHeader()}
 
   <main>

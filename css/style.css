@@ -1793,6 +1793,7 @@ body.has-fullscreen {
   margin: 2.2rem auto 0;
   max-width: 960px;
   min-height: 112px;
+  contain: layout style;
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(10px);
   border: 1.5px dashed rgba(140, 106, 56, 0.28);
@@ -1833,7 +1834,7 @@ body.has-fullscreen {
   .ad-section-wrap {
     margin: 1.5rem auto 0;
     padding: 0.85rem 0.65rem;
-    min-height: 100px;
+    min-height: 250px;
     border-radius: 16px;
   }
 }
