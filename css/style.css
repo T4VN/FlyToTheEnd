@@ -4250,56 +4250,53 @@ body.modal-open {
     font-size: 0.93rem;
     line-height: 1.58;
     margin-bottom: 1.35rem;
+    text-align: left;
   }
 
   .hero-demo-action {
     margin-bottom: 1.15rem;
   }
 
-  /* Store buttons: Google Play full-width on top, Apple & Microsoft side-by-side */
+  /* Store buttons: 3 equal-width buttons in 1 row */
   .store-buttons {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.65rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
     margin-bottom: 1.75rem;
+    align-items: stretch;
   }
 
   .store-btn,
   .store-btn--lg {
     width: 100%;
     min-width: 0;
-    padding: 0.68rem 0.85rem;
-    gap: 0.6rem;
+    height: 100%;
+    padding: 0.65rem 0.7rem;
+    gap: 0.5rem;
     border-radius: 16px;
-    justify-content: center;
-  }
-
-  .store-btn.google-play {
-    grid-column: 1 / -1;
-    padding: 0.78rem 1.1rem;
-    gap: 0.85rem;
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .store-btn .store-icon {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 
-  .store-btn.google-play .store-icon {
-    width: 30px;
-    height: 30px;
+  .store-btn .store-text {
+    min-width: 0;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .store-btn .store-subtext {
-    font-size: 0.64rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.03em;
   }
 
   .store-btn .store-name {
-    font-size: 0.88rem;
-  }
-
-  .store-btn.google-play .store-name {
-    font-size: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.18;
   }
 
   /* Keep 4 buttons equal size in download page grid */
@@ -4308,22 +4305,18 @@ body.modal-open {
     gap: 0.7rem;
   }
 
-  .download-store-grid .store-btn,
-  .download-store-grid .store-btn.google-play {
-    grid-column: auto;
+  .download-store-grid .store-btn {
     padding: 0.72rem 0.9rem;
     gap: 0.65rem;
     justify-content: flex-start;
   }
 
-  .download-store-grid .store-btn .store-icon,
-  .download-store-grid .store-btn.google-play .store-icon {
+  .download-store-grid .store-btn .store-icon {
     width: 28px;
     height: 28px;
   }
 
-  .download-store-grid .store-btn .store-name,
-  .download-store-grid .store-btn.google-play .store-name {
+  .download-store-grid .store-btn .store-name {
     font-size: 0.9rem;
   }
 
@@ -4621,39 +4614,55 @@ body.modal-open {
   }
 
   .store-buttons {
-    gap: 0.55rem;
-  }
-
-  .store-btn {
-    padding: 0.62rem 0.65rem;
     gap: 0.45rem;
   }
 
-  .store-btn .store-name {
-    font-size: 0.8rem;
+  .store-btn {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0.65rem 0.58rem;
+    gap: 0.35rem;
+    border-radius: 14px;
   }
 
-  .download-store-grid,
-  .app-download-banner .store-buttons {
+  .store-btn .store-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .store-btn .store-subtext {
+    font-size: 0.56rem;
+    letter-spacing: 0.02em;
+  }
+
+  .store-btn .store-name {
+    font-size: 0.76rem;
+    line-height: 1.15;
+  }
+
+  .download-store-grid {
     grid-template-columns: 1fr;
   }
 
-  .download-store-grid .store-btn,
-  .download-store-grid .store-btn.google-play {
+  .download-store-grid .store-btn {
+    flex-direction: row;
+    align-items: center;
     padding: 0.78rem 1.05rem;
+    gap: 0.65rem;
     justify-content: flex-start;
   }
 
-  .app-download-banner .store-btn,
-  .app-download-banner .store-btn.google-play {
-    padding: 0.78rem 1.05rem;
-    justify-content: center;
+  .download-store-grid .store-btn .store-icon {
+    width: 28px;
+    height: 28px;
   }
 
-  .download-store-grid .store-btn .store-name,
-  .download-store-grid .store-btn.google-play .store-name,
-  .app-download-banner .store-btn .store-name,
-  .app-download-banner .store-btn.google-play .store-name {
+  .download-store-grid .store-btn .store-subtext {
+    font-size: 0.64rem;
+  }
+
+  .download-store-grid .store-btn .store-name {
     font-size: 0.95rem;
   }
 }
@@ -4675,7 +4684,25 @@ body.modal-open {
 
 @media (max-width: 360px) {
   .store-buttons {
-    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .store-btn {
+    padding: 0.52rem 0.46rem;
+    gap: 0.3rem;
+  }
+
+  .store-btn .store-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .store-btn .store-subtext {
+    font-size: 0.52rem;
+  }
+
+  .store-btn .store-name {
+    font-size: 0.72rem;
   }
 }
 
